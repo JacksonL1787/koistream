@@ -1,0 +1,11 @@
+html
+  head
+    include ./main
+    link(rel="Stylesheet" href="/css/pendingApproval.css")
+
+  body.reg-image
+    .pendingApproval-wrapper.reg-image
+    .pendingApproval-wrapper-center.fullCenter
+        h3 Your Account is Pending Approval
+        p Please notify an Administrator or wait for Approval. 
+        input.fullXCenter(type="button" value="Logout" onclick="window.location.href='/auth/logout'")

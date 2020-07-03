@@ -1,0 +1,22 @@
+html
+	head
+		script(data-ad-client="ca-pub-4786181907722527" async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js")
+		include ./main
+		link(rel="stylesheet" href="/css/login.css")
+		script.
+			let allowAll = "#{allowAll}" === "true" ? true : false;
+	body
+		.bg
+		.logo-container
+		.content
+			h1.title Welcome to KoiStream
+			p.subtitle Login with your school email
+			a.login-btn(href="/auth/google")
+				.logo
+				p Login With Google
+		script.
+			if(allowAll) {
+				$(".subtitle").text("Login with your school email or any google account")
+			} else {
+				$(".subtitle").text("Login with your school email")
+			}

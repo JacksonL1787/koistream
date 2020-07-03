@@ -1,0 +1,87 @@
+html
+  head
+    include ../main
+    link(rel="Stylesheet" href="/css/index/index.css")
+    link(href="https://unpkg.com/video.js@7/dist/video-js.min.css" rel="stylesheet")
+    script.
+      var siteControlsRaw = "#{controlArr}"
+      if(siteControlsRaw) {
+        window.siteControls = JSON.parse(siteControlsRaw.replace(/&quot;/g,'"'))
+      }
+
+      var userRaw = "#{user}"
+      if(userRaw) {
+        window.user = JSON.parse(userRaw.replace(/&quot;/g,'"'));
+      }
+      
+      var emojisRaw = "#{emojis}"
+      if(emojisRaw) {
+        window.emojis = JSON.parse(emojisRaw.replace(/&quot;/g,'"'));
+      }
+      
+      var streamRaw = "#{stream}"
+      if(streamRaw) {
+         window.stream = JSON.parse(streamRaw.replace(/&quot;/g,'"'))
+      }
+     
+      
+  body
+    .nav-container
+        .nav-content
+            .logo-wrap
+                .logo(onclick="window.location.href='/auth/redirect'")
+                h1.title KoiStream
+            button.logout-btn(onclick="window.location.href='/auth/logout'") Logout
+    .page-content
+      .stream-container
+        .stream-video
+          img(src="/img/countdown-bg.png")
+          .slate.reg-image
+        .stream-info-container
+          .stream-info-content
+            h1.stream-title
+            p.stream-runner
+            .report-error
+              .icon
+              p Report an Error
+            .viewer-count-container
+              .icon
+              p 0 Viewers
+      .chat-widget
+        .title-container
+          h1.title Live Chat
+          p.chat-status
+        button.enable-autoscroll Enable Autoscroll
+        .live-chat-container
+          .chat-content
+            .loader
+            //h1.no-chats No Messages
+            .chat(style="display: none;")
+              span.chat-sender Team KoiStream:
+              span.chat-text Welcome to KoiStream! If you have and issues, make sure to report an error. If you have any questions, feel free to email us at <a href="mailto:koistream@dtechhs.com">koistream@dtechhs.com</a>.
+        .input-container
+          textarea.chat-input(data-gramm_editor="false" placeholder="Send a message...")
+          .emoji-btn.live-chat-action-btn
+            .icon
+            .emoji-menu
+              .loader
+              .all-emojis-container
+                .flex-wrap
+                  h2.title Custom
+                  p.new-notify new!
+                .custom-emojis-container
+                .flex-wrap
+                  h2.title Basic
+                .emojis-container
+          .submit-chat-btn.live-chat-action-btn
+            .icon
+    include ./reportErrors
+    include ../notifications
+  
+script(src="https://cdnjs.cloudflare.com/ajax/libs/video.js/7.8.0/video.min.js")
+script(src="https://cdnjs.cloudflare.com/ajax/libs/videojs-contrib-hls/5.15.0/videojs-contrib-hls.min.js")
+script(src="/videojs/videojs-contrib-quality-levels/dist/videojs-contrib-quality-levels.min.js")
+script(src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/0.4.1/html2canvas.min.js")
+script(src="/videojs/videojs-hls-quality-selector/dist/videojs-hls-quality-selector.min.js")
+script(src="/js/index/index.js")
+script(src="/js/index/chat.js")

@@ -1,0 +1,5 @@
+/node_modules
+/bin/css
+/bin/img
+/bin/js
+.env
