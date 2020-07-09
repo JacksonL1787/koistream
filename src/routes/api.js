@@ -84,8 +84,8 @@ router.post('/chat/sendMessage', [
         return;
     }
     const io = req.app.get("socketio")
-    console.log(req.body.message)
     const chatData = await addChat(req.user, req.body.message)
+    if(chatData === 500) return res.sendStatus(500)
     await updateLastChatTime(req.user.googleId)
     io.emit("newChatAdmin", {
         message: chatData.messageFiltered.replace(/&/g, "&amp;"),

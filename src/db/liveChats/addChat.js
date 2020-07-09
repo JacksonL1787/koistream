@@ -7,6 +7,7 @@ const Filter = require('bad-words'),
 
 module.exports = async (user, message) => {
     let streamId = await reader.select("streamId").from(tables.streams).where("active", true)
+    if(!streamId[0]) return 500;
     streamId = streamId[0].streamId
     
     let chat = await writer.insert({

@@ -88,13 +88,18 @@
 	color lightgrey
 	text-align center
 	font-size 17px
-	font-weight 600
+	
 	letter-spacing .5px
 	margin 40px 0
 .no-results
 	display none
+	font-weight 200
 	u
 		color #fd5050
+		font-weight 600
+
+.search-prompt
+	font-weight 600
 
 .users-wrap
 	width 100%
@@ -113,6 +118,38 @@
 		&:hover
 			background #172831
 			box-shadow 0 0 12px 0 rgba(0,0,0,0.1), inset 0 0 0 1px rgba(255,255,255,0.1)
+		.user-status
+			display flex
+			position absolute
+			justify-content center
+			align-items center
+			width fit-content
+			right 15px
+			top 50%
+			transform translateY(-50%)
+			&.online
+				.status-dot
+					background #00c44e
+					box-shadow 0 0 5px 0 #00c44e
+				.status-text
+					color #00c44e
+					text-shadow 0 0 3px #00c44e
+			&.offline
+				.status-dot
+					background #fd3e3e
+					box-shadow 0 0 5px 0 #fd3e3e
+				.status-text
+					color #fd3e3e
+					text-shadow 0 0 3px #fd3e3e
+			.status-dot
+				width 8px
+				height 8px
+				border-radius 8px
+				margin-right 8px
+			.status-text
+				font-size 13px
+				font-weight 300
+				letter-spacing .5px
 		.user-content
 			width fit-content
 			height 100%

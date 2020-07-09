@@ -1,0 +1,159 @@
+.start-stream-modal
+    width 400px
+    height fit-content
+    .modal-bottom
+        .stream-title,
+        .stream-runner
+            background #13222b
+            color white
+            font-size 15px
+            font-weight 500
+            letter-spacing .3px
+            outline none
+            border none
+            width 100%
+            padding 8px
+            box-shadow 0 0 12px 0 rgba(0,0,0,0.1)
+            transition background .3s, box-shadow .3s
+            &::placeholder
+                color #6b7780
+                font-weight 500
+            &:focus
+                background #121f27
+            &.error
+                box-shadow 0 0 12px 0 rgba(0,0,0,0.1), inset 0 0 0 1px red
+        .stream-runner
+            resize none
+            height 100px
+        .stream-title
+            margin-bottom 15px
+        .start-stream-btn
+            background #de421a
+            color white
+            font-weight 500
+            font-size 15px
+            letter-spacing .5px
+            float right
+            padding 7px 12px
+            border none
+            outline none
+            cursor pointer 
+            transition background .3s
+            margin-top 15px
+            border-radius .3em
+            &:hover
+                background #b7310e
+
+.stop-stream-modal
+    width 400px
+    .modal-bottom
+        p
+            color white
+            text-align center
+            font-size 17px
+            font-weight 500
+            letter-spacing .3px        
+        .stop-stream-btn
+            background #de421a
+            color white
+            font-weight 500
+            font-size 15px
+            letter-spacing .5px
+            float right
+            padding 7px 12px
+            border none
+            outline none
+            cursor pointer 
+            transition background .3s
+            margin-top 15px
+            border-radius .3em
+            &:hover
+                background #b7310e
+
+.page-title-flex-container
+    display flex
+    justify-content space-between
+    align-items center
+    width 100%
+    margin-top 20px
+    .page-title
+        margin-top 0 !important
+    #stream-action-btn
+        background #0d171d
+        border-radius .3em
+        cursor pointer
+        width 175px
+        height 40px
+        box-shadow 0 0 12px 0 rgba(0,0,0,0.1), inset 0 0 0 1px rgba(255,255,255,0.05)
+        transition background .3s, box-shadow .3s
+        &:hover
+            background #172831
+            box-shadow 0 0 12px 0 rgba(0,0,0,0.1), inset 0 0 0 1px rgba(255,255,255,0.1)
+        .icon
+            background-image url("/img/admin/nav/current-stream.svg")
+            background-size cover
+            background-position center
+            background-repeat no-repeat
+            width 14px
+            height 14px
+            position absolute
+            top 50%
+            left 20px
+            transform translateY(-50%)
+        p
+            color white
+            letter-spacing .5px
+            font-weight 600
+            font-size 14px
+            position absolute
+            top 50%
+            left calc(50% + 11px)
+            transform translate(-50%, -50%)
+            width fit-content
+
+.loader
+    background-image url("/img/loader.svg")
+    background-size cover
+    background-position center
+    background-repeat no-repeat
+    width 35px
+    height 35px
+    margin 40px auto 0
+    display none
+
+.stream-status
+    display flex
+    justify-content left
+    align-items center
+    margin 8px 0 0
+    &.inactive
+        .dot
+            background #fd3e3e
+            box-shadow 0 0 6px 0 #fd3e3e
+        p
+            color #fd3e3e
+            text-shadow 0 0 4px #fd3e3e
+    &.active
+        .dot
+            background #00c44e
+            
+            box-shadow 0 0 6px 0 #00c44e 
+        p
+            color #00c44e
+            text-shadow 0 0 4px #00c44e
+
+    .dot
+        width 10px
+        height 10px
+        border-radius 12px
+        margin 1px 15px 0 0
+    p
+        font-size 18px
+        letter-spacing .3px
+        font-weight 500
+
+.stream-inactive-container,
+.stream-active-container
+    width 100%
+    height fit-content
+    position relative

@@ -4,51 +4,64 @@ html
 		link(rel="stylesheet" href="/css/admin/main.css")
 
 	body
+		.modal-overlay
 		.nav
 			.nav-content
-				.logo-container
-					.logo(onclick="window.location.href='/'")
-					h1.title KoiStream
-				.nav-links
-					a.link-wrap(href="/admin/current-stream")
-						.icon(style="background-image:url(/img/admin/nav/current-stream.svg); width: 18px; height: 18px;")
-						p(style="margin-top: -1px;") Current Stream
-					a.link-wrap(href="/admin/chat")
-						.icon(style="background-image:url(/img/admin/nav/chat-moderation.svg); width: 18px; height: 18px; margin-top: 2px;")
-						p Chat Moderation
-					a.link-wrap(href="/admin/viewers")
-						.icon(style="background-image:url(/img/admin/nav/viewers.svg); width: 20px; height: 20px;")
-						p Viewers
-					a.link-wrap(href="/admin/logs")
-						.icon(style="background-image:url(/img/admin/nav/logs.svg); width: 20px; height: 20px;")
-						p Logs
-					a.link-wrap(href="/admin/errors")
-						.icon(style="background-image:url(/img/admin/nav/errors.svg); width: 20px; height: 20px;")
-						p Errors
-					a.link-wrap(href="/admin/users")
-						.icon(style="background-image:url(/img/admin/nav/users.svg); width: 18px; height: 22px; margin-left: 21px; margin-top: 5px;")
-						p Users
+				.top-content
+					.logo-container
+						.logo
+						h1.title KoiStream
+					.nav-links
+						a.link-wrap(href="/admin/current-stream")
+							.icon(style="background-image:url(/img/admin/nav/current-stream.svg); width: 18px; height: 18px;")
+							p(style="margin-top: -1px;") Current Stream
+						a.link-wrap(href="/admin/chat")
+							.icon(style="background-image:url(/img/admin/nav/chat-moderation.svg); width: 18px; height: 18px; margin-top: 2px;")
+							p Chat Moderation
+						a.link-wrap(href="/admin/viewers")
+							.icon(style="background-image:url(/img/admin/nav/viewers.svg); width: 20px; height: 20px;")
+							p Viewers
+						a.link-wrap(href="/admin/logs")
+							.icon(style="background-image:url(/img/admin/nav/logs.svg); width: 20px; height: 20px;")
+							p Logs
+						a.link-wrap(href="/admin/errors")
+							.icon(style="background-image:url(/img/admin/nav/errors.svg); width: 20px; height: 20px;")
+							p Errors
+						a.link-wrap(href="/admin/users")
+							.icon(style="background-image:url(/img/admin/nav/users.svg); width: 18px; height: 22px; margin-left: 21px; margin-top: 5px;")
+							p Users
+				.bottom-content
+					a.link-wrap(href="/")
+						p Stream Page
+					a.link-wrap(href="/auth/logout")
+						p Logout
 		.page-container
 			.page-content
 				.menu-btn
 					.bar
 					.bar
 					.bar
-				h1.page-title=title
-				case title
+				case page
+					when 'Current Stream'
+						.page-title-flex-container.hidden
+							h1.page-title=title
+							#stream-action-btn(data-action="start")
+								.icon
+								p Start Stream
+						link(rel='stylesheet', href="/css/admin/current-stream.css")
+						include pages/current-stream
 					when 'Chat Moderation'
+						h1.page-title=title
 						link(rel='stylesheet', href="/css/admin/chat-moderation.css")
 						include pages/chat-moderation
-						script(src="/js/admin/chat-moderation.js")
 					when 'Users'
+						h1.page-title=title
 						link(rel='stylesheet', href="/css/admin/users.css")
 						include pages/users
-						script(src="/js/admin/users.js")
-				//- 	when 'Current Stream'
-				//- 		link(rel='stylesheet', href="/css/admin/current-stream.css")
-				//- 		include pages/currentStream
-				//- 		script(src="/js/admin/current-stream.js")
-				//- 		script(src="/js/admin/current-stream_GRAPHS.js")
+					when 'Profile'
+						h1.page-title=title
+						link(rel='stylesheet', href="/css/admin/profile.css")
+						include pages/profile
 				//- 	when 'Viewers'
 				//- 		link(rel='stylesheet', href="/css/admin/viewers.css")
 				//- 		include pages/viewers
@@ -66,6 +79,13 @@ html
 				//- 		include pages/errorTracking
 				//- 		script(src="/js/admin/errorTracking.js")
 
-
 script(src="/js/admin/main.js")
-
+case page
+	when 'Current Stream'
+		script(src="/js/admin/current-stream.js")
+	when 'Chat Moderation'
+		script(src="/js/admin/chat-moderation.js")
+	when 'Users'
+		script(src="/js/admin/users.js")
+	when 'Profile'
+		script(src="/js/admin/profile.js")

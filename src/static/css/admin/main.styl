@@ -1,13 +1,89 @@
 body
 	background #132027
 	overflow hidden
+	&.modal-active
+		.modal-overlay 
+			opacity 1 !important
+			visibility visible !important
 	&.nav-inactive
 		.nav
 			left -350px !important
 		.page-container
 			width 100% !important
-			margin-left 0 !important
+			margin-left 0
 
+.hidden
+	display none !important
+
+.modal-overlay
+	opacity 0
+	visibility hidden
+	top 0
+	left 0
+	width 100%
+	height 100%
+	position fixed
+	z-index 100
+	background rgba(0,0,0,0.7)
+	transition visibility .3s, opacity .3s
+
+.modal
+	z-index 150
+	opacity 0
+	visibility hidden
+	position fixed
+	top calc(50% - 20px)
+	left 50%
+	background #0d171d
+	transform translate(-50%, -50%) scale(0.5)
+	max-width 95%
+	max-height 95%
+	transition opaicty .3s, visibility .3s, transform .3s
+	&.active
+		opacity 1
+		visibility visible
+		transform translate(-50%, -50%) scale(1)
+	.modal-top
+		background #13222b
+		width 100%
+		padding 10px 0
+		.top-content
+			display flex
+			justify-content space-between
+			align-items center
+			flex-flow row wrap
+			width calc(100% - 40px)
+			position relative
+			margin 0 auto
+			h1.modal-title
+				color white
+				font-size 22px
+				letter-spacing .5px
+				font-weight 600
+				width fit-content
+			.close
+				background-image url("/img/close.svg")
+				background-size cover
+				background-position center
+				background-repeat no-repeat
+				width 17px
+				height 17px
+				opacity 0.5
+				cursor pointer
+				margin-top 4px
+				transition opacity .3s
+				&:hover
+					opacity 0.8
+	.modal-bottom
+		height calc(100% - 28px)
+		overflow-y auto
+		overflow-x hidden
+		.bottom-content
+			padding 20px 0
+			width calc(100% - 40px)
+			margin 0 auto
+			position relative
+			overflow hidden
 .nav
 	background #0D171D
 	width 300px
@@ -23,53 +99,70 @@ body
 		width 100%
 		height 100%
 		overflow-y auto
-		.logo-container
-			margin 20px 0 0 20px
-			display flex
-			justify-content left
-			align-items center
-			.logo
-				background-image url("/img/dtech-logo.png")
-				background-size cover
-				background-position center
-				background-repeat no-repeat
-				width 35px
-				height 35px
-				margin-right 15px
-			.title
-				color white
-				font-size 25px
-				font-weight 800
-				letter-spacing .5px
-		.nav-links
-			margin 40px 0 0 20px
-			width calc(100% - 40px)
+		.bottom-content
 			.link-wrap
-				position relative
-				display block
 				width 100%
-				height 40px
-				margin-bottom 30px
-				background none
-				border-radius .3em
-				display flex
-				justify-content left
-				align-items center
-				cursor pointer
+				padding 15px 0
+				border-top 1px solid rgba(255,255,255,0.08)
+				display block
+				transition background .3s
 				&:hover
-					background #172731
-				&.active
-					background #F05027
-				.icon 
-					background-size cover
-					background-position center
-					background-repeat no-repeat
-					margin 0 20px
+					background rgba(255,255,255,0.02)
 				p
 					color white
 					font-weight 600
+					font-size 16px
+					text-align center
+		.top-content
+			min-height 517px
+			height calc(100% - 122px)
+			margin-top 20px
+			.logo-container
+				margin 0 0 0 25px
+				display flex
+				justify-content left
+				align-items center
+				.logo
+					background-image url("/img/dtech-logo.png")
+					background-size cover
+					background-position center
+					background-repeat no-repeat
+					width 37px
+					height 37px
+					margin-right 10px
+				.title
+					color white
+					font-size 22px
 					letter-spacing .3px
-					font-size 17px
+			.nav-links
+				margin 40px 0 0 25px
+				width calc(100% - 50px)
+				.link-wrap
+					position relative
+					display block
+					width 100%
+					height 40px
+					margin-bottom 30px
+					background none
+					border-radius .3em
+					display flex
+					justify-content left
+					align-items center
+					cursor pointer
+					&:hover
+						background #172731
+					&.active
+						background #F05027
+					.icon 
+						background-size cover
+						background-position center
+						background-repeat no-repeat
+						margin 0 20px
+					p
+						color white
+						font-weight 600
+						letter-spacing .3px
+						font-size 16px
 
 .page-container
 	width calc(100% - 300px)

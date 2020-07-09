@@ -8,6 +8,7 @@ module.exports = {
     liveChats: "liveChats",
     streams: "streams",
     chatSettings: "chatSettings",
-    slate: "slate"
+    slate: "slate",
+    socketConnections: "socketConnections"
 };
   

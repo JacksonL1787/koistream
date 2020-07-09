@@ -20,6 +20,10 @@ const deleteChat = require("../../db/liveChats/deleteChat")
 const getChats = require('../../db/liveChats/getChats')
 const muteUser = require("../../db/users/muteUser")
 const getUsers = require("../../db/users/getUsers")
+const getUserDetails = require("../../db/users/getUserDetails")
+const startStream = require("../../db/streams/startStream")
+const stopStream = require("../../db/streams/stopStream")
+const isStreamActive = require("../../db/streams/isStreamActive")
 
 const adminAuth = (req,res,next) => {
     if(req.user) {
@@ -45,9 +49,19 @@ router.post("/userAuth", adminAuth, (req, res, next) => {
 
 router.get("/chatDetails/:chatId", adminAuth, async (req, res, next) => {
     let chatId = req.params.chatId
-    console.log(chatId)
     const details = await getChatDetails(chatId)
     res.json(details)
+})
+
+router.get("/userDetails/:googleId", adminAuth, async (req, res, next) => {
+    let googleId = req.params.googleId
+    const user = await getUserDetails(googleId)
+    res.json(user)
+})
+
+router.get("/isStreamActive", adminAuth, async (req, res, next) => {
+    const active = await isStreamActive()
+    res.json({active})
 })
 
 router.post("/muteUser", adminAuth, async (req, res, next) => {
@@ -79,6 +93,28 @@ router.post('/deleteChat', adminAuth, async (req,res,next) => {
     const io = req.app.get("socketio")
     await deleteChat(req.body.chatId)
     io.emit("deleteChat", req.body.chatId)
+    res.sendStatus(200)
+})
+
+router.post('/startStream', adminAuth, async (req,res,next) => {
+    // return if there is an active stream
+    if(!req.body.title.trim().length || !req.body.runner.trim().length) {
+        return res.sendStatus(500)
+    }
+    const stream = await startStream(req.body, req.user.googleId)
+    // add log for stream activity
+    // socket emit to push users from stream down page to stream page
+    // Socket emit to everyone on current stream page to load started stream
+    
+    res.sendStatus(200)
+})
+
+router.post('/stopStream', adminAuth, async (req,res,next) => {
+    // return if there is no active streams
+    await stopStream()
+    // add log for stream activity
+    // socket emit to push users from stream page to stream down page
+    // Socket emit to everyone on current stream page to load stopped stream
     res.sendStatus(200)
 })
 

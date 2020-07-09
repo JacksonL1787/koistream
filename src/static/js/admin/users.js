@@ -6,8 +6,8 @@ let filter = {
 
 const appendUsers = (data) => {
     $(".loader").hide()
+    $(".users-wrap .user").remove()
     if(!data.length) {
-        console.log(filter)
         if(!filter.banned && !filter.muted && !filter.search.trim().length) {
             $(".search-prompt").show()
         } else {
@@ -22,9 +22,16 @@ const appendUsers = (data) => {
         return 0;
     })
 
+    data.sort(function(a, b){
+        if(a.online > b.online) { return -1; }
+        if(a.online < b.online) { return 1; }
+        return 0;
+    })
+
     data.forEach((u) => {
+        console.log(u)
         $(".users-wrap").append(`
-            <div class="user" id="${u.googleId}">
+            <div class="user" id="${u.googleId}" onclick="window.location.href='/admin/u/${u.googleId}'">
                 <div class="user-content">
                     <div class="profile-picture" style="background-image: url(${u.googleProfilePicture});"></div>
                     <div class="info-container">
@@ -32,27 +39,32 @@ const appendUsers = (data) => {
                         <p class="email">${u.email}</p>
                     </div>
                 </div>
+                <div class="user-status ${u.online ? "online" : "offline"}">
+                    <div class="status-dot"></div>
+                    <p class="status-text">${u.online ? "Online" : "Offline"}</p>
+                </div>
             </div>
         `)
     })
     $(".results-count").text(`${data.length} Results`).show()
 }
 
-const searchUsers = _.throttle(function () {
-    $.post({
-        url: "/admin/api/getUsers",
-        data: filter,
-        success: (data) => {
-            appendUsers(data)
-        }
-    })
-}, 500)
+let searchUsers;
 
 const handleSearchInput = () => {
+    if(searchUsers) clearTimeout(searchUsers)
     $(".users-wrap .user").remove()
     $(".search-prompt, .no-results, .results-count").hide()
     $(".loader").show()
-    searchUsers()
+    searchUsers = setTimeout(() => {
+        $.post({
+            url: "/admin/api/getUsers",
+            data: filter,
+            success: (data) => {
+                appendUsers(data)
+            }
+        })
+    }, 300)
 }
 
 $(".search-users-wrap .filter-btn").click(function() {
@@ -72,4 +84,11 @@ $(".search-users-wrap .banned-btn").click(function() {
 $(".search-users-wrap .muted-btn").click(function() {
     filter.muted = $(this).hasClass("active")
     handleSearchInput()
+})
+
+$(document).ready(() => {
+    if($(".search-users-wrap .search-input").val().trim().length) {
+        filter.search = $(".search-users-wrap .search-input").val()
+        handleSearchInput()
+    }
 })

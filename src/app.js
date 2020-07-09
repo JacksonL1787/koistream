@@ -14,12 +14,16 @@ const colors = require("colors")
 const randomstring = require('randomstring')
 const session = require('express-session')
 const pgSession = require('connect-pg-simple')(session)
+const expressip = require('express-ip');
+
 
 var multer = require('multer');
 
 const passportSetup = require('./config/passport-setup')
 
-const setUserStatus = require('./db/users/setUserStatus')
+const userConnect = require('./db/users/userConnect')
+const userDisconnect = require('./db/users/userDisconnect')
+const resetUserStatuses = require('./db/users/resetUserStatuses')();
 
 var indexRouter = require('./routes/index');
 var authRouter = require('./routes/auth/auth');
@@ -78,6 +82,7 @@ app.use(express.urlencoded({ extended: false }));
 app.use(cookieParser());
 app.use(express.static(path.join(__dirname, '..', 'bin')));
 app.use(express.static(path.join(__dirname, '..', 'libs')));
+app.use(expressip().getIpInfoMiddleware);
 
 let sessionMiddleware = session({
   secret:"58585858585858",
@@ -130,18 +135,23 @@ io.use(function(socket, next){
 
 io.on('connection', async (socket) => {
   if(socket.request.session.passport) {
-    const url = socket.request.headers.referer
-    const socketId = socket.id
-    const googleId = socket.request.session.passport.user;
-    await setUserStatus(googleId, true, url, socketId)
-  }
-  
-  socket.on("disconnect", async () => {
-    if(socket.request.session.passport) {
+    if(socket.request.session.passport.user) {
       const url = socket.request.headers.referer
       const socketId = socket.id
       const googleId = socket.request.session.passport.user;
-      await setUserStatus(googleId, false, null, null)
+      await userConnect(googleId, url, socketId)
+    }
+  }
+  
+  
+  socket.on("disconnect", async () => {
+    if(socket.request.session.passport) {
+      if(socket.request.session.passport.user) {
+        const url = socket.request.headers.referer
+        const socketId = socket.id
+        const googleId = socket.request.session.passport.user;
+        await userDisconnect(googleId, socketId)
+      }
     }
   })
 })

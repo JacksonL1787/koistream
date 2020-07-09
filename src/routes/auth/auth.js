@@ -26,10 +26,10 @@ router.get('/google', passport.authenticate('google', {
 
 router.get('/googleRedirect',  passport.authenticate('google'), (req, res, next) => {
     if(req.user) {
-       
-        // Add or Update associated IP Addresses
-        const db = req.app.get("db")
-        // console.log(req.user.associatedIPs.length)
+        console.log(req.ipInfo)
+        // // Add or Update associated IP Addresses
+        // const db = req.app.get("db")
+        // // console.log(req.user.associatedIPs.length)
         // if(req.user.associatedIPs.length > 0 ) {
         //     if(!req.user.associatedIPs.includes(req.headers['x-forwarded-for'])) {
         //         db.collection("users").updateOne({"googleId": req.user.googleId}, {$push: {
@@ -39,7 +39,7 @@ router.get('/googleRedirect',  passport.authenticate('google'), (req, res, next)
         // } else {
         //     console.log("no associated IP addresses; adding new IP addresses")
         //     db.collection("users").updateOne({"googleId": req.user.googleId}, {$push: {
-        //         associatedIPs: req.headers['x-forwarded-for']
+        //         associatedIPs: 
         //     }})
         // }
 

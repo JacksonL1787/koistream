@@ -6,12 +6,9 @@ module.exports = async (isAdmin) => {
     try {
 
         let activeStreamId = await reader.select("streamId").from(tables.streams).where("active",true)
+        if(!activeStreamId[0]) return []
         activeStreamId = activeStreamId[0].streamId
-
-        console.log(activeStreamId)
-
-        if(!activeStreamId) return []
-
+        
         let query = [
             `${tables.liveChats}.messageFiltered as message`,
             `${tables.liveChats}.chatId`, 

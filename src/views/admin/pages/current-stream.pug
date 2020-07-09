@@ -1,0 +1,29 @@
+.modal.start-stream-modal
+    .modal-top
+        .top-content
+            h1.modal-title Start Stream
+            .close
+    .modal-bottom
+        .bottom-content
+            input.stream-title(placeholder="Stream Title" data-gramm_editor="false")
+            textarea.stream-runner(placeholder="Stream Description" data-gramm_editor="false")
+            button.start-stream-btn Start
+.modal.stop-stream-modal
+    .modal-top
+        .top-content
+            h1.modal-title Stop Stream
+            .close
+    .modal-bottom
+        .bottom-content
+            p Are you sure you want to stop the stream?
+            button.stop-stream-btn Stop
+.stream-status.hidden
+    .dot
+    p
+.loader
+
+.stream-inactive-container.hidden
+    .previous-streams-widget
+
+.stream-active-container.hidden
+    .stream-info-widget

@@ -24,7 +24,7 @@ setTimeout(function(){
   let qualityLevels = player.qualityLevels();
   let videoPlay = player.play();
   let videoMute = player.muted();
-
+  
   player.hlsQualitySelector();
 
   if(videoPlay !== undefined) {

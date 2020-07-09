@@ -1,5 +1,6 @@
-
+let submittingChat = false;
 let autoScroll = true;
+let mouseDown = false;
 
 const scrollToBottom = () => {
     if(autoScroll) {
@@ -181,7 +182,8 @@ $(document).on("click", ".emoji-menu .custom-emoji", function() {
 
 $('.chat-widget .submit-chat-btn .icon').click(function(){
     var val = $('.chat-widget .chat-input').val()
-    if(val.trim().length > 0) {
+    if(val.trim().length > 0 && !submittingChat) {
+        submittingChat = true;
         var data = {
             "message": val
         }
@@ -191,17 +193,28 @@ $('.chat-widget .submit-chat-btn .icon').click(function(){
             success: (data) => {
                 $(".emoji-menu").removeClass("show")
                 $(".chat-widget .chat-input").val("")
+                submittingChat = false;
+            },
+            error: (data) => {
+                submittingChat = false;
             }
         });
-    } else {
-        log('Input insufficient')
     }
 })
 
 $('.chat-widget .chat-input').keypress((e) => {
+    
     if(e.keyCode == 13) {
         e.preventDefault();
         $('.chat-widget .submit-chat-btn .icon').click();
+    }
+});
+
+$(document).keyup(function(e){
+    if(e.keyCode == 8) {
+        if($(".chat-widget .chat.active").length && $(".chat-widget .chat.active").attr("id") === $(".chat-details-widget .delete-chat-btn").attr("data-chat-id")) {
+            $(".chat-details-widget .delete-chat-btn").click()
+        }
     }
 });
 
