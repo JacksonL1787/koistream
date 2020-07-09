@@ -24,6 +24,7 @@ const getUserDetails = require("../../db/users/getUserDetails")
 const startStream = require("../../db/streams/startStream")
 const stopStream = require("../../db/streams/stopStream")
 const isStreamActive = require("../../db/streams/isStreamActive")
+const getActiveStream = require("../../db/streams/getActiveStream")
 
 const adminAuth = (req,res,next) => {
     if(req.user) {
@@ -116,6 +117,11 @@ router.post('/stopStream', adminAuth, async (req,res,next) => {
     // socket emit to push users from stream page to stream down page
     // Socket emit to everyone on current stream page to load stopped stream
     res.sendStatus(200)
+})
+
+router.get('/activeStream', adminAuth, async (req,res,next) => {
+    let stream = await getActiveStream()
+    res.json(stream)
 })
 
 router.post('/getUsers', adminAuth, async (req,res,next) => {

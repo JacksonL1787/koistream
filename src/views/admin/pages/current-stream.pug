@@ -26,4 +26,36 @@
     .previous-streams-widget
 
 .stream-active-container.hidden
-    .stream-info-widget
+    .started-by 
+        p.label Stream Started By:
+        a.user(target="_blank")
+            .profile-picture
+            p.user-name
+            .external-link-icon
+    .stream-timer-widget
+        h1.title Stream Timer
+        p.start-time Started on Wednesday, July 8, 2020 at 10:50 PM
+        .timer
+            .hours-wrap.time-unit-wrap
+                h1.time
+                p.label Hours
+            p.divider :
+            .minutes-wrap.time-unit-wrap
+                h1.time
+                p.label Minutes
+            p.divider :
+            .seconds-wrap.time-unit-wrap
+                h1.time
+                p.label Seconds
+    .stream-view-widget
+        .widget-content
+            h1.title Stream View
+            .stream-video-wrap
+                .stream-video
+                    img(src="/img/countdown-bg.png")
+                    .slate.reg-image
+            .stream-info
+                h1.stream-title
+                p.stream-runner
+
+        

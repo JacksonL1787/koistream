@@ -15,7 +15,7 @@ const updateLastChatTime = require('../db/users/updateLastChatTime')
 const getEmojis = require('../db/emojis/getEmojis')
 const getChats = require('../db/liveChats/getChats')
 const getSlate = require('../db/slate/getSlate')
-const getStream = require('../db/streams/getStream')
+const getActiveStream = require("../db/streams/getActiveStream")
 
 const authCheck = (req, res, next) => {
     if(req.user) {
@@ -173,7 +173,7 @@ router.get('/healthcheck/slate', async (req, res, next) => {
 })
 
 router.get('/healthcheck/stream', async (req, res, next) => {
-    const stream = await getStream()
+    const stream = await getActiveStream()
     res.json([{"status": 200, "payload": {stream}}])
 })
 
