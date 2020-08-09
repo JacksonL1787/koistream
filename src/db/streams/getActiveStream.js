@@ -18,5 +18,16 @@ module.exports = async () => {
         .from(tables.streams)
         .join(tables.users, `${tables.users}.googleId`, `${tables.streams}.startedBy`)
         .where(`${tables.streams}.active`, true)
-    return stream[0];
+    stream = stream[0]    
+    stream.slates = await reader
+        .select([
+            `${tables.slateTypes}.type`,
+            `${tables.slateTypes}.src`,
+            `${tables.slateTypes}.name`,
+            `${tables.slate}.active`
+        ])
+        .from(tables.slateTypes)
+        .leftJoin(`${tables.slate}`, `${tables.slate}.type`, "=", `${tables.slateTypes}.type`)
+        .orderBy(`${tables.slateTypes}.type`)
+    return stream;
 }

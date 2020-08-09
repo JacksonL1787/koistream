@@ -188,7 +188,7 @@ $('.chat-widget .submit-chat-btn .icon').click(function(){
             "message": val
         }
         $.post({
-            url: "/api/chat/sendMessage",
+            url: "/api/sendMessage",
             data: data,
             success: (data) => {
                 $(".emoji-menu").removeClass("show")
@@ -267,6 +267,51 @@ $(".chat-details-widget .mute-user-btn").click(function() {
         }
     })
 })
+
+$(".chat-widget .settings-btn").click(() => {
+    $.get({
+        url: "/admin/api/chatSettings",
+        success: (data) => {
+            $(".chat-settings-modal .chat-status-select-wrap").attr("data-seleced-option", data.status)
+            $(".chat-settings-modal .select-btn p").text(_.startCase(data.status))
+            openModal("chat-settings-modal")
+        }
+    })
+})
+
+$(".chat-settings-modal .close").click(() => {
+    closeModal("chat-settings-modal")
+})
+
+$(".chat-settings-modal .select-btn").click((e) => {
+    $(".chat-settings-modal .chat-status-select-wrap").toggleClass("active")
+    e.stopPropagation()
+})
+
+$(document).click(function(e) {
+    $(".chat-settings-modal .chat-status-select-wrap").removeClass("active")
+})
+
+$(".chat-settings-modal .chat-status-select-wrap .select-menu .option").click(function() {
+    let text = $(this).text(),
+        type = $(this).attr("data-option")
+    $(".chat-settings-modal .chat-status-select-wrap").attr("data-selected-option", type)
+    $(".chat-settings-modal .chat-status-select-wrap .select-btn p").text(text)
+})
+
+$('.chat-settings-modal .save-settings-btn').click(() => {
+    var data = {
+        status: $(".chat-settings-modal .chat-status-select-wrap").attr("data-selected-option")
+    }
+    console.log(data)
+    $.post({
+        url: '/admin/api/saveChatSettings', 
+        data: data,
+        success:() => {
+            closeModal("chat-settings-modal")
+        }
+    });
+  })
 
 $.when(
     $.get("/api/emojis", (emojis) => {

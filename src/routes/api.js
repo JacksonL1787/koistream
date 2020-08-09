@@ -14,8 +14,12 @@ const getChatSettings = require('../db/chatSettings/getChatSettings')
 const updateLastChatTime = require('../db/users/updateLastChatTime')
 const getEmojis = require('../db/emojis/getEmojis')
 const getChats = require('../db/liveChats/getChats')
-const getSlate = require('../db/slate/getSlate')
+const getActiveSlate = require('../db/slate/getActiveSlate')
 const getActiveStream = require("../db/streams/getActiveStream")
+const getStreamInfo = require("../db/streams/getStreamInfo")
+const getViewerCount = require("../db/streams/getViewerCount")
+const createError = require("../db/errors/createError")
+const isStreamActive = require("../db/streams/isStreamActive")
 
 const authCheck = (req, res, next) => {
     if(req.user) {
@@ -27,42 +31,13 @@ const authCheck = (req, res, next) => {
     }
 }
 
-// Stream Configuration
-
-router.post('/a/stream/configuration', authCheck, function(req, res, next) {
-    if(req.user.auth > 1) {
-        const db = req.app.get("db")
-        db.collection("streams").updateOne({"active": true}, {$set: {"runner": req.body.runner, "name": req.body.title}})
-        res.json({"code": 200, "message": "success"})
-    } else {
-        res.json({"code": 358, "message": "prohibited, you do not have sufficient permissions"})
-    }
-})
-
-// DB Clears
-
-router.post('/c/db/errors', authCheck, function(req, res, next){
-    if(req.user.auth > 1) {
-        const db = req.app.get("db")
-        db.collection("errors").remove()
-        res.json({"code": 200, "message": "success"})
-    } else {
-        res.json({"code": 358, "message": "prohibited, you do not have sufficient permissions"})
-    }
-})
-
-
-router.post('/chat/sendMessage', [
+router.post('/sendMessage', [
     check('message').escape()
 ], async (req, res, next) => {
     const chatSettings = await getChatSettings()
-    if(chatSettings.status === "disabled") {
-        res.sendStatus(200)
-        return;
-    }
-    if(req.user.muted) {
+    if(chatSettings.status === "disabled" || req.user.muted) {
         res.json({
-            type: "muted"
+            type: "disabled"
         })
         return;
     }
@@ -87,7 +62,8 @@ router.post('/chat/sendMessage', [
     const chatData = await addChat(req.user, req.body.message)
     if(chatData === 500) return res.sendStatus(500)
     await updateLastChatTime(req.user.googleId)
-    io.emit("newChatAdmin", {
+    io.emit('big-announcement', 'the game will start soon');
+    io.in('admin').emit("newChatAdmin", {
         message: chatData.messageFiltered.replace(/&/g, "&amp;"),
         unfilteredMessage: chatData.message.replace(/&/g, "&amp;"),
         userName: _.startCase(req.user.firstName + " " + req.user.lastName),
@@ -107,9 +83,25 @@ router.get("/liveChats", async (req, res, next) => {
     res.json(chats)
 })
 
-router.get("/slate", async (req, res, next) => {
-    const slate = await getSlate()
+router.get("/chatStatus", async (req, res, next) => {
+    let settings = await getChatSettings()
+    console.log(req.user.muted)
+    res.send(req.user.muted ? "muted" : settings.status)
+})
+
+router.get("/getActiveSlate", async (req, res, next) => {
+    const slate = await getActiveSlate()
     res.json(slate)
+})
+
+router.get("/getStreamInfo", async (req, res, next) => {
+    const info = await getStreamInfo()
+    res.json(info)
+})
+
+router.get("/getViewerCount", async (req, res, next) => {
+    const count = await getViewerCount()
+    res.json(count)
 })
 
 router.get("/emojis", async (req, res, next) => {
@@ -117,51 +109,9 @@ router.get("/emojis", async (req, res, next) => {
     res.json(emojis)
 })
 
-router.post('/errorReport', authCheck, (req, res, next) => {
-    var db = req.app.get('db')
-    var errorTitle;
-    if(req.body.errorType == '1') {
-        errorTitle = "Video is buffering excessively"
-    } else if(req.body.errorType == '2') {
-        errorTitle = "Video not loading"
-    } else if(req.body.errorType == '3') {
-        errorTitle = "Audio cutting out"
-    } else if(req.body.errorType == '4') {
-        errorTitle = "Video and Audio not aligned"
-    } else if(req.body.errorType == '5') {
-        errorTitle = "Website not working"
-    } else if(req.body.errorType == '6') {
-        errorTitle = "Chat not working"
-    } else {
-        res.sendStatsu(500)
-        return;
-    }
-    var errorID = randomstring.generate()
-    db.collection('errors').insertOne({
-        "errorTitle": errorTitle,
-        "errorCode": req.body.errorType,
-        "errorID": errorID,
-        "errorStatus": "Needs Action",
-        "error_no": randomstring.generate({length: 4, charset: 'numeric'}),
-        "errorMeta": {
-            "user": req.user.googleId,
-            "user_firstName": req.user.firstName,
-            "user_lastName": req.user.lastName,
-            "user_email": req.user.email,
-            "timestamp": Date.now()
-        },
-        "errorCaptures": []
-    })
-    res.json({"errorID": errorID, "status": 200})
-})
-
-router.post('/errorReport/ScreenShotUpload', upload.single('image'), (req, res, next) => {
-    console.log("Incoming Error Capture")
-    const file = req.file
-    if (!file) {
-        res.sendStatus(520)
-    }
-        res.send(file)
+router.post('/submitError', authCheck, async (req, res, next) => {
+    let errorCreated = await createError(req.body, req.user.googleId)
+    res.sendStatus(errorCreated ? 200 : 500)
 })
 
 

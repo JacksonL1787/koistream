@@ -26,6 +26,42 @@ body
 	z-index 100
 	background rgba(0,0,0,0.7)
 	transition visibility .3s, opacity .3s
+	
+.notification
+	position fixed
+	bottom 10px
+	opacity 0
+	right 20px
+	z-index 1000
+	max-width 350px
+	padding 15px
+	display none
+	justify-content left
+	align-items center
+	height fit-content
+	background #0a1217
+	box-shadow 0 0 12px 0 #192931, inset 0 0 0 1px rgba(255,255,255,0.1)
+	.icon
+		background-image url("/img/notification.svg")
+		background-size cover
+		background-position center
+		background-repeat no-repeat
+		width 20px
+		height 20px
+		min-width 20px
+		min-height 20px
+		margin-right 10px
+	.message
+		color white
+		font-size 15px
+		letter-spacing .3px
+		line-height 120%
+		word-break: break-all
+		-webkit-hyphens auto
+		-moz-hyphens auto
+		-ms-hyphens auto
+		hyphens auto
+		
 
 .modal
 	z-index 150
@@ -38,7 +74,7 @@ body
 	transform translate(-50%, -50%) scale(0.5)
 	max-width 95%
 	max-height 95%
-	transition opaicty .3s, visibility .3s, transform .3s
+	transition opacity .3s, visibility .3s, transform .3s
 	&.active
 		opacity 1
 		visibility visible
@@ -178,6 +214,7 @@ body
 		.menu-btn
 			cursor pointer
 			width fit-content
+			display none
 			&:hover
 				.bar
 					background #F05027 !important

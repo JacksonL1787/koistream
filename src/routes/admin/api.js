@@ -3,17 +3,8 @@ const router = express.Router();
 
 const _ = require("lodash")
 
-const banUser = require('../db/users/banUser')
-const unbanUser = require('../db/users/unbanUser')
-const getSocketId = require('../db/stream/getSocketId')
-const getAllParticipants = require('../db/stream/getAllParticipants')
-const getUserByGoogleId = require('../db/users/getUserByGoogleId')
-
-
-
-const filterUsers = require("../db/users/filterUsers")
-
-
+const notification = require("./notification")
+const socketTo = require("./socketTo")
 const addLog = require("../../db/logs/addLog")
 const getChatDetails = require('../../db/liveChats/getChatDetails')
 const deleteChat = require("../../db/liveChats/deleteChat")
@@ -24,29 +15,24 @@ const getUserDetails = require("../../db/users/getUserDetails")
 const startStream = require("../../db/streams/startStream")
 const stopStream = require("../../db/streams/stopStream")
 const isStreamActive = require("../../db/streams/isStreamActive")
-const getActiveStream = require("../../db/streams/getActiveStream")
+const getActiveStream = require("../../db/streams/getActiveStream");
+const updateSlate = require('../../db/slate/updateSlate');
+const getChatSettings = require('../../db/chatSettings/getChatSettings')
+const saveChatSettings = require('../../db/chatSettings/saveChatSettings')
+
 
 const adminAuth = (req,res,next) => {
     if(req.user) {
         if(req.user.auth >= 2) {
             next();
         } else {
-            res.redirect('/auth/redirect')
+            res.sendStatus(401)
         }
     } else {
-        res.redirect('/')
+        res.sendStatus(401)
     }
 
 }
-
-router.post("/userAuth", adminAuth, (req, res, next) => {
-    const db = req.app.get("db")
-    const socket = req.app.get("socketio")
-    db.collection('users').updateOne({'googleId': req.body.googleId}, {$set: {
-        auth: parseInt(req.body.auth)
-    }})
-    res.sendStatus(200)
-})
 
 router.get("/chatDetails/:chatId", adminAuth, async (req, res, next) => {
     let chatId = req.params.chatId
@@ -72,17 +58,24 @@ router.post("/muteUser", adminAuth, async (req, res, next) => {
         return;
     }
     const io = req.app.get("socketio")
-    //const socketId = await getSocketId(db, googleId)
     const muteData = await muteUser(googleId)
+    notification(io, `{${req.user.googleId}} ${muteData.muted ? "muted" : "unmuted"} {${muteData.googleId}}`)
     console.log(muteData)
     // const recieverFullName = _.startCase(user.firstName + " " + user.lastName)
     // const senderFullName = _.startCase(req.user.firstName + " " + req.user.lastName)
     // const logMsg = `${senderFullName}(${req.user.email}) ${mute ? "muted" : "unmuted"} ${recieverFullName}.(${user.email})`
     // await addLog(logMsg, "muting")
-    // if(socketId) {
-    //     io.to(socketId).emit('muteUser', mute);
-    // }
+    socketTo(io, muteData.googleId, "updateChatStatus", {})
     io.emit("userMuted", muteData)
+    res.sendStatus(200)
+})
+
+router.post("/updateSlate", adminAuth, async (req, res, next) => {
+    const io = req.app.get("socketio")
+    let slateUpdate = await updateSlate(req.body.type)
+    if(!slateUpdate) return res.sendStatus(500);
+    notification(io, `{${req.user.googleId}} changed the stream slate`)
+    io.emit("slateChange")
     res.sendStatus(200)
 })
 
@@ -92,6 +85,7 @@ router.post('/deleteChat', adminAuth, async (req,res,next) => {
         return;
     }
     const io = req.app.get("socketio")
+    notification(io, `{${req.user.googleId}} deleted a chat`)
     await deleteChat(req.body.chatId)
     io.emit("deleteChat", req.body.chatId)
     res.sendStatus(200)
@@ -102,26 +96,45 @@ router.post('/startStream', adminAuth, async (req,res,next) => {
     if(!req.body.title.trim().length || !req.body.runner.trim().length) {
         return res.sendStatus(500)
     }
+    const io = req.app.get("socketio")
     const stream = await startStream(req.body, req.user.googleId)
+    notification(io, `{${req.user.googleId}} started a stream`)
     // add log for stream activity
     // socket emit to push users from stream down page to stream page
-    // Socket emit to everyone on current stream page to load started stream
-    
+    io.in('admin').emit("loadCurrentStreamData")
     res.sendStatus(200)
 })
 
 router.post('/stopStream', adminAuth, async (req,res,next) => {
     // return if there is no active streams
+    const io = req.app.get("socketio")
     await stopStream()
+    notification(io, `{${req.user.googleId}} stopped the stream`)
     // add log for stream activity
     // socket emit to push users from stream page to stream down page
-    // Socket emit to everyone on current stream page to load stopped stream
+    io.in('admin').emit("loadCurrentStreamData")
+    io.emit("slateChange")
+    res.sendStatus(200)
+})
+
+router.post('/saveChatSettings', adminAuth, async (req,res,next) => {
+    const status = req.body.status
+    if(status != "active" && status != "disabled") return res.sendStatus(500)
+    const io = req.app.get("socketio")
+    await saveChatSettings(status)
+    notification(io, `{${req.user.googleId}} updated the chat settings`)
+    io.emit("updateChatStatus")
     res.sendStatus(200)
 })
 
 router.get('/activeStream', adminAuth, async (req,res,next) => {
     let stream = await getActiveStream()
     res.json(stream)
+})
+
+router.get('/chatSettings', adminAuth, async (req,res,next) => {
+    let settings = await getChatSettings()
+    res.json(settings)
 })
 
 router.post('/getUsers', adminAuth, async (req,res,next) => {
@@ -135,117 +148,9 @@ router.post('/getUsers', adminAuth, async (req,res,next) => {
     res.json(users);
 })
 
-
-
 router.get("/liveChats", adminAuth, async (req, res, next) => {
     const chats = await getChats(true)
     res.json(chats)
-})
-
-router.post('/endStream', adminAuth, (req,res,next) => {
-    const db = req.app.get("db")
-    const socket = req.app.get("socketio")
-    async function getData() {
-        var streamState = await db.collection('siteControls').find({"identifier": "streamState"}).toArray()
-        if(streamState[0].state) {
-            db.collection('siteControls').updateOne({"identifier": "streamState"}, {$set: {
-                "state": false,
-                "associatedStream": 0
-            }})
-            db.collection('siteControls').updateOne({"identifier": "currentStream"}, {$set: {
-                streamId: 0,
-                liveStream: false,
-                streamName: "Pending",
-                streamRunner: "Pending",
-                liveChats: [],
-                participants: [],
-                participantLogs: []
-            }})
-            res.sendStatus(200)
-            setTimeout(function(){
-                socket.emit('reloadSiteClients');
-            }, 1000)
-        } else {
-            res.sendStatus(500)
-        }
-    } 
-    getData()
-})
-
-router.get('/getParticipants', adminAuth, async (req,res,next) => {
-    const db = req.app.get("db");
-    const allParticipants = await getAllParticipants(db);
-    res.json(allParticipants);
-})
-
-router.post('/filterUsers', adminAuth, async (req,res,next) => {
-    const db = req.app.get("db");
-    const users = await filterUsers(db, req.body);
-    res.json(users);
-})
-
-router.post('/resetViewers', adminAuth, async (req,res,next) => {
-    const db = req.app.get("db");
-    const io = req.app.get("socketio")
-    await db.collection("streams").update({}, {$set: {participants: []}})
-    io.emit("reloadStreamClients")
-    res.sendStatus(200)
-})
-
-router.post('/banUser', adminAuth, async (req,res,next) => {
-    const db = req.app.get("db")
-    const io = req.app.get("socketio")
-    const googleId = req.body.googleId
-    const socketId = await getSocketId(db, googleId)
-    const user = await getUserByGoogleId(db, googleId)
-    const recieverFullName = _.startCase(user.firstName + " " + user.lastName)
-    const senderFullName = _.startCase(req.user.firstName + " " + req.user.lastName)
-    const logMsg = `${senderFullName}(${req.user.email}) banned ${recieverFullName}.(${user.email})`
-    addLog(logMsg, "bans")
-    banUser(db, googleId)
-    if(socketId) {
-        io.to(socketId).emit('reloadSiteClients');
-    }
-    res.sendStatus(200)
-})
-
-router.post('/unbanUser', adminAuth, async (req,res,next) => {
-    const db = req.app.get("db")
-    const io = req.app.get("socketio")
-    const googleId = req.body.googleId
-    const user = await getUserByGoogleId(db, googleId)
-    const recieverFullName = _.startCase(user.firstName + " " + user.lastName)
-    const senderFullName = _.startCase(req.user.firstName + " " + req.user.lastName)
-    const logMsg = `${senderFullName}(${req.user.email}) unbanned ${recieverFullName}.(${user.email})`
-    addLog(logMsg, "bans")
-    unbanUser(db, googleId)
-    io.emit("reloadUnban", googleId)
-    res.sendStatus(200)
-})
-
-router.post('/slateControl', adminAuth, (req, res, next) => {
-    if(req.user && req.user.auth >= 2) {
-        const db = req.app.get("db")
-        let slateType = 1;
-        console.log(req.body)
-        console.log(req.body)
-        if(req.body.selection == "Bars and Tones") {
-            slateType = 1
-        }
-        if(req.body.selection == "Splash") {
-            slateType = 2
-        }
-        if(req.body.selection == "Maintainance") {
-            slateType = 3
-        }
-        async function run() {
-            db.collection("siteControls").updateOne({"identifier": "slate"}, {$set: {
-                state: (req.body.state == 'true'),
-                slateType
-            }})
-            res.json("Success")
-        } run()
-    }
 })
 
 module.exports = router;

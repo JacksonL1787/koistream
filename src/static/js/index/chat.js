@@ -13,7 +13,8 @@ const deleteChat = (chatID) => {
 const appendChat = (data) => {
     $('.chat-widget .chat-content .chat.cooldown').remove()
     let message = $('<textarea/>').html(data.message).text();
-    message = '<span class="chat-text">' + message + '</span>'
+    console.log(data)
+    message = `<span class="chat-text">${message}</span>`
     window.emojis.forEach((e) => {
         let re  = new RegExp(`:${e.tag}:`,"gmi")
         message = message.replace(re,`</span><span class="chat-emoji" data-tag="${e.tag}"><img class="chat-emoji-img" src="/img/customEmojis/${e.src}"></span><span class="chat-text">`)
@@ -21,7 +22,7 @@ const appendChat = (data) => {
     message = message.replace(/\<span class="chat-text"\>\<\/span\>/gmi, "")
     $(".chat-widget .live-chat-container .chat-content").append(`
         <div class="chat" id="${data.chatId}">
-            <span class="chat-sender">${_.startCase(data.userName)}:</span>
+            <span class="chat-sender">${data.userName === "Team KoiStream" ? data.userName : _.startCase(data.userName)}:</span>
             ${message}
         </div>
     `)
@@ -61,31 +62,29 @@ const appendAllChats = () => {
 }
 
 const setChatStatus = () => {
-    let status = window.stream.chatSettings.status
-    if(window.user.muted) status = "muted"
-    const statusColors = {
-        disabled: "#db1212",
-        muted: "#db1212",
-        active: "#00c47c",
-        private: "#edc00c"
-    }
-    $(".chat-widget .chat.muted").remove()
+    $.get({
+        url: "/api/chatStatus",
+        success: (status) => {
+            const statusColors = {
+                disabled: "#db1212",
+                muted: "#db1212",
+                active: "#00c47c"
+            }
+            $(".chat-widget .title-container .chat-status").css("color", statusColors[status]).text(status)
+            if(status === "disabled" || status === "muted") {
+                $(".chat-widget").addClass("disabled")
+            } else {
+                $(".chat-widget").removeClass("disabled")
+            }
+        }
+    })
     
-    $(".chat-widget .title-container .chat-status").css("color", statusColors[status]).text(status)
-    
-    if(status === "disabled" || status === "muted") {
-        $(".chat-widget").addClass("disabled")
-    } else {
-        $(".chat-widget").removeClass("disabled")
-    }
+}
 
-    if(status === "muted") {
-        $(".chat-widget .live-chat-container .chat-content").append(`
-            <p class="chat muted">
-                You have been muted by a moderator.
-            </p>
-        `)
-    }
+const setChatHeight = () => {
+    if(window.innerWidth <= 1100) return;
+    let height = $(".stream-container .stream-video").height() + $(".stream-container .stream-info-container").height() + 60
+    $(".chat-widget").css("height", `${height}px`)
 }
 
 const appendEmojis = () => {
@@ -137,9 +136,12 @@ $(document).on("click", ".emoji-menu .emoji", function() {
     $(".chat-widget .chat-input").focus()
 })
 
+$(window).resize(setChatHeight)
+$(document).ready(setChatHeight)
+
+
 $(document).on("click", ".emoji-menu .custom-emoji", function() {
     const emoji = `:${$(this).attr("data-tag")}:`
-    console.log(emoji)
     $(".chat-widget .chat-input").val($(".chat-widget .chat-input").val() + emoji)
     $(".chat-widget .chat-input").focus()
 })
@@ -151,21 +153,13 @@ $('.chat-widget .submit-chat-btn .icon').click(function(){
             "message": val
         }
         $.post({
-            url: "/api/chat/sendMessage",
+            url: "/api/sendMessage",
             data: data,
             success: (data) => {
                 $(".emoji-menu").removeClass("show")
                 if(typeof(data) === "object") {
-                    if(data.type === "muted") {
-                        $(".chat-widget .chat.muted").remove()
-                        $(".chat-widget .title-container .chat-status").css("color", "#db1212").text("muted")
-                        $(".chat-widget").addClass("disabled")
-                        $('.chat-widget .chat-input').val("")
-                        $(".chat-widget .live-chat-container .chat-content").append(`
-                            <p class="chat muted">
-                                You have been muted by a moderator.
-                            </p>
-                        `)
+                    if(data.type === "disabled") {
+                        setChatStatus()
                     } else if(data.type === "chat") {
                         appendChat(data)
                         $('.chat-widget .chat-input').val("")
@@ -223,3 +217,5 @@ $.when(
     appendAllChats()
     appendEmojis()
 })
+
+socket.on("updateChatStatus", setChatStatus)

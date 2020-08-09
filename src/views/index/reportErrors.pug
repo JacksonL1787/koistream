@@ -1,133 +1,22 @@
-.REPOP-darken
-
-.REPOP-wrapper.fullCenter
-    .REPOP-wrapper-modal
-        .REPOP-wrapper-modal-top.reg-image
-        .REPOP-wrapper-modal-body
-            p.title Report an Error
-            h2.subtitle Please select your error
-            .REPOP-wrapper-modal-body-selectors
-                input(type="radio" name="errorType" value="1" checked id="errorType1")
-                label(for="errorType1") Video is buffering excessively 
-                br
-                input(type="radio" name="errorType" value="2" id="errorType2")
-                label(for="errorType2") Video not loading
-                br
-                input(type="radio" name="errorType" value="3" id="errorType3")
-                label(for="errorType3") Audio cutting out
-                br
-                input(type="radio" name="errorType" value="4" id="errorType4")
-                label(for="errorType4") Video and Audio not aligned
-                br
-                input(type="radio" name="errorType" value="5" id="errorType5")
-                label(for="errorType5") Website not working
-                br
-                input(type="radio" name="errorType" value="6" id="errorType6")
-                label(for="errorType6") Chat not working
-                br
-                br
-                br
-                .submit-wrap
-                    input(type="submit" value="Send Report")
-                    p.cancel-btn Cancel
-
-
-script.
-
-    $('.report-error').click(function(){
-        $("body").css("overflow", "hidden")
-        $('.REPOP-darken').fadeToggle()
-        $('.REPOP-wrapper').fadeToggle()
-    })
-
-    $('.cancel-btn').click(function(){
-        $("body").css("overflow", "auto")
-        errorImages = undefined
-        $('.REPOP-wrapper-modal-body-selectors input[type="radio"]').prop("checked", false)
-        $('.REPOP-wrapper-modal-body-selectors #errorType1').prop("checked", true)
-        $('.REPOP-darken').fadeToggle()
-        $('.REPOP-wrapper').fadeToggle()
-    })
-
-    $('.REPOP-wrapper input[type="submit"]').click(() => {
-        var data = {
-            errorType: $('.REPOP-wrapper-modal-body-selectors input[type="radio"]:checked').val()
-        }
-        $.ajax({
-            cache: false,
-            type : 'POST',
-            url  : '/api/errorReport', 
-            data: data,
-            success: (sendReply) => {
-                sendErrorCaptures(sendReply.errorID)
-            }
-        });
-    })
-
-    function sendErrorCaptures(ID) {
-        if(readyToTriggerError) {
-            postCaptures(ID)
-        } else {
-            var PCsiv = setInterval(function() {
-                if(readyToTriggerError) {
-                    postCaptures(ID)
-                    clearInterval(PCsiv)
-                } else {
-                    $('.REPOP-wrapper input[type="submit"]').val("Collecting Data")
-                }
-            }, 100)
-        }
-    }
-
-    function dataURItoBlob(dataURI) {
-        // convert base64/URLEncoded data component to raw binary data held in a string
-        var byteString;
-        if (dataURI.split(',')[0].indexOf('base64') >= 0)
-            byteString = atob(dataURI.split(',')[1]);
-        else
-            byteString = unescape(dataURI.split(',')[1]);
-
-        // separate out the mime component
-        var mimeString = dataURI.split(',')[0].split(':')[1].split(';')[0];
-
-        // write the bytes of the string to a typed array
-        var ia = new Uint8Array(byteString.length);
-        for (var i = 0; i < byteString.length; i++) {
-            ia[i] = byteString.charCodeAt(i);
-        }
-
-        return new Blob([ia], {type:mimeString});
-    }
-
-    function postCaptures(ID) {
-        var data = new FormData()
-        errorImages.forEach(function(cap, index){
-            var dST = cap.img
-            var dataBlob = dataURItoBlob(dST)
-            data.append('blob', dataBlob)
-            data.append('timestamp', cap.timestamp)
-            data.append('id', ID)
-            $.ajax({
-                type: "POST",
-                enctype: 'multipart/form-data',
-                url: "/tst/uploadfile",
-                data: data,
-                processData: false,
-                contentType: false,
-                cache: false,
-                success: (data) => {
-                    log('Screen Capture Upload Success')
-                },
-                error: (e) => {
-                    log('Screen Capture Upload Failiure')
-                }
-            });
-            log(index)
-            if(index == errorImages.length - 1) {
-                $('.cancel-btn').click()
-                readyToTriggerError = false
-                errorImages = undefined
-            }
-            data = new FormData();
-        })
-    }
+.darken-overlay
+.report-error-modal
+    .modal-top
+        h1.title Report an Error
+        .close
+    .modal-content
+        .input-wrap
+            .error-type-select-wrap
+                .select-btn
+                    p.select-prompt Select Error Type
+                    .icon
+                .select-menu
+                    p.option(data-option="1") Video Buffering
+                    p.option(data-option="2") Audio Cutting Out
+                    p.option(data-option="4") Chat Not Working
+                    p.option(data-option="5") Website Issues
+                    p.option(data-option="6") Other
+        .input-wrap
+            textarea.error-description(placeholder="Description (optional)" data-gramm_editor="false")
+        .submit-report-btn
+            .icon
+            p Submit Report

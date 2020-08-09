@@ -32,7 +32,17 @@
             .profile-picture
             p.user-name
             .external-link-icon
-    .stream-timer-widget
+    .stream-view-widget.widget
+        .widget-content
+            h1.title Stream View
+            .stream-video-wrap
+                .stream-video
+                    img(src="/img/countdown-bg.png")
+                    .slate.reg-image
+            .stream-info
+                h1.stream-title
+                p.stream-runner
+    .stream-timer-widget.widget
         h1.title Stream Timer
         p.start-time Started on Wednesday, July 8, 2020 at 10:50 PM
         .timer
@@ -47,15 +57,9 @@
             .seconds-wrap.time-unit-wrap
                 h1.time
                 p.label Seconds
-    .stream-view-widget
+    .slate-control-widget.widget
         .widget-content
-            h1.title Stream View
-            .stream-video-wrap
-                .stream-video
-                    img(src="/img/countdown-bg.png")
-                    .slate.reg-image
-            .stream-info
-                h1.stream-title
-                p.stream-runner
-
-        
+            h1.title Slate Controls
+            .slate-select
+                .slate-option.off-slate(data-type="off")
+                    p.turn-off-slate Remove Slate

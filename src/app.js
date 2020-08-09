@@ -5,7 +5,6 @@ const path = require('path');
 const cookieParser = require('cookie-parser');
 const logger = require('morgan');
 const app = express();
-const mongoose = require('mongoose')
 const flash = require('connect-flash');
 const cookieSession = require('cookie-session')
 const bodyParser = require('body-parser')
@@ -15,39 +14,24 @@ const randomstring = require('randomstring')
 const session = require('express-session')
 const pgSession = require('connect-pg-simple')(session)
 const expressip = require('express-ip');
+const logSymbols = require('log-symbols');
 
 
 var multer = require('multer');
 
 const passportSetup = require('./config/passport-setup')
 
-const userConnect = require('./db/users/userConnect')
-const userDisconnect = require('./db/users/userDisconnect')
-const resetUserStatuses = require('./db/users/resetUserStatuses')();
+const userConnect = require('./db/socketConnections/userConnect')
+const userDisconnect = require('./db/socketConnections/userDisconnect')
+const resetUserStatuses = require('./db/socketConnections/resetUserStatuses')();
+const getUserAuth = require('./db/users/getUserAuth')
 
 var indexRouter = require('./routes/index');
 var authRouter = require('./routes/auth/auth');
 var apiRouter = require('./routes/api')
 var adminRouter = require('./routes/admin/admin')
-var adminAPIRouter = require('./routes/admin/api')
- 
-mongoose.connect(`mongodb://localhost:27017/DesignTechHS`, {useNewUrlParser: true, useUnifiedTopology: true}, (err, client) => {
-  if(err) {
-    console.log('    ')
-    console.log(' DB Alert '.bgRed.white.bold + '  There was an issue connecting to the database.'.bold.red)
-    console.log('    ')
-    console.log(' DB Alert '.bgRed.white.bold + '  DB error has been added to logs, shutting down server'.bold.red)
-    console.log('    ')
-    console.log(err)
-    server.close()
-  } else {
-    console.log('    ')
-    console.log('DesignTechHS Database Online')
-    console.log('DesignTechHS Database Connection Successful')
-    console.log('    ')
-  }
-  app.set('db', client)
-});
+var adminAPIRouter = require('./routes/admin/api');
+const { exec } = require('child_process');
 
 
 var storage_errorCap = multer.diskStorage({
@@ -58,19 +42,6 @@ var storage_errorCap = multer.diskStorage({
 })
 
 var upload_errorCap = multer({ storage: storage_errorCap })
- 
-app.post('/tst/uploadfile', upload_errorCap.single('blob'), (req, res, next) => {
-  const file = req.file
-  if (!file) {
-    res.sendStatus(393)
-  } else {
-    mongoose.connect(`mongodb://localhost:27017/DesignTechHS`, {useNewUrlParser: true, useUnifiedTopology: true}, (err, client) => {
-      client.collection('errors').updateOne({"errorID": req.body.id}, {$push : {"errorCaptures" : {"errorCapture": req.file.filename, "timestamp": req.body.timestamp}}})
-    })
-    res.sendStatus(200)
-  }
-})
-
 
 // view engine setup
 app.set('views', path.join(__dirname, 'views'));
@@ -121,13 +92,10 @@ app.use(function(err, req, res, next) {
 });
 
 const port = 3000
-const server = app.listen(port, () => console.log('DTECH Community webserver started on port '+ port + "!"));
-console.log('DTECH Community is now accessible from https://community.designtechhs.com')
+const server = app.listen(port, () => console.log(logSymbols.success, 'KoiStream Web Server started on port '+ port + "!"));
 
 const io = require('socket.io').listen(server);
 app.set('socketio', io)
-
-let connectedUsers = 0
 
 io.use(function(socket, next){
   sessionMiddleware(socket.request, {}, next);
@@ -140,6 +108,10 @@ io.on('connection', async (socket) => {
       const socketId = socket.id
       const googleId = socket.request.session.passport.user;
       await userConnect(googleId, url, socketId)
+      const auth = await getUserAuth(googleId)
+      if(auth === 3) {
+        socket.join("admin")
+      }
     }
   }
   
@@ -155,36 +127,5 @@ io.on('connection', async (socket) => {
     }
   })
 })
-
-
-var dataCollectionDBLength = 50
-
-function updateSiteClients(data) {
-  console.log('updating data_tracking')
-  mongoose.connect(`mongodb://localhost:27017/DesignTechHS`, {useNewUrlParser: true, useUnifiedTopology: true}, (err, client) => {
-    async function getData() {
-      var dataTracking = await client.collection('data_tracking').find({"ident": "viewers"}).toArray()
-      if(dataTracking[0].data.site_clients.length > dataCollectionDBLength && dataTracking[0].data.stream_clients.length > dataCollectionDBLength) {
-        client.collection('data_tracking').updateOne({"tags": "most_recent"}, {$unset : {"data.site_clients.0" : 1 }}) 
-        client.collection('data_tracking').updateOne({"tags": "most_recent"}, {$pull : {"data.site_clients" : null}})
-        client.collection('data_tracking').updateOne({"tags": "most_recent"}, {$unset : {"data.stream_clients.0" : 1 }}) 
-        client.collection('data_tracking').updateOne({"tags": "most_recent"}, {$pull : {"data.stream_clients" : null}})
-        
-        client.collection('data_tracking').updateOne({"tags": "most_recent"}, { $push: {
-          "data.site_clients": data[0],
-          "data.stream_clients": data[1]
-        }})
-
-      } else {
-        client.collection('data_tracking').updateOne({"tags": "most_recent"}, { $push: {
-          "data.site_clients": data[0],
-          "data.stream_clients": data[1]
-        }})
-      }
-    } 
-    getData()
-  })
-}
-
 
 module.exports = app;

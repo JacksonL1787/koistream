@@ -4,11 +4,13 @@ module.exports = {
     emojis: "emojis",
     logs: "logs",
     errors: "errors",
-    errorCaptures: "errorCaptures",
+    errorTypes: "errorTypes",
     liveChats: "liveChats",
     streams: "streams",
     chatSettings: "chatSettings",
     slate: "slate",
-    socketConnections: "socketConnections"
+    socketConnections: "socketConnections",
+    slateTypes: "slateTypes",
+    userSettings: "userSettings"
 };
   

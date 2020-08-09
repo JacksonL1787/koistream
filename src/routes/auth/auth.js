@@ -1,22 +1,13 @@
 const router = require('express').Router();
 const passport = require('passport');
+const getUserSettings = require('../../db/userSettings/getUserSettings')
 
-const addParticipant = require('../db/stream/addParticipant')
-const getLoginType = require('../db/siteControls/getLoginType')
 
 const authCheck = (req, res, next) => {
     if(!req.user) {
         res.redirect('/')
     } else {
         next();
-    }
-}
-
-const meetingStarted = (req,res,next) => {
-    if(true) {
-        next()
-    } else {
-        res.redirect("/countdown")
     }
 }
 
@@ -60,10 +51,9 @@ router.get('/googleRedirect',  passport.authenticate('google'), (req, res, next)
 
 router.get('/redirect', async (req, res, next) => {
     if(req.user) {
-        const db = req.app.get("db")
-        const loginType = await getLoginType(db)
-        console.log(loginType)
-        if(req.user.auth > 0 || loginType === "allowAll") {
+        const userSettings = await getUserSettings()
+        const allowUnverifiedLogins = userSettings.allowAll
+        if(req.user.auth > 0 || allowUnverifiedLogins) {
             if(req.user.auth == 2 || req.user.auth == 3) {
                 res.redirect('/admin/current-stream')
                 return;

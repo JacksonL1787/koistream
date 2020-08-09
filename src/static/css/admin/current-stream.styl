@@ -16,7 +16,7 @@
             box-shadow 0 0 12px 0 rgba(0,0,0,0.1)
             transition background .3s, box-shadow .3s
             &::placeholder
-                color #6b7780
+                color #9AA5AB
                 font-weight 500
             &:focus
                 background #121f27
@@ -90,7 +90,7 @@
             background #172831
             box-shadow 0 0 12px 0 rgba(0,0,0,0.1), inset 0 0 0 1px rgba(255,255,255,0.1)
         .icon
-            background-image url("/img/admin/nav/current-stream.svg")
+            background-image url("/img/start-stream.svg")
             background-size cover
             background-position center
             background-repeat no-repeat
@@ -158,20 +158,29 @@
     position relative
 
 .stream-active-container
-    .stream-view-widget,
-    .stream-timer-widget
+    .widget
         position relative
         width 100%
         background #0D171D
         box-shadow 0 0 12px 0 rgba(0,0,0,0.1)
         margin-bottom 20px
+        .title
+            color white
+            font-weight 700
+            letter-spacing 1px
+            font-size 22px
+         .widget-content
+            width calc(100% - 30px)
+            margin 0 auto
+            position relative
+            height 100%
     .started-by
         margin 25px 0 10px
         display flex
         justify-content left
         align-items center
         p.label
-            color #9c9c9c
+            color #9AA5AB
             font-size 14px
             letter-spacing .3px
             margin 5px 12px 0 0
@@ -207,61 +216,48 @@
                 opacity 0.5
     .stream-view-widget
         padding 15px 0 30px
-        .widget-content
-            width calc(100% - 30px)
-            margin 0 auto
-            position relative
-            height 100%
-            .title
+        .title
+            margin-bottom 15px
+        .stream-video-wrap
+            width 100%
+            background #0a1217
+            .stream-video
+                width fit-content
+                height fit-content
+                margin 0 auto
+                position relative
+                img
+                    width 100%
+                    max-width 1200px
+                    opacity 0
+                .slate
+                    z-index 20
+                .slate,
+                #my-video
+                    width 100%
+                    height 100%
+                    position absolute
+                    top 0
+                    left 0
+        .stream-info
+            .stream-title
                 color white
-                font-weight 700
-                letter-spacing 1px
-                font-size 22px
-                margin-bottom 15px
-            .stream-video-wrap
-                width 100%
-                background #0a1217
-                .stream-video
-                    width fit-content
-                    height fit-content
-                    margin 0 auto
-                    position relative
-                    img
-                        width 100%
-                        max-width 1200px
-                        opacity 0
-                    .slate
-                        z-index 20
-                    .slate,
-                    #my-video
-                        width 100%
-                        height 100%
-                        position absolute
-                        top 0
-                        left 0
-            .stream-info
-                .stream-title
-                    color white
-                    font-size 40px
-                    margin-top 20px
-                    letter-spacing .5px
-                .stream-runner  
-                    margin-top 10px
-                    color #9c9c9c
-                    font-size 17px
-                    letter-spacing .5px
-                    line-height 150%
+                font-size 40px
+                margin-top 20px
+                letter-spacing .5px
+            .stream-runner  
+                margin-top 10px
+                color #9AA5AB
+                font-size 17px
+                letter-spacing .5px
+                line-height 150%
     .stream-timer-widget
         height 250px
         padding 15px 0
         .title
-            color white
-            font-weight 700
-            letter-spacing 1px
-            font-size 22px
             margin-left 15px
         p.start-time
-            color #9c9c9c
+            color #9AA5AB
             font-size 15px
             letter-spacing .3px
             margin-left 15px
@@ -274,7 +270,7 @@
             left 50%
             transform translate(-50%, -50%)
             .divider
-                color grey
+                color #9AA5AB
                 margin 0 40px
                 font-size 25px
                 font-weight 600
@@ -285,7 +281,53 @@
                     font-size 70px
                     letter-spacing 1px
                 .label
-                    color grey
+                    color #9AA5AB
                     font-size 11px
                     text-transform uppercase
                     letter-spacing .5px
+    .slate-control-widget
+        padding 15px 0
+        .slate-select
+            display flex
+            justify-content left
+            flex-flow row wrap
+            width 100%
+            position relative
+            height fit-content
+            max-width 1400px
+            margin 15px auto
+            .slate-option
+                width calc(25% - 10px)
+                margin 0 5px 10px
+                box-shadow 0 0 12px 0 rgba(0,0,0,0.1), inset 0 0 0 1px rgba(255,255,255,0.05)
+                position relative
+                padding 10px 0
+                cursor pointer
+                background #132027
+                transition background 0.3s, box-shadow 0.3s
+                &:hover
+                    background #172831
+                    box-shadow 0 0 12px 0 rgba(0,0,0,0.1), inset 0 0 0 1px rgba(255,255,255,0.1)
+                &.active
+                    background #F05027
+                    box-shadow 0 0 12px 0 rgba(0,0,0,0.1)
+                    p
+                        color white
+                .turn-off-slate
+                    position absolute
+                    top 50%
+                    left 50%
+                    transform translate(-50%, -50%)
+                    color lightgrey
+                    font-weight 600
+                    font-size 18px
+                    letter-spacing .5px
+                .title
+                    color lightgrey
+                    font-weight 600
+                    font-size 18px
+                    margin 0 0 10px 2.5%
+                    letter-spacing .5px
+                img
+                    width 95%
+                    margin-left 2.5%

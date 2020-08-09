@@ -31,7 +31,11 @@ html
             .logo-wrap
                 .logo(onclick="window.location.href='/auth/redirect'")
                 h1.title KoiStream
-            button.logout-btn(onclick="window.location.href='/auth/logout'") Logout
+            .nav-flex
+              .report-error
+                .icon
+                p Report Error
+              button.logout-btn(onclick="window.location.href='/auth/logout'") Logout
     .page-content
       .stream-container
         .stream-video
@@ -39,14 +43,12 @@ html
           .slate.reg-image
         .stream-info-container
           .stream-info-content
-            h1.stream-title
+            .title-viewer-wrap
+              h1.stream-title
+              .viewer-count-container
+                .icon
+                p 0 Viewers
             p.stream-runner
-            .report-error
-              .icon
-              p Report an Error
-            .viewer-count-container
-              .icon
-              p 0 Viewers
       .chat-widget
         .title-container
           h1.title Live Chat
@@ -81,7 +83,6 @@ html
 script(src="https://cdnjs.cloudflare.com/ajax/libs/video.js/7.8.0/video.min.js")
 script(src="https://cdnjs.cloudflare.com/ajax/libs/videojs-contrib-hls/5.15.0/videojs-contrib-hls.min.js")
 script(src="/videojs/videojs-contrib-quality-levels/dist/videojs-contrib-quality-levels.min.js")
-script(src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/0.4.1/html2canvas.min.js")
 script(src="/videojs/videojs-hls-quality-selector/dist/videojs-hls-quality-selector.min.js")
 script(src="/js/index/index.js")
 script(src="/js/index/chat.js")

@@ -1,3 +1,5 @@
+let updateTimer;
+
 const loading = (state) => {
     if(state) {
         $(".page-title-flex-container, .stream-status, .stream-inactive-container, .stream-active-container").addClass("hidden")
@@ -8,32 +10,21 @@ const loading = (state) => {
     }
 }
 
-const setSlate = (data) => {
-    if(!data.active) $('.slate').hide();
-    $('.slate').show()
-    if(data.type === 1) {
-        $('.slate').css('background-image', 'url("/img/koistream-off-slate.png")')
-    } else if(data.type === 2) {
-        $('.slate').css('background-image', 'url("/img/2880px-SMPTE_Color_Bars_16x9.svg.png")')
-    } else if(data.type === 3) {
-        $('.slate').css('background-image', 'url("/img/download.jpeg")')
-    } else if(data.type === 4) {
-        $('.slate').css('background-image', 'url("/img/maintainence.jpg")')
-    } else {
-        $('.slate').css('background-image', 'url("/img/koistream-off-slate.png")')
-    }
+const setSlate = () => {
+    $.get({
+        url: "/api/getActiveSlate",
+        success: (data) => {
+            if(!data.active) return $('.stream-video .slate').hide();
+            $('.stream-video .slate').show().css("background-image", `url(/img/slates/${data.src})`)
+            if($(".slate-control-widget .slate-select .slate-option").length <= 1) return;
+            $(".slate-control-widget .slate-select .slate-option").removeClass("active")
+            $(`.slate-control-widget .slate-select .slate-option[data-type="${data.active ? data.type : "off"}"]`).addClass("active")
+        }
+    })
 }
-  
-socket.on('slateControl', setSlate)
-
-$.get({
-    url: "/api/slate",
-    success: setSlate
-})
-
-let updateTimer;
 
 const setActiveStream = (data) => {
+    console.log(data)
     data.startTime = new Date(data.startTime)
     $(".stream-timer-widget .start-time").text(`Started on ${moment(data.startTime).format("dddd, LL")} at ${moment(data.startTime).format("LT")}`)
     if(updateTimer) clearTimeout(updateTimer)
@@ -50,6 +41,7 @@ const setActiveStream = (data) => {
     $(".stream-active-container").removeClass("hidden")
     $(".stream-view-widget .stream-title").text(data.title)
     $(".stream-view-widget .stream-runner").text(data.runner)
+    $(".stream-view-widget .stream-video video, .slate-control-widget .slate-select .slate-option:not(.off-slate)").remove()
     if (/Android|webOS|iPhone|iPad|iPod|BlackBerry|BB|PlayBook|IEMobile|Windows Phone|Kindle|Silk|Opera Mini/i.test(navigator.userAgent)) {
         console.log('mobile device loading')
         $(".stream-view-widget .stream-video").append('<video class="video-js" id="my-video" muted="muted" controls="controls" preload="auto" width="1920" height="1080" poster="/img/countdown-bg.png"><source class="vidSrc" src="https://stream.designtechhs.com/livestream/360p.m3u8" type="application/x-mpegURL"/></video>')
@@ -59,6 +51,17 @@ const setActiveStream = (data) => {
     $(".started-by .user").attr("href", `/admin/u/${data.googleId}`)
     $(".started-by .user .profile-picture").css("background-image", `url(${data.googleProfilePicture})`)
     $(".started-by .user .user-name").text(_.startCase(data.firstName + " " + data.lastName))
+    data.slates.forEach((s) => {
+        $(".slate-control-widget .slate-select").append(`
+            <div class="slate-option ${s.active ? "active" : ""}" data-type="${s.type}">
+                <p class="title">${s.name}</p>
+                <img src="/img/slates/${s.src}">
+            </div>
+        `)
+    })
+    if($(".slate-control-widget .slate-select .slate-option.active").length === 0) {
+        $('.slate-control-widget .slate-select .slate-option[data-type="off"]').addClass("active")
+    }
 }
 
 const setInactiveStream = () => {
@@ -88,9 +91,8 @@ const setStreamStatus = (active) => {
     
 }
 
-
-
 const loadPage = () => {
+    closeModal("modal")
     loading(true)
     $.get({
         url: "/admin/api/isStreamActive",
@@ -100,8 +102,6 @@ const loadPage = () => {
     })   
 }
 
-loadPage()
-
 $("#stream-action-btn").click(() => {
     let action = $("#stream-action-btn").attr("data-action")
     if(action === "start") {
@@ -110,6 +110,17 @@ $("#stream-action-btn").click(() => {
     } else if(action ==="stop") {
         openModal("stop-stream-modal")
     }
+})
+
+$(document).on("click", ".slate-control-widget .slate-select .slate-option", function() {
+    if($(this).hasClass("active")) return;
+    $(".slate-control-widget .slate-select .slate-option").removeClass("active")
+    $(this).addClass("active")
+    const type = $(this).attr("data-type")
+    $.post({
+        url: "/admin/api/updateSlate",
+        data: {type}
+    })
 })
 
 $(".start-stream-modal .start-stream-btn").click(() => {
@@ -133,20 +144,18 @@ $(".start-stream-modal .start-stream-btn").click(() => {
 
     $.post({
         url: "/admin/api/startStream",
-        data: data,
-        success: () => {
-            closeModal("start-stream-modal")
-            loadPage()
-        }
+        data: data
     })
 })
 
 $(".stop-stream-modal .stop-stream-btn").click(() => {
     $.post({
-        url: "/admin/api/stopStream",
-        success: () => {
-            closeModal("stop-stream-modal")
-            loadPage()
-        }
+        url: "/admin/api/stopStream"
     })
 })
+
+socket.on("loadCurrentStreamData", loadPage)
+socket.on('slateChange', setSlate)
+
+loadPage()
+setSlate()
