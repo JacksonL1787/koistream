@@ -35,7 +35,7 @@ router.post('/sendMessage', [
     check('message').escape()
 ], async (req, res, next) => {
     const chatSettings = await getChatSettings()
-    if(chatSettings.status === "disabled" || req.user.muted) {
+    if((chatSettings.status === "disabled" || req.user.muted) && req.user.auth <= 1) {
         res.json({
             type: "disabled"
         })
