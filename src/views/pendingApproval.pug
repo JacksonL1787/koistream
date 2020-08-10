@@ -1,11 +1,15 @@
 html
-  head
-    include ./main
-    link(rel="Stylesheet" href="/css/pendingApproval.css")
-
-  body.reg-image
-    .pendingApproval-wrapper.reg-image
-    .pendingApproval-wrapper-center.fullCenter
-        h3 Your Account is Pending Approval
-        p Please notify an Administrator or wait for Approval. 
-        input.fullXCenter(type="button" value="Logout" onclick="window.location.href='/auth/logout'")
+	head
+		script(data-ad-client="ca-pub-4786181907722527" async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js")
+		include ./main
+		link(rel="stylesheet" href="/css/pendingApproval.css")
+		script.
+			let allowAll = "#{allowAll}" === "true" ? true : false;
+	body
+		.bg
+		.logo-container
+		.content
+			h1.title School Only Mode
+			p.subtitle The current stream is for students and staff only. Please sign in with your school email if you are a student or staff member at d.tech.
+			a.logout-btn(href="/auth/logout")
+				p Logout

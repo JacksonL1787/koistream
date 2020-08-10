@@ -92,7 +92,9 @@ app.use(function(err, req, res, next) {
 });
 
 const port = 3000
-const server = app.listen(port, () => console.log(logSymbols.success, 'KoiStream Web Server started on port '+ port + "!"));
+const server = app.listen(port, () => 
+  console.log(logSymbols.success, 'KoiStream Web Server started on port '+ port + "!")
+);
 
 const io = require('socket.io').listen(server);
 app.set('socketio', io)

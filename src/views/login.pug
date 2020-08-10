@@ -7,6 +7,8 @@ html
 			let allowAll = "#{allowAll}" === "true" ? true : false;
 	body
 		.bg
+			.overlay
+			video(autoplay muted loop src="/videos/bg-drone.mp4")
 		.logo-container
 		.content
 			h1.title Welcome to KoiStream
@@ -16,7 +18,7 @@ html
 				p Login With Google
 		script.
 			if(allowAll) {
-				$(".subtitle").text("Login with your school email or any google account")
+				$(".subtitle").text("Login with your school or personal google account")
 			} else {
 				$(".subtitle").text("Login with your school email")
 			}

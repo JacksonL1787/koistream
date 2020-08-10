@@ -3,3 +3,6 @@
 /bin/img
 /bin/js
 .env
+.gitignore
+Dev_CommunityKS.code-workspace
+npm-debug.log

@@ -7,6 +7,7 @@
     "watch": "gulp static && gulp watch"
   },
   "dependencies": {
+    "@sendgrid/mail": "^7.2.3",
     "bad-words": "^3.0.3",
     "body-parser": "^1.19.0",
     "colors": "^1.4.0",
