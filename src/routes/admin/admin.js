@@ -1,9 +1,7 @@
 var express = require('express');
 var router = express.Router();
 
-const getAllParticipants = require('../db/stream/getAllParticipants')
 const getLogs = require('../../db/logs/getLogs')
-const getStream = require('../db/stream/getStream')
 const getUserName = require('../../db/users/getUserName')
 
 const authCheck = (req, res, next) => {
