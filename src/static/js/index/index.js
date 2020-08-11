@@ -3,9 +3,9 @@ var player;
 
 $(document).ready(function(){
 	if (/Android|webOS|iPhone|iPad|iPod|BlackBerry|BB|PlayBook|IEMobile|Windows Phone|Kindle|Silk|Opera Mini/i.test(navigator.userAgent)) {
-		$(".stream-video").append('<video class="video-js" id="my-video" muted="muted" controls="controls" preload="auto" width="1920" height="1080" poster="/img/download.jpeg"><source class="vidSrc" src="https://stream.designtechhs.com/livestream/360p.m3u8" type="application/x-mpegURL"/></video>')
+		$(".stream-video").append('<video class="video-js" id="my-video" controls="controls" preload="auto" width="1920" height="1080" poster="/img/download.jpeg"><source class="vidSrc" src="https://stream.designtechhs.com/livestream/360p.m3u8" type="application/x-mpegURL"/></video>')
 	} else {
-		$(".stream-video").append('<video class="video-js" id="my-video" muted="muted" controls="controls" preload="auto" width="1920" height="1080" poster="/img/download.jpeg"><source class="vidSrc" src="https://stream.designtechhs.com/playlist.m3u8" type="application/x-mpegURL"/></video>')
+		$(".stream-video").append('<video class="video-js" id="my-video" controls="controls" preload="auto" width="1920" height="1080" poster="/img/download.jpeg"><source class="vidSrc" src="https://stream.designtechhs.com/playlist.m3u8" type="application/x-mpegURL"/></video>')
 	}
 })
 
@@ -29,42 +29,26 @@ setTimeout(function(){
 	if(videoPlay !== undefined) {
 		videoPlay.then(_ => {
 			player.play();
-			player.muted(true);
+			player.muted(false);
 		}).catch(error => {
 			player.play();
-			player.muted(true);
+			player.muted(false);
 		})
 	}
-	player.muted(true);
-
-	var checkPaused = setInterval(function(){
-		if(player.paused()) {
-			siteNotification(["data", {"input": "Your video is paused"}])
-			clearInterval(checkPaused)
-		}
-	}, 1000)
-
-	var checkMute = setInterval(function(){
-		if(player.muted()) {
-			siteNotification(["data", {"input": "Your video is muted"}])
-			clearInterval(checkMute)
-		}
-	}, 1000)
 	
 	let errorTimeout;
 
-	player.on('error', function(e) {
-		if(errorTimeout) return;
-		if(e.type == 'error') {
-			errorTimeout = setTimeout(() => {
-				player.src(player.src())
-				player.play()
-				player.muted(false);
-				siteAlert(["local", {"input": "Unable to load livestream"}])
-				errorTimeout = false;
-			}, 5000)
-		}
-	})
+	// player.on('error', function(e) {
+	// 	if(errorTimeout) return;
+	// 	if(e.type == 'error') {
+	// 		errorTimeout = setTimeout(() => {
+	// 			player.src(player.src())
+	// 			player.play()
+	// 			player.muted(false);
+	// 			errorTimeout = false;
+	// 		}, 5000)
+	// 	}
+	// })
 
 },1000)
 
@@ -180,4 +164,10 @@ socket.on('logoutAllStreamClients', function(data) {
 })
 
 socket.on('slateChange', setSlate)
+socket.on('reloadStreamSource', () => {
+	console.log("new source")
+	player.src(player.src())
+	player.play()
+	player.muted(false);
+})
 setSlate()

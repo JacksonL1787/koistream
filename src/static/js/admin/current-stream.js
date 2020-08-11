@@ -1,4 +1,5 @@
 let updateTimer;
+let player;
 
 const loading = (state) => {
     if(state) {
@@ -44,10 +45,37 @@ const setActiveStream = (data) => {
     $(".stream-view-widget .stream-video video, .slate-control-widget .slate-select .slate-option:not(.off-slate)").remove()
     if (/Android|webOS|iPhone|iPad|iPod|BlackBerry|BB|PlayBook|IEMobile|Windows Phone|Kindle|Silk|Opera Mini/i.test(navigator.userAgent)) {
         console.log('mobile device loading')
-        $(".stream-view-widget .stream-video").append('<video class="video-js" id="my-video" muted="muted" controls="controls" preload="auto" width="1920" height="1080" poster="/img/countdown-bg.png"><source class="vidSrc" src="https://stream.designtechhs.com/livestream/360p.m3u8" type="application/x-mpegURL"/></video>')
-      } else {
-        $(".stream-view-widget .stream-video").append('<video class="video-js" id="my-video" muted="muted" controls="controls" preload="auto" width="1920" height="1080" poster="/img/countdown-bg.png"><source class="vidSrc" src="https://stream.designtechhs.com/playlist.m3u8" type="application/x-mpegURL"/></video>')
-      }
+        $(".stream-view-widget .stream-video").append('<video class="video-js" id="my-video" controls="controls" preload="auto" width="1920" height="1080" poster="/img/countdown-bg.png"><source class="vidSrc" src="https://stream.designtechhs.com/livestream/360p.m3u8" type="application/x-mpegURL"/></video>')
+    } else {
+        $(".stream-view-widget .stream-video").append('<video class="video-js" id="my-video" controls="controls" preload="auto" width="1920" height="1080" poster="/img/countdown-bg.png"><source class="vidSrc" src="https://stream.designtechhs.com/playlist.m3u8" type="application/x-mpegURL"/></video>')
+    }
+    setTimeout(function(){
+        videojs.options.hls.overrideNative = true;
+        // Player instance options
+        var options = {
+            html5: {
+                nativeAudioTracks: false,
+                nativeVideoTracks: false
+            }
+        };
+        player = window.player = videojs('#my-video', options);
+    
+        let qualityLevels = player.qualityLevels();
+        let videoPlay = player.play();
+        let videoMute = player.muted();
+    
+        player.hlsQualitySelector();
+        
+        if(videoPlay !== undefined) {
+            videoPlay.then(_ => {
+                player.play();
+                player.muted(false);
+            }).catch(error => {
+                player.play();
+                player.muted(false);
+            })
+        }
+    },1000)
     $(".started-by .user").attr("href", `/admin/u/${data.googleId}`)
     $(".started-by .user .profile-picture").css("background-image", `url(${data.googleProfilePicture})`)
     $(".started-by .user .user-name").text(_.startCase(data.firstName + " " + data.lastName))
@@ -154,8 +182,20 @@ $(".stop-stream-modal .stop-stream-btn").click(() => {
     })
 })
 
+$(".reload-stream-clients-source").click(() => {
+    $.post({
+        url: "/admin/api/reloadStreamSource"
+    })
+})
+
 socket.on("loadCurrentStreamData", loadPage)
 socket.on('slateChange', setSlate)
+socket.on('reloadStreamSource', () => {
+    if(!player) return;
+	player.src(player.src())
+	player.play()
+	player.muted(false);
+})
 
 loadPage()
 setSlate()

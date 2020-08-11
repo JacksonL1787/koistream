@@ -1,3 +1,5 @@
+link(href="https://unpkg.com/video.js@7/dist/video-js.min.css" rel="stylesheet")
+
 .modal.start-stream-modal
     .modal-top
         .top-content
@@ -35,6 +37,7 @@
     .stream-view-widget.widget
         .widget-content
             h1.title Stream View
+            button.reload-stream-clients-source Force Reload Stream Source
             .stream-video-wrap
                 .stream-video
                     img(src="/img/countdown-bg.png")
@@ -63,3 +66,8 @@
             .slate-select
                 .slate-option.off-slate(data-type="off")
                     p.turn-off-slate Remove Slate
+
+script(src="https://cdnjs.cloudflare.com/ajax/libs/video.js/7.8.0/video.min.js")
+script(src="https://cdnjs.cloudflare.com/ajax/libs/videojs-contrib-hls/5.15.0/videojs-contrib-hls.min.js")
+script(src="/videojs/videojs-contrib-quality-levels/dist/videojs-contrib-quality-levels.min.js")
+script(src="/videojs/videojs-hls-quality-selector/dist/videojs-hls-quality-selector.min.js")

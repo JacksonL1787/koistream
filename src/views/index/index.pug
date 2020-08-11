@@ -3,28 +3,6 @@ html
     include ../main
     link(rel="Stylesheet" href="/css/index/index.css")
     link(href="https://unpkg.com/video.js@7/dist/video-js.min.css" rel="stylesheet")
-    script.
-      var siteControlsRaw = "#{controlArr}"
-      if(siteControlsRaw) {
-        window.siteControls = JSON.parse(siteControlsRaw.replace(/&quot;/g,'"'))
-      }
-
-      var userRaw = "#{user}"
-      if(userRaw) {
-        window.user = JSON.parse(userRaw.replace(/&quot;/g,'"'));
-      }
-      
-      var emojisRaw = "#{emojis}"
-      if(emojisRaw) {
-        window.emojis = JSON.parse(emojisRaw.replace(/&quot;/g,'"'));
-      }
-      
-      var streamRaw = "#{stream}"
-      if(streamRaw) {
-         window.stream = JSON.parse(streamRaw.replace(/&quot;/g,'"'))
-      }
-     
-      
   body
     .nav-container
         .nav-content

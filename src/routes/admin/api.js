@@ -148,6 +148,13 @@ router.post('/getUsers', adminAuth, async (req,res,next) => {
     res.json(users);
 })
 
+router.post('/reloadStreamSource', adminAuth, async (req,res,next) => {
+    const io = req.app.get("socketio")
+    io.emit("reloadStreamSource")
+    notification(io, `{${req.user.googleId}} reloaded the stream source for all clients`)
+    res.sendStatus(200)
+})
+
 router.get("/liveChats", adminAuth, async (req, res, next) => {
     const chats = await getChats(true)
     res.json(chats)
