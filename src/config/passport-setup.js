@@ -35,41 +35,13 @@ passport.use(
                 done(null, currentUser)
             } else {
                 let verified = email.emails[0].value.toLowerCase().split("@").pop() == "dtechhs.org"
-                var grade;
-                var schoolAssociation;
-                if(email.emails[0].value.toLowerCase().substring(email.emails[0].value.toLowerCase().length - 14).substring(0,2) == 23) {
-                    console.log("Freshman Email")
-                    grade = 9
-                    schoolAssociation = "student"
-                }
-                if(email.emails[0].value.toLowerCase().substring(email.emails[0].value.toLowerCase().length - 14).substring(0,2) == 22) {
-                    console.log("Sophomore Email")
-                    grade = 10
-                    schoolAssociation = "student"
-                }
-                if(email.emails[0].value.toLowerCase().substring(email.emails[0].value.toLowerCase().length - 14).substring(0,2) == 21) {
-                    console.log("Junior Email")
-                    grade = 11
-                    schoolAssociation = "student"
-                }
-                if(email.emails[0].value.toLowerCase().substring(email.emails[0].value.toLowerCase().length - 14).substring(0,2) == 20) {
-                    console.log("Senior Email")
-                    grade = 12
-                    schoolAssociation = "student"
-                }
-                if(isNaN(email.emails[0].value.toLowerCase().substring(email.emails[0].value.toLowerCase().length - 14).substring(0,2))) {
-                    grade = 0
-                    schoolAssociation = "faculty"
-                }
                 writer.insert({
                     googleId: email.id,
                     email: email.emails[0].value.toLowerCase(),
                     firstName: email.name.givenName.toLowerCase(),
-                    lastName: email.name.familyName.toLowerCase(),
+                    lastName: email.name.familyName ? email.name.familyName.toLowerCase() : "",
                     googleProfilePicture: email.photos[0].value,
-                    auth: verified ? 1 : 0,
-                    grade: verified ? grade : 0,
-                    schoolAssociation: verified ? schoolAssociation : "none"
+                    auth: verified ? 1 : 0
                 })
                 .returning('*')
                 .into(tables.users)
