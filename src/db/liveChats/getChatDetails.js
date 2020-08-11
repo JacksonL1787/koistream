@@ -13,7 +13,6 @@ module.exports = async (chatId) => {
             `${tables.users}.lastName`,
             `${tables.users}.email`,
             `${tables.users}.googleProfilePicture`,
-            `${tables.users}.grade`,
             `${tables.users}.banned`,
             `${tables.users}.muted`,
             `${tables.users}.googleId`
