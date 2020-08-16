@@ -101,7 +101,7 @@ const appendEmojis = () => {
         success: (data) => {
             data.forEach((e) => {
                 if(e.character.trim().length <= 2 && e.codePoint != "263A FE0F") {
-                    $(".chat-widget .emojis-container").append(`<div class="emoji" data-tags="${e.slug} ${e.subGroup} ${e.unicodeName}"><span>${e.character}</span></div>`)
+                    $(".chat-widget .emojis-container").append(`<div class="emoji" data-tags="${e.slug} ${e.subGroup} ${e.unicodeName}"><span class="char22">${e.character}</span></div>`)
                 }
             })
             $(".all-emojis-container").show()
@@ -126,9 +126,15 @@ socket.on('muteUser', (status) => {
     setChatStatus()
 })
 
-$('.chat-widget .emoji-btn .icon').click(function() {
-    $(".emoji-menu").toggleClass("show")
-})
+$(document).on("click", function (event) {
+    if ($(event.target).closest(".emoji-menu").length === 0 && $('.emoji-menu').hasClass('show')) {
+        $('.emoji-menu').removeClass('show')   
+    } else {
+        if($(event.target).is('.emoji-btn .icon')) {
+            $('.emoji-menu').addClass('show')
+        }
+    }
+  });
 
 $(document).on("click", ".emoji-menu .emoji", function() {
     const emoji = $(this).find("span").text().trim()
@@ -148,6 +154,7 @@ $(document).on("click", ".emoji-menu .custom-emoji", function() {
 
 $('.chat-widget .submit-chat-btn .icon').click(function(){
     var val = $('.chat-widget .chat-input').val()
+    $('.chat-widget .chat-input').val("")
     if(val.trim().length > 0) {
         var data = {
             "message": val
@@ -181,10 +188,7 @@ $('.chat-widget .submit-chat-btn .icon').click(function(){
                         $(".chat-widget .live-chat-container").scrollTop($(".chat-widget .live-chat-container")[0].scrollHeight)
                     }
                     
-                } else {
-                    $('.chat-widget .chat-input').val("")
                 }
-                
             }
         });
     } else {

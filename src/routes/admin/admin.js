@@ -3,6 +3,7 @@ var router = express.Router();
 
 const getLogs = require('../../db/logs/getLogs')
 const getUserName = require('../../db/users/getUserName')
+const getErrors = require('../../db/errors/getErrors')
 
 const authCheck = (req, res, next) => {
     if(req.user) {
@@ -16,13 +17,8 @@ const authCheck = (req, res, next) => {
     }
 }
 
-router.get('/errors', authCheck, (req, res, next) => {
-    const db = req.app.get("db")
-    async function getData() {
-        var arr1 = await db.collection('errors').find({}).toArray()
-        res.render('admin/home', {title: 'Error Tracking', errorsArr: JSON.stringify(arr1)})
-    } 
-    getData()
+router.get('/errors', authCheck, async (req, res, next) => {
+    res.render('admin/home', {page: "System Errors", title: 'System Errors'});   
 })
 
 router.get('/current-stream', authCheck, function(req, res, next) {
@@ -32,6 +28,10 @@ router.get('/current-stream', authCheck, function(req, res, next) {
 router.get('/chat', authCheck, async function(req, res, next) {
     res.render('admin/home', { page:"Chat Moderation", title: 'Chat Moderation'});
 });
+
+router.get('/AWS', authCheck, async (req, res, next) => {
+    res.render('admin/home', {page: "AWS", title: 'AWS'});
+})
 
 router.get('/viewers', authCheck, async function(req, res, next) {
     const db = req.app.get('db')

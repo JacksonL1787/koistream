@@ -21,6 +21,12 @@ const getViewerCount = require("../db/streams/getViewerCount")
 const createError = require("../db/errors/createError")
 const isStreamActive = require("../db/streams/isStreamActive")
 
+const logSymbols = require('log-symbols');
+
+const AWS = require("aws-sdk");
+
+AWS.config.update({accessKeyId: process.env.AWS_ACCESS_KEY_ID, secretAccessKey: process.env.AWS_SECRET_ACCESS_KEY, region: 'us-west-2'});
+
 const authCheck = (req, res, next) => {
     if(req.user) {
         if(req.user.auth > 0) {
@@ -126,6 +132,75 @@ router.get('/healthcheck/stream', async (req, res, next) => {
     const stream = await getActiveStream()
     res.json([{"status": 200, "payload": {stream}}])
 })
+
+// StreamServer
+
+router.post('/changeStreamServer', authCheck, async (req, res, next) => {
+    var medialive = new AWS.MediaLive();
+
+    var params = {
+        ChannelId: '1183218' /* required */
+    };
+
+    if(req.body.state == "true") {
+        medialive.startChannel(params, function(err, data) {
+            if(err) {
+                console.log(err, err.stack);
+            }
+            else {
+                console.log(logSymbols.success + " An administrator has changed the StreamServer state to: " + data.State);
+                res.json({"status": 200, "payload": {"serverState": data.State, "ServerName": data.Name, " EgressEndpoints": data.EgressEndpoints}})
+            }
+        });  
+    } else {
+        medialive.stopChannel(params, function(err, data) {
+            if(err) {
+                console.log(err, err.stack);
+            }
+            else {
+                console.log(logSymbols.success + " An administrator has changed the StreamServer state to: " + data.State);
+                res.json({"status": 200, "payload": {"serverState": data.State, "ServerName": data.Name, "EgressEndpoints": data.EgressEndpoints}})
+            }
+        });  
+    }
+})
+
+router.post('/getStreamServerInputs', authCheck, async (req, res, next) => {
+    var medialive = new AWS.MediaLive();
+
+    var params = {
+        
+    };
+
+    medialive.listInputs(params, function(err, data) {
+        if(err) {
+            console.log(err, err.stack);
+        }
+        else {
+            res.json({"status": 200, "payload": data.Inputs[0].Destinations})
+            console.log(logSymbols.success + " An administrator has called the StreamServer Inputs");
+        }
+    });  
+})
+
+router.post('/getStreamServerState', authCheck, async (req, res, next) => {
+    var medialive = new AWS.MediaLive();
+
+    var params = {
+        ChannelId: '1183218' /* required */
+    };
+
+    medialive.describeChannel(params, function(err, data) {
+        if(err) {
+            console.log(err, err.stack);
+        }
+        else {
+            res.json({"status": 200, "payload": {"ServerState":data.State}})
+            console.log(logSymbols.success + " An administrator has called the StreamServer Channel Description");
+        }
+    });
+})
+
 
 
 module.exports = router;

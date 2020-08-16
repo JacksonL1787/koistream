@@ -20,7 +20,7 @@ module.exports = async (data, googleId) => {
         users.forEach(function(user) {
             sgMail.setApiKey(process.env.SENDGRID_API_KEY);
             const msg = {
-                // to: user.email,
+                to: user.email,
                 from: 'noreply@koistream.io',
                 subject: 'KoiStream App Update',
                 template_id: "d-edc22538414e481a8ece483eed787885",

@@ -11,6 +11,7 @@ const deleteChat = require("../../db/liveChats/deleteChat")
 const getChats = require('../../db/liveChats/getChats')
 const muteUser = require("../../db/users/muteUser")
 const getUsers = require("../../db/users/getUsers")
+const getErrors = require("../../db/errors/getErrors")
 const getUserDetails = require("../../db/users/getUserDetails")
 const startStream = require("../../db/streams/startStream")
 const stopStream = require("../../db/streams/stopStream")
@@ -146,6 +147,11 @@ router.post('/getUsers', adminAuth, async (req,res,next) => {
     }
     const users = await getUsers(req.body);
     res.json(users);
+})
+
+router.post('/getErrors', adminAuth, async (req,res,next) => {
+    const errors = await getErrors();
+    res.json(errors);
 })
 
 router.post('/reloadStreamSource', adminAuth, async (req,res,next) => {

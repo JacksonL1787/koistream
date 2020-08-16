@@ -33,6 +33,9 @@ html
 						a.link-wrap(href="/admin/users")
 							.icon(style="background-image:url(/img/admin/nav/users.svg); width: 18px; height: 22px; margin-left: 21px; margin-top: 5px;")
 							p Users
+						a.link-wrap(href="/admin/AWS")
+							.icon(style="background-image:url(/img/cloud.svg); width: 18px; height: 22px; margin-left: 21px; margin-top: 0px;")
+							p AWS Controls
 				.bottom-content
 					a.link-wrap(href="/")
 						p Stream Page
@@ -65,6 +68,14 @@ html
 						h1.page-title=title
 						link(rel='stylesheet', href="/css/admin/profile.css")
 						include pages/profile
+					when 'System Errors'
+						h1.page-title=title
+						link(rel='stylesheet', href="/css/admin/errors.css")
+						include pages/errors
+					when 'AWS'
+						h1.page-title=title
+						link(rel='stylesheet', href="/css/admin/AWS.css")
+						include pages/AWS
 				//- 	when 'Viewers'
 				//- 		link(rel='stylesheet', href="/css/admin/viewers.css")
 				//- 		include pages/viewers
@@ -92,3 +103,7 @@ case page
 		script(src="/js/admin/users.js")
 	when 'Profile'
 		script(src="/js/admin/profile.js")
+	when 'System Errors'
+		script(src="/js/admin/errors.js")
+	when 'AWS'
+		script(src="/js/admin/AWS.js")

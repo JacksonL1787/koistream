@@ -16,6 +16,9 @@ const pgSession = require('connect-pg-simple')(session)
 const expressip = require('express-ip');
 const logSymbols = require('log-symbols');
 
+const AWS = require("aws-sdk");
+
+AWS.config.update({accessKeyId: process.env.AWS_ACCESS_KEY_ID, secretAccessKey: process.env.AWS_SECRET_ACCESS_KEY, region: 'us-west-2'});
 
 var multer = require('multer');
 
@@ -129,5 +132,13 @@ io.on('connection', async (socket) => {
     }
   })
 })
+
+AWS.config.getCredentials(function(err) {
+  if (err) console.log(err.stack);
+  else {
+      console.log("Access key:", AWS.config.credentials.accessKeyId);
+      console.log("Region: ", AWS.config.region);
+  }
+});
 
 module.exports = app;

@@ -3,9 +3,9 @@ var player;
 
 $(document).ready(function(){
 	if (/Android|webOS|iPhone|iPad|iPod|BlackBerry|BB|PlayBook|IEMobile|Windows Phone|Kindle|Silk|Opera Mini/i.test(navigator.userAgent)) {
-		$(".stream-video").append('<video class="video-js" id="my-video" controls="controls" preload="auto" width="1920" height="1080" poster="/img/download.jpeg"><source class="vidSrc" src="https://stream.designtechhs.com/livestream/360p.m3u8" type="application/x-mpegURL"/></video>')
+		$(".stream-video").append('<video class="video-js" id="my-video" controls="controls" preload="auto" width="1920" height="1080" poster="/img/download.jpeg"><source class="vidSrc" src="https://dviuhv1vhftjw.cloudfront.net/out/v1/ffab5e1f68414aaba7309406dacfa7df/stream.m3u8" type="application/x-mpegURL"/></video>')
 	} else {
-		$(".stream-video").append('<video class="video-js" id="my-video" controls="controls" preload="auto" width="1920" height="1080" poster="/img/download.jpeg"><source class="vidSrc" src="https://stream.designtechhs.com/playlist.m3u8" type="application/x-mpegURL"/></video>')
+		$(".stream-video").append('<video class="video-js" id="my-video" controls="controls" preload="auto" width="1920" height="1080" poster="/img/download.jpeg"><source class="vidSrc" src="https://dviuhv1vhftjw.cloudfront.net/out/v1/ffab5e1f68414aaba7309406dacfa7df/stream.m3u8" type="application/x-mpegURL"/></video>')
 	}
 })
 
