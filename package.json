@@ -46,6 +46,7 @@
     "pug": "2.0.0-beta11",
     "randomstring": "^1.1.5",
     "socket.io": "^2.3.0",
+    "string-strip-html": "^5.0.0",
     "uuid": "^8.3.0",
     "videojs-hls-quality-selector": "^1.1.1"
   },

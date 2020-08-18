@@ -37,7 +37,6 @@ link(href="https://unpkg.com/video.js@7/dist/video-js.min.css" rel="stylesheet")
     .stream-view-widget.widget
         .widget-content
             h1.title Stream View
-            button.reload-stream-clients-source Force Reload Stream Source
             .stream-video-wrap
                 .stream-video
                     img(src="/img/countdown-bg.png")
@@ -62,10 +61,15 @@ link(href="https://unpkg.com/video.js@7/dist/video-js.min.css" rel="stylesheet")
                 p.label Seconds
     .slate-control-widget.widget
         .widget-content
+            h1.title Stream Controls
+            button.reload-stream-clients-source Force Reload Stream Source
+    .slate-control-widget.widget
+        .widget-content
             h1.title Slate Controls
             .slate-select
                 .slate-option.off-slate(data-type="off")
                     p.turn-off-slate Remove Slate
+            
 
 script(src="https://cdnjs.cloudflare.com/ajax/libs/video.js/7.8.0/video.min.js")
 script(src="https://cdnjs.cloudflare.com/ajax/libs/videojs-contrib-hls/5.15.0/videojs-contrib-hls.min.js")

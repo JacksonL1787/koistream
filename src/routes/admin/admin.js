@@ -34,9 +34,7 @@ router.get('/AWS', authCheck, async (req, res, next) => {
 })
 
 router.get('/viewers', authCheck, async function(req, res, next) {
-    const db = req.app.get('db')
-    const allParticipants = await getAllParticipants(db)
-    res.render('admin/home', { title: 'Viewers', allParticipants: JSON.stringify(allParticipants)});
+    res.render('admin/home', { title: 'Viewers', page: "Viewers"});
 });
 
 router.get('/users', authCheck, async function(req, res, next) {

@@ -14,7 +14,8 @@ module.exports = async (isAdmin) => {
             `${tables.liveChats}.chatId`, 
             `${tables.liveChats}.timestamp`,
             `${tables.users}.firstName`,
-            `${tables.users}.lastName`
+            `${tables.users}.lastName`,
+            `${tables.users}.chatTag`
         ]
 
         if(isAdmin) {

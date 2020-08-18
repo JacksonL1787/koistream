@@ -4,7 +4,7 @@ const tables = require("../tables")
 module.exports = async () => {
     let count = await reader.raw(`
         SELECT COUNT(DISTINCT "googleId")
-        FROM "socketConnections"
+        FROM "${tables.socketConnections}"
         WHERE page = '/';
     `)
     return count.rows[0].count;

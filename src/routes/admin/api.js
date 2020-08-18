@@ -20,6 +20,7 @@ const getActiveStream = require("../../db/streams/getActiveStream");
 const updateSlate = require('../../db/slate/updateSlate');
 const getChatSettings = require('../../db/chatSettings/getChatSettings')
 const saveChatSettings = require('../../db/chatSettings/saveChatSettings')
+const getViewers = require('../../db/streams/getViewers')
 
 
 const adminAuth = (req,res,next) => {
@@ -164,6 +165,11 @@ router.post('/reloadStreamSource', adminAuth, async (req,res,next) => {
 router.get("/liveChats", adminAuth, async (req, res, next) => {
     const chats = await getChats(true)
     res.json(chats)
+})
+
+router.get("/getViewers", adminAuth, async (req, res, next) => {
+    const viewers = await getViewers()
+    res.json(viewers)
 })
 
 module.exports = router;

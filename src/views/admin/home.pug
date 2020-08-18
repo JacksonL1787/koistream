@@ -76,10 +76,13 @@ html
 						h1.page-title=title
 						link(rel='stylesheet', href="/css/admin/AWS.css")
 						include pages/AWS
-				//- 	when 'Viewers'
-				//- 		link(rel='stylesheet', href="/css/admin/viewers.css")
-				//- 		include pages/viewers
-				//- 		script(src="/js/admin/viewers.js")
+					when 'Viewers'
+						.page-title-wrap
+							h1.page-title=title
+							.refresh-btn
+								.icon
+						link(rel='stylesheet', href="/css/admin/viewers.css")
+						include pages/viewers
 					when 'Users'
 						link(rel='stylesheet', href="/css/admin/users.css")
 						include pages/users
@@ -105,5 +108,7 @@ case page
 		script(src="/js/admin/profile.js")
 	when 'System Errors'
 		script(src="/js/admin/errors.js")
+	when 'Viewers'
+		script(src="/js/admin/viewers.js")
 	when 'AWS'
 		script(src="/js/admin/AWS.js")

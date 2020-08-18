@@ -268,6 +268,14 @@ body
 						font-size 14px
 						font-weight 400
 						text-align center
+					.chat-tag
+						color white
+						font-size 12px
+						text-transform uppercase
+						font-weight bold
+						letter-spacing .3px
+						&.admin
+							color #fd5050
 					.chat-sender
 						color #9aa5ab
 						font-size 14px
@@ -500,7 +508,7 @@ body
 	transform translate(-50%, -50%) scale(0.5)
 	max-width 95%
 	max-height 95%
-	transition opacity .3s, visibility .3s, transform .3s
+	//transition opacity .3s, visibility .3s, transform .3s
 	&.active
 		opacity 1
 		visibility visible

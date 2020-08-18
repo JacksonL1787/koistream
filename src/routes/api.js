@@ -20,6 +20,8 @@ const getStreamInfo = require("../db/streams/getStreamInfo")
 const getViewerCount = require("../db/streams/getViewerCount")
 const createError = require("../db/errors/createError")
 const isStreamActive = require("../db/streams/isStreamActive")
+const stripHtml = require("string-strip-html");
+
 
 const logSymbols = require('log-symbols');
 
@@ -40,6 +42,7 @@ const authCheck = (req, res, next) => {
 router.post('/sendMessage', [
     check('message').escape()
 ], async (req, res, next) => {
+    
     const chatSettings = await getChatSettings()
     if((chatSettings.status === "disabled" || req.user.muted) && req.user.auth <= 1) {
         res.json({
@@ -65,6 +68,7 @@ router.post('/sendMessage', [
         return;
     }
     const io = req.app.get("socketio")
+    req.body.message = stripHtml(req.body.message).result
     const chatData = await addChat(req.user, req.body.message)
     if(chatData === 500) return res.sendStatus(500)
     await updateLastChatTime(req.user.googleId)
@@ -74,12 +78,14 @@ router.post('/sendMessage', [
         unfilteredMessage: chatData.message.replace(/&/g, "&amp;"),
         userName: _.startCase(req.user.firstName + " " + req.user.lastName),
         chatId: chatData.chatId,
-        muted: req.user.muted
+        muted: req.user.muted,
+        chatTag: req.user.chatTag
     })
     io.emit("newChat", {
         message: chatData.messageFiltered.replace(/&/g, "&amp;"),
         userName: _.startCase(req.user.firstName + " " + req.user.lastName),
-        chatId: chatData.chatId
+        chatId: chatData.chatId,
+        chatTag: req.user.chatTag
     })
     res.sendStatus(200)
 })

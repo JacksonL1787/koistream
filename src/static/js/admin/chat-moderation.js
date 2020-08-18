@@ -28,6 +28,7 @@ const appendChat = (data) => {
     $(".chat-widget .live-chat-container .chat-content").append(`
         <div class="chat" id="${data.chatId}">
             ${data.muted ? '<span class="muted">muted</span>' : ""} 
+            ${data.chatTag ? `<span class="chat-tag admin">${data.chatTag}</span>` : ""}
             <span class="chat-sender">${_.startCase(data.userName)}:</span>
             ${message}
         </div>

@@ -22,6 +22,7 @@ const appendChat = (data) => {
     message = message.replace(/\<span class="chat-text"\>\<\/span\>/gmi, "")
     $(".chat-widget .live-chat-container .chat-content").append(`
         <div class="chat" id="${data.chatId}">
+            ${data.chatTag ? `<span class="chat-tag admin">${data.chatTag}</span>` : ""}
             <span class="chat-sender">${data.userName === "Team KoiStream" ? data.userName : _.startCase(data.userName)}:</span>
             ${message}
         </div>
@@ -100,7 +101,7 @@ const appendEmojis = () => {
         url: "https://emoji-api.com/emojis?access_key=af5e1a5b71241c442372c1cbaca5238f6edffad3",
         success: (data) => {
             data.forEach((e) => {
-                if(e.character.trim().length <= 2 && e.codePoint != "263A FE0F") {
+                if(e.character.trim().length <= 2 && e.codePoint != "263A FE0F" && e.character != "🥲") {
                     $(".chat-widget .emojis-container").append(`<div class="emoji" data-tags="${e.slug} ${e.subGroup} ${e.unicodeName}"><span class="char22">${e.character}</span></div>`)
                 }
             })
