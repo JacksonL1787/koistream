@@ -4,10 +4,17 @@ const tables = require("../tables")
 module.exports = async () => {
     let viewers = await reader.raw(`
         SELECT
-            DISTINCT "socketConnections"."googleId", users."googleProfilePicture","socketConnections".timestamp, users.email, users."firstName", users."lastName", users.email
+            DISTINCT ON ("socketConnections"."googleId") "socketConnections"."googleId",
+            "socketConnections".timestamp,
+            users."firstName",
+            users."lastName",
+            users.email,
+            users."googleProfilePicture"
         FROM "socketConnections"
         JOIN users on "socketConnections"."googleId" = users."googleId"
-        WHERE page = '/';
+        WHERE page = '/'
+        ORDER BY
+            "googleId"
     `)
     return viewers.rows;
 }
