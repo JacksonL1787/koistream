@@ -155,7 +155,8 @@ $(".start-stream-modal .start-stream-btn").click(() => {
 
     const data = {
         title: $(".start-stream-modal .stream-title").val(),
-        runner: $(".start-stream-modal .stream-runner").val()
+        runner: $(".start-stream-modal .stream-runner").val(),
+        emails: $('.stream-email').val() == "Send Email Notifications"
     }
 
     if(data.title.trim().length <= 0) {

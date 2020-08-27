@@ -82,12 +82,6 @@ const setChatStatus = () => {
     
 }
 
-const setChatHeight = () => {
-    if(window.innerWidth <= 1100) return;
-    let height = $(".stream-container .stream-video").height() + $(".stream-container .stream-info-container").height() + 60
-    $(".chat-widget").css("height", `${height}px`)
-}
-
 const appendEmojis = () => {
     $(".all-emojis-container").hide()
     if(window.emojis) {
@@ -142,9 +136,6 @@ $(document).on("click", ".emoji-menu .emoji", function() {
     $(".chat-widget .chat-input").val($(".chat-widget .chat-input").val() + emoji)
     $(".chat-widget .chat-input").focus()
 })
-
-$(window).resize(setChatHeight)
-$(document).ready(setChatHeight)
 
 
 $(document).on("click", ".emoji-menu .custom-emoji", function() {

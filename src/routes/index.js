@@ -15,7 +15,7 @@ router.get('/', async function(req, res, next) {
     const userSettings = await getUserSettings()
     const allowUnverifiedLogins = userSettings.allowAll
     if(req.user.auth > 0 || allowUnverifiedLogins) {
-      res.render('index/index', { title: 'KoiStream'});
+      res.render('index/index', { title: 'KoiStream', auth: req.user.auth});
     } else {
       res.redirect('auth/redirect')
     }
