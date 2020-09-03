@@ -146,7 +146,7 @@ router.post('/changeStreamServer', authCheck, async (req, res, next) => {
     var medialive = new AWS.MediaLive();
 
     var params = {
-        ChannelId: '1183218' /* required */
+        ChannelId: '8850790' /* required */
     };
 
     if(req.body.state == "true") {
