@@ -144,12 +144,12 @@ $(() => { // Report Error
 			data: data,
 			success:() => {
 				closeModal()
-				// appendChat({
-				// 	chatId: "N/A",
-				// 	message: "✅✅✅ Thanks for reporting an error. Your feedback is greatly appreciated!",
-				// 	userName: "Team KoiStream",
-				// 	chatColor: "#07de67"
-				// })
+				appendChat({
+					chatId: "N/A",
+					message: "✅✅✅ Thanks for reporting an error. Your feedback is greatly appreciated!",
+					userName: "Team KoiStream",
+					chatColor: "#07de67"
+				})
 			}
 		});
 	  })

@@ -25,9 +25,9 @@ router.get('/current-stream', authCheck, function(req, res, next) {
     res.render('admin/home', { page:"Current Stream", title: 'Current Stream'});
 });
 
-// router.get('/chat', authCheck, async function(req, res, next) {
-//     res.render('admin/home', { page:"Chat Moderation", title: 'Chat Moderation'});
-// });
+router.get('/chat', authCheck, async function(req, res, next) {
+    res.render('admin/home', { page:"Chat Moderation", title: 'Chat Moderation'});
+});
 
 router.get('/AWS', authCheck, async (req, res, next) => {
     res.render('admin/home', {page: "AWS", title: 'AWS'});

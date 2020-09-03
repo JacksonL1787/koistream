@@ -91,13 +91,14 @@ router.post('/sendMessage', [
 })
 
 router.get("/liveChats", async (req, res, next) => {
+    const chatSettings = await getChatSettings()
+    if(chatSettings.status === "disabled") return res.json([])
     const chats = await getChats(false)
     res.json(chats)
 })
 
 router.get("/chatStatus", async (req, res, next) => {
     let settings = await getChatSettings()
-    console.log(req.user.muted)
     res.send(req.user.muted ? "muted" : settings.status)
 })
 

@@ -62,7 +62,7 @@ const appendAllChats = () => {
     })
 }
 
-const setChatStatus = () => {
+const setChatStatus = (update) => {
     $.get({
         url: "/api/chatStatus",
         success: (status) => {
@@ -72,10 +72,13 @@ const setChatStatus = () => {
                 active: "#00c47c"
             }
             $(".chat-widget .title-container .chat-status").css("color", statusColors[status]).text(status)
+            if(update) $(".chat-widget .chat:not(.announcement)").remove()
+            
             if(status === "disabled" || status === "muted") {
                 $(".chat-widget").addClass("disabled")
             } else {
                 $(".chat-widget").removeClass("disabled")
+                if(update) appendAllChats()
             }
         }
     })
@@ -111,14 +114,14 @@ socket.on('newChat', appendChat)
 
 socket.on('chatStatusChange', (status) => {
     window.stream.chatSettings.status = status
-    setChatStatus()
+    setChatStatus(true)
 })
 
 socket.on("deleteChat", deleteChat)
 
 socket.on('muteUser', (status) => {
     window.user.muted = status
-    setChatStatus()
+    setChatStatus(true)
 })
 
 $(document).on("click", function (event) {
@@ -158,7 +161,7 @@ $('.chat-widget .submit-chat-btn .icon').click(function(){
                 $(".emoji-menu").removeClass("show")
                 if(typeof(data) === "object") {
                     if(data.type === "disabled") {
-                        setChatStatus()
+                        setChatStatus(true)
                     } else if(data.type === "chat") {
                         appendChat(data)
                         $('.chat-widget .chat-input').val("")
@@ -197,7 +200,7 @@ $('.chat-widget .chat-input').keypress((e) => {
 
 $(document).ready(() => {
     //window.stream.liveChats = window.stream.liveChats.sort((a, b) =>  a.timestamp - b.timestamp)
-    setChatStatus()
+    setChatStatus(false)
 })
 
 $.when(
@@ -214,4 +217,6 @@ $.when(
     appendEmojis()
 })
 
-socket.on("updateChatStatus", setChatStatus)
+socket.on("updateChatStatus", () => {
+    setChatStatus(true)
+})
