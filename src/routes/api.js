@@ -194,7 +194,7 @@ router.post('/getStreamServerState', authCheck, async (req, res, next) => {
     var medialive = new AWS.MediaLive();
 
     var params = {
-        ChannelId: '1183218' /* required */
+        ChannelId: '8850790' /* required */
     };
 
     medialive.describeChannel(params, function(err, data) {
