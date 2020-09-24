@@ -1,5 +1,5 @@
 body
-	background #132027
+	background #0e1013
 	overflow hidden
 	&.modal-active
 		.modal-overlay 
@@ -14,6 +14,10 @@ body
 
 .hidden
 	display none !important
+
+.fade-hidden
+	opacity 0 !important
+	visibility hidden !important
 
 .modal-overlay
 	opacity 0
@@ -39,8 +43,8 @@ body
 	justify-content left
 	align-items center
 	height fit-content
-	background #0a1217
-	box-shadow 0 0 12px 0 #192931, inset 0 0 0 1px rgba(255,255,255,0.1)
+	background #15171b
+	box-shadow inset 0 0 0 1px rgba(255,255,255,0.1)
 	.icon
 		background-image url("/img/notification.svg")
 		background-size cover
@@ -70,7 +74,7 @@ body
 	position fixed
 	top calc(50% - 20px)
 	left 50%
-	background #0d171d
+	background #101215
 	transform translate(-50%, -50%) scale(0.5)
 	max-width 95%
 	max-height 95%
@@ -80,7 +84,7 @@ body
 		visibility visible
 		transform translate(-50%, -50%) scale(1)
 	.modal-top
-		background #13222b
+		background #131519
 		width 100%
 		padding 10px 0
 		.top-content
@@ -121,7 +125,7 @@ body
 			position relative
 			overflow hidden
 .nav
-	background #0D171D
+	background #101215
 	width 300px
 	height 100%
 	position fixed
@@ -139,7 +143,7 @@ body
 			.link-wrap
 				width 100%
 				padding 15px 0
-				border-top 1px solid rgba(255,255,255,0.08)
+				border-top 1px solid rgba(255,255,255,0.04)
 				display block
 				transition background .3s
 				&:hover
@@ -186,7 +190,7 @@ body
 					align-items center
 					cursor pointer
 					&:hover
-						background #172731
+						background rgba(255,255,255,0.04)
 					&.active
 						background #F05027
 					.icon 

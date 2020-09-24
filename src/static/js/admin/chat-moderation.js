@@ -270,11 +270,14 @@ $(".chat-details-widget .mute-user-btn").click(function() {
 })
 
 $(".chat-widget .settings-btn").click(() => {
+    $(".chat-settings-modal .chat-cooldown-select-wrap .option").removeClass("active")
     $.get({
         url: "/admin/api/chatSettings",
         success: (data) => {
-            $(".chat-settings-modal .chat-status-select-wrap").attr("data-seleced-option", data.status)
+            console.log(data)
+            $(".chat-settings-modal .chat-status-select-wrap").attr("data-selected-option", data.status)
             $(".chat-settings-modal .select-btn p").text(_.startCase(data.status))
+            $(`.chat-settings-modal .chat-cooldown-select-wrap .option${data.cooldown}`).addClass("active")
             openModal("chat-settings-modal")
         }
     })
@@ -289,6 +292,11 @@ $(".chat-settings-modal .select-btn").click((e) => {
     e.stopPropagation()
 })
 
+$(".chat-settings-modal .chat-cooldown-select-wrap .option").click(function() {
+    $(".chat-settings-modal .chat-cooldown-select-wrap .option").removeClass("active")
+    $(this).addClass("active")
+})
+
 $(document).click(function(e) {
     $(".chat-settings-modal .chat-status-select-wrap").removeClass("active")
 })
@@ -301,10 +309,11 @@ $(".chat-settings-modal .chat-status-select-wrap .select-menu .option").click(fu
 })
 
 $('.chat-settings-modal .save-settings-btn').click(() => {
+    console.log($(".chat-settings-modal .chat-status-select-wrap").attr("data-selected-option"))
     var data = {
-        status: $(".chat-settings-modal .chat-status-select-wrap").attr("data-selected-option")
+        status: $(".chat-settings-modal .chat-status-select-wrap").attr("data-selected-option"),
+        cooldown: $(".chat-settings-modal .chat-cooldown-select-wrap .option.active").attr("data-option")
     }
-    console.log(data)
     $.post({
         url: '/admin/api/saveChatSettings', 
         data: data,

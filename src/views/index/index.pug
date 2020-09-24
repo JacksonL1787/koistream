@@ -8,11 +8,11 @@ html
 			.nav-content
 				.nav-flex.left-wrap
 					h1.title KoiStream
-					p.live-tag LIVE
+					p.status-tag LIVE
 				.nav-flex.right-wrap
 					case auth
 						when 3
-							.admin-dashboard-btn.nav-btn(onclick="window.location.href='/admin/current-stream'")
+							.admin-dashboard-btn.nav-btn(onclick="window.location.href='/admin/stream'")
 								.icon
 								p Admin Dashboard
 					.report-error-btn.nav-btn
@@ -25,7 +25,7 @@ html
 			.stream-container
 				.stream-info-container
 					.stream-info-content
-						h1.stream-title
+						h1.stream-title KoiStream
 				.stream-video
 					img(src="/img/countdown-bg.png")
 					.slate.reg-image

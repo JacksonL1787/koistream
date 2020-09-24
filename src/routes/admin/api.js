@@ -21,6 +21,7 @@ const updateSlate = require('../../db/slate/updateSlate');
 const getChatSettings = require('../../db/chatSettings/getChatSettings')
 const saveChatSettings = require('../../db/chatSettings/saveChatSettings')
 const getViewers = require('../../db/streams/getViewers')
+const updateStreamTitle = require('../../db/streams/updateStreamTitle')
 
 
 const adminAuth = (req,res,next) => {
@@ -78,6 +79,16 @@ router.post("/updateSlate", adminAuth, async (req, res, next) => {
     if(!slateUpdate) return res.sendStatus(500);
     notification(io, `{${req.user.googleId}} changed the stream slate`)
     io.emit("slateChange")
+    if(req.body.type === "off") io.emit("reloadStreamSource");
+    res.sendStatus(200)
+})
+
+router.post("/saveStreamTitle", adminAuth, async (req, res, next) => {
+    const io = req.app.get("socketio")
+    if(!req.body.title.replace(/ /gmi, "").length) return res.sendStatus(500);
+    let streamTitle = await updateStreamTitle(req.body.title)
+    notification(io, `{${req.user.googleId}} changed the stream title`)
+    io.emit("updateStreamTitle")
     res.sendStatus(200)
 })
 
@@ -95,15 +106,17 @@ router.post('/deleteChat', adminAuth, async (req,res,next) => {
 
 router.post('/startStream', adminAuth, async (req,res,next) => {
     // return if there is an active stream
-    if(!req.body.title.trim().length || !req.body.runner.trim().length) {
+    if(!req.body.title.trim().length) {
         return res.sendStatus(500)
     }
     const io = req.app.get("socketio")
+    console.log(req.body.emails)
     const stream = await startStream(req.body, req.user.googleId)
     notification(io, `{${req.user.googleId}} started a stream`)
     // add log for stream activity
-    // socket emit to push users from stream down page to stream page
+    // socket emit to push new data to users
     io.in('admin').emit("loadCurrentStreamData")
+    io.emit('updateStreamStatus')
     res.sendStatus(200)
 })
 
@@ -115,15 +128,19 @@ router.post('/stopStream', adminAuth, async (req,res,next) => {
     // add log for stream activity
     // socket emit to push users from stream page to stream down page
     io.in('admin').emit("loadCurrentStreamData")
+    io.emit('updateStreamStatus')
     io.emit("slateChange")
     res.sendStatus(200)
 })
 
 router.post('/saveChatSettings', adminAuth, async (req,res,next) => {
     const status = req.body.status
+    const cooldown = req.body.cooldown
+    console.log(cooldown, status)
     if(status != "active" && status != "disabled") return res.sendStatus(500)
+    if(cooldown != "10" && cooldown != "15" && cooldown != "30" && cooldown != "60") return res.sendStatus(500)
     const io = req.app.get("socketio")
-    await saveChatSettings(status)
+    await saveChatSettings(status, cooldown)
     notification(io, `{${req.user.googleId}} updated the chat settings`)
     io.emit("updateChatStatus")
     res.sendStatus(200)

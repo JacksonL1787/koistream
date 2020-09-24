@@ -44,6 +44,7 @@ router.post('/sendMessage', [
 ], async (req, res, next) => {
     
     const chatSettings = await getChatSettings()
+    chatSettings.cooldown = parseInt(chatSettings.cooldown) * 1000
     if((chatSettings.status === "disabled" || req.user.muted) && req.user.auth <= 1) {
         res.json({
             type: "disabled"
@@ -51,8 +52,8 @@ router.post('/sendMessage', [
         return;
     }
     let userLastChatTime = req.user.lastChatTime
-    if(userLastChatTime.getTime() + 5000 >= Date.now() && req.user.auth < 3) {
-        const timeLeft = Math.round(((userLastChatTime.getTime() + 5000) - Date.now()) / 1000)
+    if(userLastChatTime.getTime() + chatSettings.cooldown >= Date.now() && req.user.auth < 3) {
+        const timeLeft = Math.round(((userLastChatTime.getTime() + chatSettings.cooldown) - Date.now()) / 1000)
         res.json({
             timeLeft: timeLeft,
             type: "cooldown"
@@ -109,6 +110,7 @@ router.get("/getActiveSlate", async (req, res, next) => {
 
 router.get("/getStreamInfo", async (req, res, next) => {
     const info = await getStreamInfo()
+    if(!info) return res.sendStatus(500)
     res.json(info)
 })
 

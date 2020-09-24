@@ -1,0 +1,91 @@
+link(href="https://unpkg.com/video.js@7/dist/video-js.min.css" rel="stylesheet")
+
+.loader
+
+
+
+.stream-inactive-container.hidden
+	.start-stream-btn
+		.content
+			.icon
+			h1 Start Stream
+	.previous-streams-widget
+
+.start-stream-form.fade-hidden
+	.cancel-btn
+	.input-container
+		span.placeholder Stream Title
+		input.title-input(type="text")
+	.action-container
+		.send-notification-btn.radio-button
+			.radio-circle
+				.fill
+			p Notify Users
+		.confirm-start-btn
+			p Start
+			.icon
+
+.stream-active-container.hidden
+	.top-row-container
+		.started-by
+			p.label Stream Started By 
+			a.user(target="_blank")
+		.flex-wrap
+			p.cancel-stop-stream-btn Cancel
+			.stop-stream-btn
+				.icon
+				p Stop Stream
+	.stream-slate-flex-container
+		.stream-view-widget
+			.top-content
+				span.stream-title(contenteditable="" data-gramm_editor="false") KoiStream Test
+			.stream-video-container
+				.stream-video
+					img(src="/img/countdown-bg.png")
+					.slate.reg-image
+			.stream-info-container
+				.flex-wrap
+					a.viewer-count(href="/admin/viewers" target="_blank")
+						.icon
+						p 0 Viewers
+					.stream-timer
+						.icon
+						.time 
+							p.time-val.days 0
+							p.time-spacer :
+							p.time-val.hours 0
+							p.time-spacer :
+							p.time-val.minutes 0
+							p.time-spacer :
+							p.time-val.seconds 0
+				.change-slate-preview-btn
+					.icon
+					p Preview Without Slate
+		.slate-control-widget
+			.top-content
+				h1.slate-widget-title Slate Control
+			.widget-content
+				.active-slate-btn.radio-button
+					.radio-circle
+						.fill
+					p Show Slate
+				h1.slate-inactive SLATE INACTIVE
+				.slate-select
+					.slate-option
+						img(src='/img/slates/koistream-down.png')
+						.hover-bg
+							.icon
+		.action-buttons-widget
+			.flex-wrap
+				.reload-client-stream-source-btn.action-btn
+					.icon
+					p Reload User Stream Source
+				.save-stream-title-btn.action-btn
+					.icon
+					p Save Stream Title
+
+
+script(src="https://cdnjs.cloudflare.com/ajax/libs/video.js/7.8.0/video.min.js")
+script(src="https://cdnjs.cloudflare.com/ajax/libs/videojs-contrib-hls/5.15.0/videojs-contrib-hls.min.js")
+script(src="/videojs/videojs-contrib-quality-levels/dist/videojs-contrib-quality-levels.min.js")
+script(src="/videojs/videojs-hls-quality-selector/dist/videojs-hls-quality-selector.min.js")

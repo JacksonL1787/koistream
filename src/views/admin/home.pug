@@ -15,9 +15,9 @@ html
 						.logo
 						h1.title KoiStream
 					.nav-links
-						a.link-wrap(href="/admin/current-stream")
+						a.link-wrap(href="/admin/stream")
 							.icon(style="background-image:url(/img/admin/nav/current-stream.svg); width: 18px; height: 18px;")
-							p(style="margin-top: -1px;") Current Stream
+							p(style="margin-top: -1px;") Stream
 						a.link-wrap(href="/admin/chat")
 							.icon(style="background-image:url(/img/admin/nav/chat-moderation.svg); width: 18px; height: 18px; margin-top: 2px;")
 							p Chat Moderation
@@ -48,14 +48,12 @@ html
 					.bar
 					.bar
 				case page
-					when 'Current Stream'
+					when 'Stream'
 						.page-title-flex-container.hidden
 							h1.page-title=title
-							#stream-action-btn(data-action="start")
-								.icon
-								p Start Stream
-						link(rel='stylesheet', href="/css/admin/current-stream.css")
-						include pages/current-stream
+							p.status-tag.inactive Inactive
+						link(rel='stylesheet', href="/css/admin/stream.css")
+						include pages/stream
 					when 'Chat Moderation'
 						h1.page-title=title
 						link(rel='stylesheet', href="/css/admin/chat-moderation.css")
@@ -98,8 +96,8 @@ html
 
 script(src="/js/admin/main.js")
 case page
-	when 'Current Stream'
-		script(src="/js/admin/current-stream.js")
+	when 'Stream'
+		script(src="/js/admin/stream.js")
 	when 'Chat Moderation'
 		script(src="/js/admin/chat-moderation.js")
 	when 'Users'

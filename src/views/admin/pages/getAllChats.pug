@@ -1,0 +1,10 @@
+html
+	head
+		script.
+			var chatsRaw = "#{chats}"
+			window.chats = JSON.parse(chatsRaw.replace(/&quot;/g,'"'));
+	body
+		p.test hey
+	script.
+		console.log(chats)
+		document.querySelector(".test").innerHTML = JSON.stringify(chats)

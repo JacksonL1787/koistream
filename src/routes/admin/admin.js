@@ -5,6 +5,7 @@ const getLogs = require('../../db/logs/getLogs')
 const getUserName = require('../../db/users/getUserName')
 const getErrors = require('../../db/errors/getErrors')
 
+
 const authCheck = (req, res, next) => {
     if(req.user) {
         if(req.user.auth >= 2) {
@@ -21,8 +22,8 @@ router.get('/errors', authCheck, async (req, res, next) => {
     res.render('admin/home', {page: "System Errors", title: 'System Errors'});   
 })
 
-router.get('/current-stream', authCheck, function(req, res, next) {
-    res.render('admin/home', { page:"Current Stream", title: 'Current Stream'});
+router.get('/stream', authCheck, function(req, res, next) {
+    res.render('admin/home', { page:"Stream", title: 'Stream'});
 });
 
 router.get('/chat', authCheck, async function(req, res, next) {

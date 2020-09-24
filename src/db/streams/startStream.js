@@ -14,7 +14,6 @@ module.exports = async (data, googleId) => {
     let stream = await writer
         .insert({
             title: data.title,
-            runner: data.runner,
             streamId: randomstring.generate(),
             active: true,
             startedBy: googleId
@@ -37,13 +36,10 @@ module.exports = async (data, googleId) => {
                 console.log('Mail sent to ' + user.email);
             })
 
-                .catch(error => {
-                    //Log friendly error
-                    console.error(error.toString());
+                .catch(err => {
+                    console.error(err.toString());
                 });
         })
-    } else {
-        console.log('Not sending user emails')
     }
     return stream[0];
 

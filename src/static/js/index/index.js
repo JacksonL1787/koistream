@@ -67,7 +67,17 @@ const setStreamInfo = () => {
 		url: "/api/getStreamInfo",
 		success: (data) => {
 			$('.stream-info-container .stream-title').text(data.title)
-			$('.stream-info-container .stream-runner').text(data.runner)
+			setChatStatus(false, false)
+			$(".status-tag").removeClass("inactive").removeClass("live")
+			$(".status-tag").addClass("live")
+			$(".status-tag").text("LIVE")
+		},
+		error: () => {
+			$('.stream-info-container .stream-title').text("KoiStream Offline")
+			setChatStatus(false, "disabled")
+			$(".status-tag").removeClass("inactive").removeClass("live")
+			$(".status-tag").addClass("inactive")
+			$(".status-tag").text("INACTIVE")
 		}
 	})
 }
@@ -169,5 +179,14 @@ socket.on('reloadStreamSource', () => {
 	player.src(player.src())
 	player.play()
 	player.muted(false);
+})
+socket.on("updateStreamStatus", setStreamInfo)
+socket.on('updateStreamTitle', () => {
+	$.get({
+		url: "/api/getStreamInfo",
+		success: (data) => {
+			$('.stream-info-container .stream-title').text(data.title)
+		}
+	})
 })
 setSlate()

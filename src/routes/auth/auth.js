@@ -39,7 +39,7 @@ router.get('/googleRedirect',  passport.authenticate('google'), (req, res, next)
                 res.redirect('/')
             }
             if(req.user.auth == 2 || req.user.auth == 3) {
-                res.redirect('/admin/current-stream')
+                res.redirect('/admin/stream')
             }
         } else {
             res.redirect('/pendingApproval')
@@ -55,7 +55,7 @@ router.get('/redirect', async (req, res, next) => {
         const allowUnverifiedLogins = userSettings.allowAll
         if(req.user.auth > 0 || allowUnverifiedLogins) {
             if(req.user.auth == 2 || req.user.auth == 3) {
-                res.redirect('/admin/current-stream')
+                res.redirect('/admin/stream')
                 return;
             }
             res.redirect('/')

@@ -5,7 +5,6 @@ module.exports = async () => {
     let stream = await reader
         .select([
             `${tables.streams}.title`,
-            `${tables.streams}.runner`,
             `${tables.streams}.streamId`,
             `${tables.streams}.startTime`,
             `${tables.streams}.endTime`,

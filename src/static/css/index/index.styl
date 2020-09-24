@@ -31,17 +31,23 @@ body
 			font-size 25px
 			letter-spacing .3px
 			margin 0 10px 0 0
-		.live-tag
-			border #FF1D45 1px solid
-			background rgba(255, 29, 69, 0.18)
-			color #FF1D45
+		.status-tag
 			padding 2px 8px
 			text-transform uppercase
 			font-size 11px
 			letter-spacing .3px
 			margin-top 1px
 			border-radius .3em
-			box-shadow 0 0 7px 0 rgba(255, 29, 69, 0.5)
+			&.inactive
+				border #FF1D45 1px solid
+				background rgba(255, 29, 69, 0.18)
+				color #FF1D45
+				box-shadow 0 0 7px 0 rgba(255, 29, 69, 0.5)
+			&.live
+				border #1dff54 1px solid
+				background rgba(29, 255, 84, 0.18)
+				box-shadow 0 0 7px 0 rgba(29, 255, 84, 0.5)
+				color #1dff54
 		.nav-btn
 			display flex
 			align-items center
@@ -113,7 +119,7 @@ body
 			margin 0 !important
 			padding 20px !important
 			width calc(100% - 40px) !important
-			background #131519
+			background #191b1f
 			border-top-right-radius .3em
 			border-top-left-radius .3em
 			.stream-info-content
@@ -130,13 +136,6 @@ body
 					padding-right 20px
 					text-align left
 					word-break break-all
-				.stream-runner
-					font-size 18px
-					color #b3b3b3
-					font-weight 500
-					letter-spacing .5px
-					margin-top 5px
-					text-align:justify
 		.viewer-count-container
 			display flex
 			justify-content center
@@ -174,7 +173,7 @@ body
 			display flex
 			justify-content space-between
 			align-items center
-			background #131519
+			background #191b1f
 			border-top-right-radius .3em
 			border-top-left-radius .3em
 			.title
@@ -283,7 +282,7 @@ body
 			display flex
 			justify-content left
 			align-items center
-			background #131519
+			background #191b1f
 			border-bottom-right-radius .3em
 			border-bottom-left-radius .3em
 			.chat-input

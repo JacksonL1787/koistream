@@ -13,7 +13,6 @@ const deleteChat = (chatID) => {
 const appendChat = (data) => {
     $('.chat-widget .chat-content .chat.cooldown').remove()
     let message = $('<textarea/>').html(data.message).text();
-    console.log(data)
     message = `<span class="chat-text">${message}</span>`
     window.emojis.forEach((e) => {
         let re  = new RegExp(`:${e.tag}:`,"gmi")
@@ -62,7 +61,7 @@ const appendAllChats = () => {
     })
 }
 
-const setChatStatus = (update) => {
+const setChatStatus = (update, forceStatus) => {
     $.get({
         url: "/api/chatStatus",
         success: (status) => {
@@ -71,14 +70,26 @@ const setChatStatus = (update) => {
                 muted: "#db1212",
                 active: "#00c47c"
             }
+            if(forceStatus) status = forceStatus;
             $(".chat-widget .title-container .chat-status").css("color", statusColors[status]).text(status)
             if(update) $(".chat-widget .chat:not(.announcement)").remove()
             
             if(status === "disabled" || status === "muted") {
+                if($('.chat-widget').hasClass("disabled")) return;
+                window.chats = []
                 $(".chat-widget").addClass("disabled")
             } else {
+                if(!$('.chat-widget').hasClass("disabled")) return;
                 $(".chat-widget").removeClass("disabled")
-                if(update) appendAllChats()
+                if(update) {
+                    $.get({
+                        url: "/api/liveChats",
+                        success: (chats) => {
+                            window.chats = chats
+                            appendAllChats()
+                        }
+                    })   
+                }
             }
         }
     })
@@ -114,14 +125,14 @@ socket.on('newChat', appendChat)
 
 socket.on('chatStatusChange', (status) => {
     window.stream.chatSettings.status = status
-    setChatStatus(true)
+    setChatStatus(true, false)
 })
 
 socket.on("deleteChat", deleteChat)
 
 socket.on('muteUser', (status) => {
     window.user.muted = status
-    setChatStatus(true)
+    setChatStatus(true, false)
 })
 
 $(document).on("click", function (event) {
@@ -161,7 +172,7 @@ $('.chat-widget .submit-chat-btn .icon').click(function(){
                 $(".emoji-menu").removeClass("show")
                 if(typeof(data) === "object") {
                     if(data.type === "disabled") {
-                        setChatStatus(true)
+                        setChatStatus(true, false)
                     } else if(data.type === "chat") {
                         appendChat(data)
                         $('.chat-widget .chat-input').val("")
@@ -196,12 +207,7 @@ $('.chat-widget .chat-input').keypress((e) => {
         e.preventDefault();
         $('.chat-widget .submit-chat-btn .icon').click();
     }
-});  
-
-$(document).ready(() => {
-    //window.stream.liveChats = window.stream.liveChats.sort((a, b) =>  a.timestamp - b.timestamp)
-    setChatStatus(false)
-})
+});
 
 $.when(
     $.get("/api/emojis", (emojis) => {
@@ -218,5 +224,5 @@ $.when(
 })
 
 socket.on("updateChatStatus", () => {
-    setChatStatus(true)
+    setChatStatus(true, false)
 })
