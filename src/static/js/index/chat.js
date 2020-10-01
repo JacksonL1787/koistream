@@ -21,7 +21,7 @@ const appendChat = (data) => {
     message = message.replace(/\<span class="chat-text"\>\<\/span\>/gmi, "")
     $(".chat-widget .live-chat-container .chat-content").append(`
         <div class="chat" id="${data.chatId}">
-            ${data.chatTag ? `<span class="chat-tag admin">${data.chatTag}</span>` : ""}
+            ${data.tagName ? `<span class="chat-tag" style="color: ${data.tagColor};">${data.tagName}</span>` : ""}
             <span class="chat-sender">${data.userName === "Team KoiStream" ? data.userName : _.startCase(data.userName)}:</span>
             ${message}
         </div>
@@ -42,16 +42,18 @@ const appendAllChats = () => {
         appendChat(chat)
     })
     $(".chat-widget .chat-content .loader").hide()
-    $(".chat-widget .live-chat-container").scroll(_.throttle(() => {
-        const elem = $(".chat-widget .live-chat-container")
-        if(elem[0].scrollTop + elem[0].offsetHeight === elem[0].scrollHeight) {
-            autoScroll = true;
-            $(".chat-widget .enable-autoscroll").removeClass('active')
-        } else {
-            autoScroll = false;
-            $(".chat-widget .enable-autoscroll").addClass('active')
-        }
-    }, 50, {leading: true}))
+    $(".chat-widget .live-chat-container").scroll(() => {
+        setTimeout(() => {
+            const elem = $(".chat-widget .live-chat-container")
+            if(elem[0].scrollTop + elem[0].offsetHeight === elem[0].scrollHeight) {
+                autoScroll = true;
+                $(".chat-widget .enable-autoscroll").removeClass('active')
+            } else {
+                autoScroll = false;
+                $(".chat-widget .enable-autoscroll").addClass('active')
+            }
+        }, 50)
+    })
     
     
     $(".chat-widget .enable-autoscroll").click(function() {
@@ -62,6 +64,7 @@ const appendAllChats = () => {
 }
 
 const setChatStatus = (update, forceStatus) => {
+    if($(".status-tag").hasClass("inactive") && update) return;
     $.get({
         url: "/api/chatStatus",
         success: (status) => {
@@ -79,7 +82,7 @@ const setChatStatus = (update, forceStatus) => {
                 window.chats = []
                 $(".chat-widget").addClass("disabled")
             } else {
-                if(!$('.chat-widget').hasClass("disabled")) return;
+                
                 $(".chat-widget").removeClass("disabled")
                 if(update) {
                     $.get({
@@ -122,11 +125,6 @@ const appendEmojis = () => {
 
 
 socket.on('newChat', appendChat)
-
-socket.on('chatStatusChange', (status) => {
-    window.stream.chatSettings.status = status
-    setChatStatus(true, false)
-})
 
 socket.on("deleteChat", deleteChat)
 

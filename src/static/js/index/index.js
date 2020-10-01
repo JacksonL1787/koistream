@@ -99,14 +99,14 @@ $(document).ready(() => {
 
 $(() => { // Report Error
 	
-	const openModal = (divClass) => {
+	const openModal = () => {
 		$(`.report-error-modal`).addClass("active")
 		$("body").addClass("modal-active")
 	}
 
 	
 	
-	const closeModal = (divClass) => {
+	const closeModal = () => {
 		$(`.report-error-modal`).removeClass("active")
 		$("body").removeClass("modal-active")
 		$(".report-error-modal .error-type-select-wrap").attr("data-selected-option", "").removeClass("active")
@@ -166,6 +166,27 @@ $(() => { // Report Error
 
 })
 
+$(() => { // Chat Guidelines
+	
+	const openModal = () => {
+		$(`.chat-guidelines-modal`).addClass("active")
+		$("body").addClass("modal-active")
+	}
+
+	const closeModal = () => {
+		$(`.chat-guidelines-modal`).removeClass("active")
+		$("body").removeClass("modal-active")
+	}
+
+	$('.chat-guidelines-container').click(function(){
+		openModal()
+	})
+
+	$('.chat-guidelines-modal .close, .darken-overlay').click(function(){
+		closeModal()
+	})
+})
+
 
 
 
@@ -175,7 +196,6 @@ socket.on('logoutAllStreamClients', function(data) {
 
 socket.on('slateChange', setSlate)
 socket.on('reloadStreamSource', () => {
-	console.log("new source")
 	player.src(player.src())
 	player.play()
 	player.muted(false);

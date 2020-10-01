@@ -21,6 +21,7 @@ const getViewerCount = require("../db/streams/getViewerCount")
 const createError = require("../db/errors/createError")
 const isStreamActive = require("../db/streams/isStreamActive")
 const stripHtml = require("string-strip-html");
+const getUserChatTag = require("../db/users/getUserChatTag")
 
 
 const logSymbols = require('log-symbols');
@@ -73,20 +74,24 @@ router.post('/sendMessage', [
     const chatData = await addChat(req.user, req.body.message)
     if(chatData === 500) return res.sendStatus(500)
     await updateLastChatTime(req.user.googleId)
-    io.emit('big-announcement', 'the game will start soon');
+    const chatTag = req.user.chatTag ? await getUserChatTag(req.user.chatTag) : false
+
     io.in('admin').emit("newChatAdmin", {
         message: chatData.messageFiltered.replace(/&/g, "&amp;"),
         unfilteredMessage: chatData.message.replace(/&/g, "&amp;"),
         userName: _.startCase(req.user.firstName + " " + req.user.lastName),
         chatId: chatData.chatId,
         muted: req.user.muted,
-        chatTag: req.user.chatTag
+        tagName: chatTag.name,
+        tagColor : chatTag.color
+
     })
     io.emit("newChat", {
         message: chatData.messageFiltered.replace(/&/g, "&amp;"),
         userName: _.startCase(req.user.firstName + " " + req.user.lastName),
         chatId: chatData.chatId,
-        chatTag: req.user.chatTag
+        tagName: chatTag.name,
+        tagColor : chatTag.color
     })
     res.sendStatus(200)
 })

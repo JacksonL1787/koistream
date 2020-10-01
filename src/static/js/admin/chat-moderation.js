@@ -28,7 +28,7 @@ const appendChat = (data) => {
     $(".chat-widget .live-chat-container .chat-content").append(`
         <div class="chat" id="${data.chatId}">
             ${data.muted ? '<span class="muted">muted</span>' : ""} 
-            ${data.chatTag ? `<span class="chat-tag admin">${data.chatTag}</span>` : ""}
+            ${data.tagName ? `<span class="chat-tag" style="color: ${data.tagColor};">${data.tagName}</span>` : ""}
             <span class="chat-sender">${_.startCase(data.userName)}:</span>
             ${message}
         </div>
@@ -46,16 +46,18 @@ const appendAllChats = () => {
         appendChat(chat)
     })
     $(".chat-widget .live-chat-container .loader").hide()
-    $(".chat-widget .live-chat-container").scroll(    _.throttle(() => {
-        const elem = $(".chat-widget .live-chat-container")
-        if(elem[0].scrollTop + elem[0].offsetHeight === elem[0].scrollHeight) {
-            autoScroll = true;
-            $(".chat-widget .enable-autoscroll").removeClass('active')
-        } else {
-            autoScroll = false;
-            $(".chat-widget .enable-autoscroll").addClass('active')
-        }
-    }, 50, {leading: true}))
+    $(".chat-widget .live-chat-container").scroll(() => {
+        setTimeout(() => {
+            const elem = $(".chat-widget .live-chat-container")
+            if(elem[0].scrollTop + elem[0].offsetHeight === elem[0].scrollHeight) {
+                autoScroll = true;
+                $(".chat-widget .enable-autoscroll").removeClass('active')
+            } else {
+                autoScroll = false;
+                $(".chat-widget .enable-autoscroll").addClass('active')
+            }
+        }, 50)
+    })
     
     
     $(".chat-widget .enable-autoscroll").click(function() {

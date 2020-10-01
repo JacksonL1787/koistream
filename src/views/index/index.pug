@@ -37,6 +37,10 @@ html
 				.title-container
 					h1.title Live Chat
 					p.chat-status
+				.chat-guidelines-container
+					.see-chat-guidelines-btn
+						.icon
+						p Chat Guidelines
 				button.enable-autoscroll Enable Autoscroll
 				.live-chat-container
 					.chat-content
@@ -61,9 +65,20 @@ html
 								.emojis-container
 					.submit-chat-btn.live-chat-action-btn
 						.icon
+		.chat-guidelines-modal
+			.modal-top
+				h1.title Chat Guidelines
+				.close
+			.modal-content
+				ol.list
+					li Be kind and respectful to other viewers
+					li No bullying, sexism, racism, homophobia, political or other hateful chats
+					li Keep your chats positive and relevant to what is happening during the stream
+					li Listen to staff members and the chat moderation team
+					li No spamming in the chat
+					li Do not advertise, self-promote or post links
 		include ./reportErrors
 		include ../notifications
-  
 script(src="https://cdnjs.cloudflare.com/ajax/libs/video.js/7.8.0/video.min.js")
 script(src="https://cdnjs.cloudflare.com/ajax/libs/videojs-contrib-hls/5.15.0/videojs-contrib-hls.min.js")
 script(src="/videojs/videojs-contrib-quality-levels/dist/videojs-contrib-quality-levels.min.js")

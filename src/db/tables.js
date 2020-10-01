@@ -11,6 +11,7 @@ module.exports = {
     slate: "slate",
     socketConnections: "socketConnections",
     slateTypes: "slateTypes",
-    userSettings: "userSettings"
+    userSettings: "userSettings",
+    chatTags: "chatTags"
 };
   

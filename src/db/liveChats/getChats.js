@@ -15,7 +15,8 @@ module.exports = async (isAdmin) => {
             `${tables.liveChats}.timestamp`,
             `${tables.users}.firstName`,
             `${tables.users}.lastName`,
-            `${tables.users}.chatTag`
+            `${tables.chatTags}.tag_name as tagName`,
+            `${tables.chatTags}.tag_color as tagColor`
         ]
 
         if(isAdmin) {
@@ -26,6 +27,7 @@ module.exports = async (isAdmin) => {
         let chats = await reader.select(query)
         .from(tables.liveChats)
         .join(tables.users, `${tables.liveChats}.userGoogleId`, '=', `${tables.users}.googleId`)
+        .fullOuterJoin(tables.chatTags, `${tables.users}.chatTag`, '=', `${tables.chatTags}.id`)
         .where(`${tables.liveChats}.deleted`, false)
         .andWhere(`${tables.liveChats}.streamId`, activeStreamId)
         return chats;

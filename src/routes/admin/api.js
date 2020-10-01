@@ -136,7 +136,6 @@ router.post('/stopStream', adminAuth, async (req,res,next) => {
 router.post('/saveChatSettings', adminAuth, async (req,res,next) => {
     const status = req.body.status
     const cooldown = req.body.cooldown
-    console.log(cooldown, status)
     if(status != "active" && status != "disabled") return res.sendStatus(500)
     if(cooldown != "10" && cooldown != "15" && cooldown != "30" && cooldown != "60") return res.sendStatus(500)
     const io = req.app.get("socketio")
