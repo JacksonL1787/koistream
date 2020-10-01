@@ -178,7 +178,6 @@ $(document).on("click", ".emoji-menu .emoji", function() {
 
 $(document).on("click", ".emoji-menu .custom-emoji", function() {
     const emoji = `:${$(this).attr("data-tag")}:`
-    console.log(emoji)
     $(".chat-widget .chat-input").val($(".chat-widget .chat-input").val() + emoji)
     $(".chat-widget .chat-input").focus()
 })
