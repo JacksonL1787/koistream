@@ -3,7 +3,7 @@ const tables = require("../tables")
 
 
 
-module.exports = async (googleId) => {
+module.exports = async (googleId, tempMuted) => {
 
     let mute = await reader.select("muted").from(tables.users).where("googleId", googleId)
     mute = mute[0].muted
@@ -13,7 +13,8 @@ module.exports = async (googleId) => {
     let isMuted = await writer(tables.users)
         .where("googleId", googleId)
         .update({
-            muted: !mute
+            muted: !mute,
+            tempMuted: tempMuted
         })
         .returning("muted");
     

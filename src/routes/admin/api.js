@@ -56,14 +56,14 @@ router.get("/isStreamActive", adminAuth, async (req, res, next) => {
 
 router.post("/muteUser", adminAuth, async (req, res, next) => {
     const googleId = req.body.googleId
+    const tempMuted = req.body.tempMuted === "true" ? true : false
     if(!googleId) {
         res.sendStatus(500)
         return;
     }
     const io = req.app.get("socketio")
-    const muteData = await muteUser(googleId)
+    const muteData = await muteUser(googleId, tempMuted)
     notification(io, `{${req.user.googleId}} ${muteData.muted ? "muted" : "unmuted"} {${muteData.googleId}}`)
-    console.log(muteData)
     // const recieverFullName = _.startCase(user.firstName + " " + user.lastName)
     // const senderFullName = _.startCase(req.user.firstName + " " + req.user.lastName)
     // const logMsg = `${senderFullName}(${req.user.email}) ${mute ? "muted" : "unmuted"} ${recieverFullName}.(${user.email})`

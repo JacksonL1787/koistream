@@ -3,7 +3,7 @@ html
 		include ../main
 		link(rel="Stylesheet" href="/css/index/index.css")
 		link(href="https://unpkg.com/video.js@7/dist/video-js.min.css" rel="stylesheet")
-	body.modal-active
+	body
 		.nav-container
 			.nav-content
 				.nav-flex.left-wrap
@@ -37,10 +37,6 @@ html
 				.title-container
 					h1.title Live Chat
 					p.chat-status
-				.chat-guidelines-container
-					.see-chat-guidelines-btn
-						.icon
-						p Chat Guidelines
 				button.enable-autoscroll Enable Autoscroll
 				.live-chat-container
 					.chat-content
@@ -65,7 +61,7 @@ html
 								.emojis-container
 					.submit-chat-btn.live-chat-action-btn
 						.icon
-		.chat-guidelines-modal.active
+		.chat-guidelines-modal
 			.modal-top
 				h1.title Chat Guidelines
 				.close

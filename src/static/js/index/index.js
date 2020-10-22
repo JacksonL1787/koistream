@@ -9,7 +9,7 @@ $(document).ready(function(){
 	}
 })
 
-setTimeout(function(){
+setTimeout(function() {
 	videojs.options.hls.overrideNative = true;
 	// Player instance options
 	var options = {
@@ -87,6 +87,18 @@ const setViewerCount = () => {
 		url: "/api/getViewerCount",
 		success: (count) => {
 			$(".viewer-count-container p").text(`${count} ${count == 1 ? "Viewer" : "Viewers"}`)
+		}
+	})
+}
+
+const setPoll = () => {
+	$.get({
+		url: "/api/getPoll",
+		success: (data) => {
+
+		},
+		error: () => {
+			
 		}
 	})
 }

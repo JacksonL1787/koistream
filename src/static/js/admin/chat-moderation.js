@@ -265,7 +265,19 @@ $(".chat-details-widget .mute-user-btn").click(function() {
     $.post({
         url: "/admin/api/muteUser",
         data: {
-            googleId: googleId
+            googleId: googleId,
+            tempMuted: false
+        }
+    })
+})
+
+$(".chat-details-widget .temp-mute-user-btn").click(function() {
+    let googleId = $(this).attr("data-google-id")
+    $.post({
+        url: "/admin/api/muteUser",
+        data: {
+            googleId: googleId,
+            tempMuted: true
         }
     })
 })

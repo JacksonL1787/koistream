@@ -13,5 +13,5 @@ module.exports = {
     slateTypes: "slateTypes",
     userSettings: "userSettings",
     chatTags: "chatTags"
-};
+}
   
