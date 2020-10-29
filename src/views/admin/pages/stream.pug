@@ -2,7 +2,31 @@ link(href="https://unpkg.com/video.js@7/dist/video-js.min.css" rel="stylesheet")
 
 .loader
 
+.darken-overlay
+.create-poll-modal.modal
+	.modal-top
+		h1.title Create Poll
+		.close
+	.modal-content
+		input.question-input(placeholder="Question")
+		input.option-input(placeholder="Option")
+		input.option-input(placeholder="Option")
+		input.option-input(placeholder="Option")
+		button.confirm-create-poll-btn Create Poll
 
+.manage-poll-modal.modal
+	.modal-top
+		h1.title Manage Current Poll
+		.close
+	.modal-content
+		button.end-poll-btn End Poll
+
+.poll-results-modal.modal
+	.modal-top
+		h1.title Poll Results
+		.close
+	.modal-content
+		h1.question-value
 
 .stream-inactive-container.hidden
 	.start-stream-btn
@@ -79,10 +103,20 @@ link(href="https://unpkg.com/video.js@7/dist/video-js.min.css" rel="stylesheet")
 			.flex-wrap
 				.reload-client-stream-source-btn.action-btn
 					.icon
-					p Reload User Stream Source
+					p Reload Stream Source
 				.save-stream-title-btn.action-btn
 					.icon
 					p Save Stream Title
+				.create-poll-btn.action-btn
+					.icon
+					p Create Poll
+				.manage-poll-btn.action-btn
+					.icon
+					p Manage Poll
+				.see-prevous-poll-results-btn.action-btn
+					.icon
+					p Poll Results
+				
 
 
 script(src="https://cdnjs.cloudflare.com/ajax/libs/video.js/7.8.0/video.min.js")

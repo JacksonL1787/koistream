@@ -329,6 +329,86 @@ $(".save-stream-title-btn").click(() => {
 	})
 })
 
+$(() => { // POLL CONTROL
+
+	$(".create-poll-btn").click(() => {
+		$.get({
+			url: "/admin/api/isPollActive",
+			success: (data) => {
+				if(!data.active) {
+					openModal("create-poll-modal")
+				} else {
+					notification("Poll is currently active")
+				}
+			}
+		})
+		
+	})
+
+	$(".manage-poll-btn").click(() => {
+		$.get({
+			url: "/admin/api/isPollActive",
+			success: (data) => {
+				if(data.active) {
+					openModal("manage-poll-modal")
+				} else {
+					notification("Poll is currently inactive")
+				}
+			}
+		})
+	})
+
+	$(".see-prevous-poll-results-btn").click(() => {
+		$.get({
+			url: "/admin/api/recentPollResults",
+			success: (data) => {
+				$(".poll-results-modal .data-point").remove()
+				data.forEach((r) => {
+					$(".poll-results-modal .modal-content").append(`
+						<p class="data-point">
+							${r.value} - ${r.count}
+						</p>
+					`)
+				})
+				
+				openModal("poll-results-modal")
+			},
+			error: () => {
+				notification("No polls found")
+			}
+		})
+	})
+
+	$(".manage-poll-modal .end-poll-btn").click(() => {
+		$.post({
+			url: "/admin/api/endPoll",
+			success: () => {
+				closeModal("manage-poll-modal")
+			}
+		})
+	})
+
+	$(".confirm-create-poll-btn").click(() => {
+		const data = {
+			question: $(".create-poll-modal .question-input").val(),
+			options: []
+		}
+
+		$(".create-poll-modal .option-input").each(function() {
+			data.options.push({value: $(this).val()})
+		})
+
+		$.post({
+			url: "/admin/api/createPoll",
+			data: data,
+			success: () => {
+				closeModal("create-poll-modal")
+			}
+		})
+	})
+
+})
+
 socket.on("loadCurrentStreamData", loadPage)
 socket.on('slateChange', setSlate)
 socket.on('reloadStreamSource', () => {

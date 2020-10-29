@@ -22,6 +22,8 @@ const createError = require("../db/errors/createError")
 const isStreamActive = require("../db/streams/isStreamActive")
 const stripHtml = require("string-strip-html");
 const getUserChatTag = require("../db/users/getUserChatTag")
+const getActivePoll = require("../db/polls/getActivePoll")
+const addPollAnswer = require("../db/polls/addPollAnswer")
 
 
 const logSymbols = require('log-symbols');
@@ -96,11 +98,23 @@ router.post('/sendMessage', [
     res.sendStatus(200)
 })
 
+router.post("/submitPollVote", async (req, res, next) => {
+    const poll = await addPollAnswer(req.user.googleId, req.body.option)
+    if(!poll) return res.sendStatus(500)
+    res.sendStatus(200)
+})
+
 router.get("/liveChats", async (req, res, next) => {
     const chatSettings = await getChatSettings()
     if(chatSettings.status === "disabled") return res.json([])
     const chats = await getChats(false)
     res.json(chats)
+})
+
+router.get("/getActivePoll", async (req, res, next) => {
+    const poll = await getActivePoll(req.user.googleId)
+    if(!poll) return res.sendStatus(500)
+    res.json(poll)
 })
 
 router.get("/chatStatus", async (req, res, next) => {

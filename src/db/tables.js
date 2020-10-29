@@ -12,6 +12,9 @@ module.exports = {
     socketConnections: "socketConnections",
     slateTypes: "slateTypes",
     userSettings: "userSettings",
-    chatTags: "chatTags"
+    chatTags: "chatTags",
+    polls: "polls",
+    pollAnswers: "pollAnswers",
+    pollOptions: "pollOptions"
 }
   

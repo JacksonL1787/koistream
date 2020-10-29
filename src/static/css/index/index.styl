@@ -213,6 +213,116 @@ body
 			max-height 100%
 			width 100%
 			overflow-y auto
+			position relative
+			.poll-container
+				background #0e1013
+				width 100%
+				border-bottom solid 1px #191b1f
+				position absolute
+				top 0
+				left 0
+				z-index 20
+				height fit-content
+				overflow hidden
+				display none
+				.finished-voting-container
+					display flex
+					display none
+					justify-content space-between
+					align-items center
+					width 95%
+					margin 0 auto
+					padding 10px 0
+					.flex-container
+						display flex
+						align-items center
+						.icon
+							background-image url("/img/green-checkmark.svg")
+							background-size cover
+							background-repeat no-repeat
+							background-position center
+							width 20px
+							height 20px
+						h1
+							color white
+							font-size 20px
+							letter-spacing .5px
+							font-weight 500
+							margin-left 10px
+					.close-poll-container
+						background-image url("/img/close.svg")
+						background-size cover
+						background-repeat no-repeat
+						background-position center
+						width 18px
+						height 18px
+						opacity 0.7
+						cursor pointer
+						transition opacity .3s
+						&:hover
+							opacity 1
+				.poll-content
+					padding 10px 0
+					width 95%
+					margin 0 auto
+					display none
+					.container-title
+						color rgba(255,255,255,0.6)
+						letter-spacing .5px
+						text-transform uppercase
+						font-size 13px
+						font-weight 300
+						text-align center
+						margin-bottom 5px
+					.question
+						color white
+						letter-spacing .5px
+						font-size 20px
+						font-weight 700
+						text-align center
+						margin-bottom 20px
+					.options-container
+						.option
+							background rgba(0,0,0,0.05)
+							cursor pointer
+							border 1px solid rgba(255,255,255,0.1)
+							width 100%
+							text-align center
+							margin-bottom 8px
+							border-radius 1000px
+							padding 6px 0
+							transition background .3s, border-color .3s
+							&:hover
+								background rgba(0,0,0,0.2)
+								border-color rgba(255,255,255,0.3)
+								.value
+									color white
+							&.active
+								background rgba(240,80,39,0.08)
+								border-color rgba(240,80,39, 1)
+								.value
+									color rgba(240,80,39,1)
+							.value
+								letter-spacing .5px
+								color rgba(255,255,255,0.7)
+								font-size 16px
+								transition color .3s
+					.submit-vote-btn
+						background #676767
+						color white
+						border none
+						cursor not-allowed
+						width 100%
+						padding 10px 0
+						border-radius .3em
+						margin-top 10px
+						outline none
+						font-weight 600
+						letter-spacing 1px
+						font-size 16px
+						&.active
+							background #f05027
+							cursor pointer
 			.chat-content
 				width 95%
 				margin 0 auto
@@ -731,7 +841,7 @@ button , video, div
 		width calc(100% - 30px) !important
 		flex-flow column wrap
 		.chat-widget
-			width 100% !important
+			width calc(100% - 2px) !important
 			height 500px !important
 			margin-bottom 100px !important
 		.stream-container

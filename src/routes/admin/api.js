@@ -22,6 +22,11 @@ const getChatSettings = require('../../db/chatSettings/getChatSettings')
 const saveChatSettings = require('../../db/chatSettings/saveChatSettings')
 const getViewers = require('../../db/streams/getViewers')
 const updateStreamTitle = require('../../db/streams/updateStreamTitle')
+const createPoll = require('../../db/polls/createPoll')
+const endPoll = require('../../db/polls/endPoll')
+const getRecentPollResults = require('../../db/polls/getRecentPollResults')
+const isPollActive = require("../../db/polls/isPollActive")
+const sendBotMessage = require("../../db/liveChats/sendBotMessage")
 
 
 const adminAuth = (req,res,next) => {
@@ -52,6 +57,38 @@ router.get("/userDetails/:googleId", adminAuth, async (req, res, next) => {
 router.get("/isStreamActive", adminAuth, async (req, res, next) => {
     const active = await isStreamActive()
     res.json({active})
+})
+
+router.get("/isPollActive", adminAuth, async (req, res, next) => {
+    const active = await isPollActive()
+    res.json({active})
+})
+
+router.get("/recentPollResults", adminAuth, async (req, res, next) => {
+    const results = await getRecentPollResults()
+    if(!results) return res.sendStatus(500);
+    res.json(results)
+})
+
+router.post("/createPoll", adminAuth, async (req, res, next) => {
+    const poll = await createPoll(req.body)
+    console.log(poll)
+    if(!poll) return res.sendStatus(500)
+    const io = req.app.get("socketio")
+    notification(io, `{${req.user.googleId}} started a poll`)
+    io.emit("startPoll")
+    //await sendBotMessage(io, "A NEW POLL HAS STARTED!", "KoiStream Polls")
+    res.sendStatus(200)
+})
+
+router.post("/endPoll", adminAuth, async (req, res, next) => {
+    const poll = await endPoll()
+    if(!poll) return res.sendStatus(500)
+    const io = req.app.get("socketio")
+    notification(io, `{${req.user.googleId}} ended a poll`)
+    io.emit("endPoll")
+    //await sendBotMessage(io, "THE POLL HAS ENDED! ", "KoiStream Polls")
+    res.sendStatus(200)
 })
 
 router.post("/muteUser", adminAuth, async (req, res, next) => {

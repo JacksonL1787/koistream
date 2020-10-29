@@ -62,6 +62,36 @@ const setSlate = () => {
 	})
 }
 
+const getPoll = () => {
+	$.get({
+		url: "/api/getActivePoll",
+		success: (data) => {
+			if(data.userAnswered) {
+				$(".finished-voting-container").css("display", "flex")
+				$(".poll-content").hide()
+			} else {
+				$(".finished-voting-container").hide()
+				$(".poll-container .options-container").empty()
+				$(".poll-container .submit-vote-btn").removeClass("active")
+				$(".poll-container .question").text(data.question)
+				data.options.forEach((o) => {
+					$(".poll-container .options-container").append(`
+						<div class="option" data-option-number="${o.number}">
+							<p class="value">${o.value}</p>
+						</div>
+					`)
+				})
+				
+				$(".poll-content").show()
+			}
+			$(".poll-container").show()
+		},
+		error: () => {
+			$(".poll-container").hide()
+		}
+	})
+}
+
 const setStreamInfo = () => {
 	$.get({
 		url: "/api/getStreamInfo",
@@ -91,21 +121,10 @@ const setViewerCount = () => {
 	})
 }
 
-const setPoll = () => {
-	$.get({
-		url: "/api/getPoll",
-		success: (data) => {
-
-		},
-		error: () => {
-			
-		}
-	})
-}
-
 $(document).ready(() => {
 	setStreamInfo()
 	setViewerCount()
+	getPoll()
 	setInterval(setViewerCount, 20000)
 })
 
@@ -199,8 +218,32 @@ $(() => { // Chat Guidelines
 	})
 })
 
+$(document).on("click", ".poll-container .option", function() {
+	if($(this).hasClass("active")) return;
+	$(".poll-container .option").removeClass("active")
+	$(this).addClass("active")
+	$(".poll-container .submit-vote-btn").addClass("active")
+})
 
+$(".poll-container .submit-vote-btn").click(() => {
+	let data = {
+		option: $(".poll-container .options-container .option.active").attr("data-option-number")
+	}
 
+	$.post({
+		url: "/api/submitPollVote",
+		data: data,
+		success: () => {
+			$(".finished-voting-container").css("display", "flex")
+			$(".poll-content").hide()
+		}
+	})
+
+})
+
+$(".close-poll-container").click(() => {
+	$(".poll-container").hide()
+})
 
 socket.on('logoutAllStreamClients', function(data) {
 	window.location.href = '/auth/logout'
@@ -221,4 +264,6 @@ socket.on('updateStreamTitle', () => {
 		}
 	})
 })
+socket.on("startPoll", getPoll)
+socket.on("endPoll", getPoll)
 setSlate()
