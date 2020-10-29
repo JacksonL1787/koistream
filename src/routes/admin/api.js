@@ -77,7 +77,7 @@ router.post("/createPoll", adminAuth, async (req, res, next) => {
     const io = req.app.get("socketio")
     notification(io, `{${req.user.googleId}} started a poll`)
     io.emit("startPoll")
-    //await sendBotMessage(io, "A NEW POLL HAS STARTED!", "KoiStream Polls")
+    await sendBotMessage(io, "A NEW POLL HAS STARTED!", "KoiStream Polls")
     res.sendStatus(200)
 })
 
@@ -87,7 +87,7 @@ router.post("/endPoll", adminAuth, async (req, res, next) => {
     const io = req.app.get("socketio")
     notification(io, `{${req.user.googleId}} ended a poll`)
     io.emit("endPoll")
-    //await sendBotMessage(io, "THE POLL HAS ENDED! ", "KoiStream Polls")
+    await sendBotMessage(io, "THE POLL HAS ENDED! ", "KoiStream Polls")
     res.sendStatus(200)
 })
 
