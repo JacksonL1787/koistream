@@ -24,7 +24,9 @@ const stripHtml = require("string-strip-html");
 const getUserChatTag = require("../db/users/getUserChatTag")
 const getActivePoll = require("../db/polls/getActivePoll")
 const addPollAnswer = require("../db/polls/addPollAnswer")
-
+const getActiveQuestion = require("../db/trivia/getActiveQuestion")
+const submitAnswer = require("../db/trivia/submitAnswer")
+const getTriviaScore = require("../db/trivia/getUserScore")
 
 const logSymbols = require('log-symbols');
 
@@ -131,6 +133,25 @@ router.get("/getStreamInfo", async (req, res, next) => {
     const info = await getStreamInfo()
     if(!info) return res.sendStatus(500)
     res.json(info)
+})
+
+router.get("/getActiveQuestion", async (req, res, next) => {
+    const question = await getActiveQuestion(req.user.googleId)
+    if(!question) return res.sendStatus(500)
+    res.json(question)
+})
+
+router.get("/getTriviaScore", async (req, res, next) => {
+    const score = await getTriviaScore(req.user.googleId)
+    res.json({score})
+})
+
+router.post("/submitAnswer", async (req, res, next) => {
+    console.log(req.body.optionId)
+    console.log(req.user.googleId)
+    const answer = await submitAnswer(req.user.googleId, req.body.optionId)
+    if(!answer) return res.sendStatus(500)
+    res.sendStatus(200)
 })
 
 router.get("/getViewerCount", async (req, res, next) => {

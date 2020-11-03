@@ -151,11 +151,166 @@ body
 				color #f05027
 				font-weight 600
 				letter-spacing .3px
+	.trivia-widget
+		width 400px
+		
+		min-height fit-content
+		max-height calc(100% - 30px)
+		border 1px solid #191b1f
+		background #101215
+		box-shadow 0 0 10px 0 rgba(0,0,0,0.06)
+		position relative
+		border-radius .3em
+		&.show-title-screen
+			background #191b1f
+			height 300px
+			.title-content
+				display block
+			.trivia-content
+				display none
+		.title-content
+			position absolute
+			top calc(50% - 10px)
+			left 50%
+			display none
+			transform translate(-50%, -50%)
+			width 100%
+			text-align center
+			p
+				color rgba(255,255,255,0.5)
+				font-size 15px
+				font-weight 500
+				letter-spacing 3px
+				text-transform uppercase
+			h1
+				color white
+				font-size 35px
+				letter-spacing .5px
+			.starting-soon
+				color lightgrey
+				font-size 12px
+				letter-spacing .5px
+				font-weight 500
+		.trivia-content
+			width 100%
+			height 100%
+			.top-content
+				height 60px
+				width calc(100% - 30px)
+				padding 0 15px
+				position relative
+				display flex
+				justify-content space-between
+				align-items center
+				background #191b1f
+				border-top-right-radius .3em
+				border-top-left-radius .3em
+				.container-title
+					color lightgrey
+					font-size 20px
+					font-weight 500
+					letter-spacing .3px
+				.trivia-topic
+					text-transform uppercase
+					font-size 12px
+					font-weight 800
+					letter-spacing .3px
+					margin-top 3px
+					color white
+			.main-content
+				padding-bottom 30px
+				.question-number
+					color rgba(255,255,255,0.5)
+					font-size 13px
+					letter-spacing .5px
+					margin 10px 0 5px
+					text-align center
+				.question
+					color white
+					letter-spacing .5px
+					font-size 20px
+					font-weight 700
+					text-align center
+					margin-bottom 20px
+				.options-container
+					.option
+						background rgba(0,0,0,0.05)
+						cursor pointer
+						border 1px solid rgba(255,255,255,0.1)
+						width calc(100% - 40px)
+						text-align center
+						border-radius 1000px
+						padding 6px 0
+						margin 0 auto 8px
+						transition background .3s, border-color .3s
+						&:hover
+							background rgba(0,0,0,0.2)
+							border-color rgba(255,255,255,0.3)
+							.value
+								color white
+						&.active
+							background rgba(240,80,39,0.08)
+							border-color rgba(240,80,39, 1)
+							.value
+								color rgba(240,80,39,1)
+						.value
+							letter-spacing .5px
+							color rgba(255,255,255,0.7)
+							font-size 16px
+							transition color .3s
+			.waiting-container
+				position absolute
+				top calc(50% + 20px)
+				left 50%
+				transform translate(-50%, -50%)
+				display none
+				.loader
+					background-image url("/img/loader.svg")
+					background-size cover
+					background-position center
+					background-repeat no-repeat
+					width 40px
+					height 40px
+			.your-score-container
+				position absolute
+				top calc(50% + 20px)
+				left 50%
+				display none
+				transform translate(-50%, -50%)
+				text-align center
+				.your-score-title
+					color rgba(255,255,255,0.5)
+					font-size 15px
+					letter-spacing .5px
+				.your-score
+					color white
+					font-size 50px
+					font-weight 900
+					letter-spacing 5px
+			.correct-answer-container
+				position absolute
+				top calc(50% + 20px)
+				left 50%
+				display none
+				transform translate(-50%, -50%)
+				text-align center
+				width 90%
+				.content-title
+					color rgba(255,255,255,0.5)
+					font-size 15px
+					letter-spacing .5px
+				.correct-answer
+					color #1dff54
+					font-size 30px
+					font-weight 900
+					letter-spacing .5px
+					width 100%
 	.chat-widget
 		width 400px
 		height calc(100% - 30px)
 		border 1px solid #191b1f
 		background #101215
+		display none
 		box-shadow 0 0 10px 0 rgba(0,0,0,0.06)
 		position relative
 		border-radius .3em
@@ -840,6 +995,9 @@ button , video, div
 		height fit-content
 		width calc(100% - 30px) !important
 		flex-flow column wrap
+		.trivia-widget
+			width calc(100% - 2px) !important
+			margin-bottom 100px !important
 		.chat-widget
 			width calc(100% - 2px) !important
 			height 500px !important

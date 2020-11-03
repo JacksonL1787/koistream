@@ -21,6 +21,12 @@ html
 						a.link-wrap(href="/admin/chat")
 							.icon(style="background-image:url(/img/admin/nav/chat-moderation.svg); width: 18px; height: 18px; margin-top: 2px;")
 							p Chat Moderation
+						a.link-wrap(href="/admin/polls")
+							.icon(style="background-image:url(/img/admin/nav/polls.svg); width: 20px; height: 20px; margin-top: 2px;")
+							p Polls
+						a.link-wrap(href="/admin/trivia")
+							.icon(style="background-image:url(/img/admin/nav/trivia.svg); width: 19px; height: 19px; margin-top: 2px;")
+							p Trivia
 						a.link-wrap(href="/admin/viewers")
 							.icon(style="background-image:url(/img/admin/nav/viewers.svg); width: 20px; height: 20px;")
 							p Viewers
@@ -58,6 +64,14 @@ html
 						h1.page-title=title
 						link(rel='stylesheet', href="/css/admin/chat-moderation.css")
 						include pages/chat-moderation
+					when 'Polls'
+						h1.page-title=title
+						link(rel='stylesheet', href="/css/admin/polls.css")
+						include pages/polls
+					when 'Trivia'
+						h1.page-title=title
+						link(rel='stylesheet', href="/css/admin/trivia.css")
+						include pages/trivia
 					when 'Users'
 						h1.page-title=title
 						link(rel='stylesheet', href="/css/admin/users.css")
@@ -100,6 +114,10 @@ case page
 		script(src="/js/admin/stream.js")
 	when 'Chat Moderation'
 		script(src="/js/admin/chat-moderation.js")
+	when 'Polls'
+		script(src="/js/admin/polls.js")
+	when 'Trivia'
+		script(src="/js/admin/trivia.js")
 	when 'Users'
 		script(src="/js/admin/users.js")
 	when 'Profile'

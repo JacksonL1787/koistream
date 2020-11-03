@@ -1,0 +1,280 @@
+.container
+	width calc(100% - 2px)
+	border 1px solid #191b1f
+	background #101215
+	margin-top 20px
+	border-radius .3em
+	.top-content
+		background #191b1f
+		width calc(100% - 40px)
+		border-top-right-radius .3em
+		border-top-left-radius .3em
+		padding 0 20px
+		height 60px
+		display flex
+		align-items center
+		justify-content space-between
+		.container-title
+			color #c0c8cc
+			font-size 22px
+			letter-spacing .5px
+			font-weight 500
+			display block
+			width fit-content
+			text-align left
+			word-break break-all
+		#add-template-btn
+			cursor pointer
+			width 40px
+			height 40px
+			border-radius 40px
+			transition background .3s	
+			&:hover
+				background rgba(255,255,255,0.05)
+			.icon
+				background-image url("/img/add-icon.svg")
+				background-size cover
+				background-position center
+				background-repeat no-repeat
+				width 20px
+				height 20px
+				position absolute
+				top 50%
+				left 50%
+				transform translate(-50%, -50%)
+	.scroll-container
+		overflow-y auto 
+		overflow-y hidden
+		max-height 750px
+		width 100%
+		.main-content
+			width calc(100% - 40px)
+			margin 20px auto
+		.empty-container-notification
+			color rgba(255,255,255,.4)
+			letter-spacing .5px
+			text-transform uppercase
+			font-size 14px
+			text-align center
+			padding 40px 0
+			font-weight 300
+
+#template-editor-container
+	width 100%
+	height 100%
+	position fixed
+	top 0
+	left 100%
+	overflow-y auto
+	overflow-x hidden
+	z-index 1000
+	background #191b1f
+	transition left .3s
+	&.active
+		left 0
+	.top-content
+		width calc(100% - 80px)
+		height 150px
+		margin 0 auto
+		display flex
+		align-items center
+		.editor-title
+			color white
+			font-size 35px
+			letter-spacing .5px
+			font-weight 700
+		.close
+			background-image url("/img/back-arrow.svg")
+			background-size cover
+			background-repeat no-repeat
+			background-position center
+			width 28px
+			height 28px
+			cursor pointer
+			opacity .7
+			margin 3px 40px 0 0
+			transition opacity .3s
+			&:hover
+				opacity 1
+	.main-content
+		width calc(100% - 220px)
+		margin 0 auto 50px
+		.general-settings
+			.general-settings-title
+				color #C0C8CC
+				font-size 28px
+				letter-spacing .5px
+				font-weight 500
+				margin-bottom 20px
+			.input-flex-container
+				display flex
+				justify-content left
+				align-items center
+				.input-container
+					margin-right 30px
+					margin-bottom 0 !important
+					&:last-child
+						margin-right 0 !important
+			.input-container
+				margin-bottom 25px
+				label
+					color #999ea0
+					font-size 13px
+					letter-spacing .5px
+					font-weight 500
+					display block
+					margin-bottom 8px
+				input
+					border 1px solid #393c3e
+					outline none
+					background rgba(0,0,0,0.1)
+					border-radius .2em
+					color white
+					font-size 16px
+					letter-spacing .5px
+					padding 8px 10px
+					&.template-title-input
+						width 250px
+				.time-flex-wrap
+					display flex
+					align-items center
+					input
+						width 50px
+						text-align center
+					p
+						color #fff
+						font-size 16px
+						font-weight 500
+						letter-spacing .5px
+						margin-left 10px
+		.questions-container
+			width 100%
+			height fit-content
+			margin-top 50px
+			.content-container-title
+				color #c0c8cc
+				font-size 25px
+				letter-spacing .5px
+				font-weight 600
+			.question-cards-flex-wrap
+				width 100%
+				display flex
+				justify-content left
+				flex-flow row wrap
+				margin-top 25px
+				.card-wrap
+					width calc(50% - 12px)
+					margin-bottom 20px
+					background black
+					border-radius .3em
+					height auto
+					min-height 300px
+					position relative
+					&:nth-child(odd)
+						margin-right 20px
+					&:nth-last-of-type(2)
+						.controls-wrap .move-right
+							display none
+				.question-card
+					background #101215
+					border 1px solid #1e2125
+					overflow hidden
+					&:first-child
+						.controls-wrap .move-left
+							display none
+					&:hover
+						.controls-wrap
+							opacity 1 !important
+					.top-content-wrap
+						display flex
+						align-items center
+						justify-content space-between
+						width calc(100% - 40px)
+						margin 0 auto
+						height 75px
+						.question-number
+							color white
+							font-size 40px
+							letter-spacing 1px
+							font-weight 800
+						.controls-wrap
+							display flex
+							align-items center
+							justify-content right
+							opacity 0
+							transition opacity .3s
+							.move-left,
+							.move-right
+								margin-right 20px
+							.action-btn
+								position relative
+								&:hover
+									.icon
+										opacity 1
+									p
+										opacity 1
+										visibility visible
+										transform translate(-50%, 0)
+								&.move-left .icon
+									background-image url("/img/back-arrow.svg")
+								&.move-right .icon
+									background-image url("/img/back-arrow.svg")
+									transform rotate(180deg)
+								&.delete-question .icon
+									background-image url("/img/delete-question.svg")
+								.icon
+									background-size cover
+									background-repeat no-repeat
+									background-position center
+									width 22px
+									height 22px
+									cursor pointer
+									opacity .7
+									transition opacity .3s
+								p
+									color white
+									opacity 0
+									visibility hidden
+									position absolute
+									left 50%
+									transform translate(-50%, 10px)
+									bottom -24px
+									font-size 11px
+									letter-spacing .3px
+									width fit-content
+									transition opacity .3s, visiblity .3s, transform .3s
+					.question-information
+						width calc(100% - 40px)
+						margin 10px auto
+				#add-question-card-btn
+					border 1px dashed rgba(255,255,255,0.2)
+					background #282d38
+					cursor pointer
+					transition border-color .3s, background .3s
+					&.full-width
+						width 100%
+					&:hover
+						background #303644
+						border-color rgba(255,255,255,0.4)
+						.card-content
+							opacity 1
+					.card-content
+						position absolute
+						top calc(50% - 5px)
+						left 50%
+						transform translate(-50%, -50%)
+						opacity 0.7
+						transition opacity .3s
+						.icon
+							background-image url("/img/add-icon.svg")
+							background-position center
+							background-repeat no-repeat
+							background-size cover
+							width 50px
+							height 50px
+							margin 0 auto 10px
+						p
+							color white
+							font-size 20px
+							letter-spacing .5px
+							font-weight 600

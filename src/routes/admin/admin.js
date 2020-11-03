@@ -42,6 +42,14 @@ router.get('/users', authCheck, async function(req, res, next) {
     res.render('admin/home', {page: "Users", title: 'Users'});
 });
 
+router.get('/polls', authCheck, async function(req, res, next) {
+    res.render('admin/home', {page: "Polls", title: 'Polls'});
+});
+
+router.get('/trivia', authCheck, async function(req, res, next) {
+    res.render('admin/home', {page: "Trivia", title: 'Trivia'});
+});
+
 router.get('/u/:googleId', authCheck, async function(req, res, next) {
     const googleId = req.params.googleId
     const name = await getUserName(googleId)

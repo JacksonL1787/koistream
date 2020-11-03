@@ -329,6 +329,22 @@ $(".save-stream-title-btn").click(() => {
 	})
 })
 
+$(() => { // TRIVIA CONTROL
+
+	$(".trivia-next-btn").click(() => {
+		$.post({
+			url: "/admin/api/triviaNextStep"
+		})
+	})
+
+	$(".trivia-end-btn").click(() => {
+		$.post({
+			url: "/admin/api/endTrivia"
+		})
+	})
+
+})
+
 $(() => { // POLL CONTROL
 
 	$(".create-poll-btn").click(() => {

@@ -27,6 +27,8 @@ const endPoll = require('../../db/polls/endPoll')
 const getRecentPollResults = require('../../db/polls/getRecentPollResults')
 const isPollActive = require("../../db/polls/isPollActive")
 const sendBotMessage = require("../../db/liveChats/sendBotMessage")
+const triviaNextStep = require("../../db/trivia/nextStep")
+const endTrivia = require("../../db/trivia/endTrivia")
 
 
 const adminAuth = (req,res,next) => {
@@ -77,7 +79,21 @@ router.post("/createPoll", adminAuth, async (req, res, next) => {
     const io = req.app.get("socketio")
     notification(io, `{${req.user.googleId}} started a poll`)
     io.emit("startPoll")
-    await sendBotMessage(io, "A NEW POLL HAS STARTED!", "KoiStream Polls")
+    res.sendStatus(200)
+})
+
+router.post("/triviaNextStep", adminAuth, async (req, res, next) => {
+    const step = await triviaNextStep()
+    if(step === "end") return res.sendStatus(200);
+    const io = req.app.get("socketio")
+    io.emit("triviaNextStep")
+    res.sendStatus(200)
+})
+
+router.post("/endTrivia", adminAuth, async (req, res, next) => {
+    const end = await endTrivia()
+    const io = req.app.get("socketio")
+    io.emit("triviaNextStep")
     res.sendStatus(200)
 })
 
@@ -87,7 +103,6 @@ router.post("/endPoll", adminAuth, async (req, res, next) => {
     const io = req.app.get("socketio")
     notification(io, `{${req.user.googleId}} ended a poll`)
     io.emit("endPoll")
-    await sendBotMessage(io, "THE POLL HAS ENDED! ", "KoiStream Polls")
     res.sendStatus(200)
 })
 

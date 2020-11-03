@@ -1,0 +1,36 @@
+.trivia-templates-container.container
+	.top-content
+		h1.container-title Templates
+		#add-template-btn
+			.icon
+	.scroll-container
+		.main-content
+			p.empty-container-notification No Templates Found
+
+#template-editor-container.active
+	.top-content
+		.close
+		h1.editor-title Create Trivia Template
+	.main-content
+		.general-settings
+			.input-container
+				label Template Title
+				input.template-title-input(type="text" placeholder="No Title")
+			.input-flex-container
+				.input-container
+					label Question Duration
+					.time-flex-wrap
+						input.quesiton-duration-input(type="number" placeholder="10" data-default-val="10" value="10" min="1" max="999")
+						p seconds
+				.input-container
+					label Answering Duration
+					.time-flex-wrap
+						input.answering-duration-input(type="number" placeholder="30" data-default-val="30" value="30" min="1" max="999")
+						p seconds
+		.questions-container
+			h1.content-container-title Questions
+			.question-cards-flex-wrap
+				#add-question-card-btn.card-wrap
+					.card-content
+						.icon
+						p Add a Question

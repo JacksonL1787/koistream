@@ -62,35 +62,35 @@ const setSlate = () => {
 	})
 }
 
-const getPoll = () => {
-	$.get({
-		url: "/api/getActivePoll",
-		success: (data) => {
-			if(data.userAnswered) {
-				$(".finished-voting-container").css("display", "flex")
-				$(".poll-content").hide()
-			} else {
-				$(".finished-voting-container").hide()
-				$(".poll-container .options-container").empty()
-				$(".poll-container .submit-vote-btn").removeClass("active")
-				$(".poll-container .question").text(data.question)
-				data.options.forEach((o) => {
-					$(".poll-container .options-container").append(`
-						<div class="option" data-option-number="${o.number}">
-							<p class="value">${o.value}</p>
-						</div>
-					`)
-				})
+// const getPoll = () => {
+// 	$.get({
+// 		url: "/api/getActivePoll",
+// 		success: (data) => {
+// 			if(data.userAnswered) {
+// 				$(".finished-voting-container").css("display", "flex")
+// 				$(".poll-content").hide()
+// 			} else {
+// 				$(".finished-voting-container").hide()
+// 				$(".poll-container .options-container").empty()
+// 				$(".poll-container .submit-vote-btn").removeClass("active")
+// 				$(".poll-container .question").text(data.question)
+// 				data.options.forEach((o) => {
+// 					$(".poll-container .options-container").append(`
+// 						<div class="option" data-option-number="${o.number}">
+// 							<p class="value">${o.value}</p>
+// 						</div>
+// 					`)
+// 				})
 				
-				$(".poll-content").show()
-			}
-			$(".poll-container").show()
-		},
-		error: () => {
-			$(".poll-container").hide()
-		}
-	})
-}
+// 				$(".poll-content").show()
+// 			}
+// 			$(".poll-container").show()
+// 		},
+// 		error: () => {
+// 			$(".poll-container").hide()
+// 		}
+// 	})
+// }
 
 const setStreamInfo = () => {
 	$.get({
@@ -124,7 +124,7 @@ const setViewerCount = () => {
 $(document).ready(() => {
 	setStreamInfo()
 	setViewerCount()
-	getPoll()
+	//getPoll()
 	setInterval(setViewerCount, 20000)
 })
 
@@ -264,6 +264,6 @@ socket.on('updateStreamTitle', () => {
 		}
 	})
 })
-socket.on("startPoll", getPoll)
-socket.on("endPoll", getPoll)
+// socket.on("startPoll", getPoll)
+// socket.on("endPoll", getPoll)
 setSlate()

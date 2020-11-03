@@ -15,6 +15,10 @@ module.exports = {
     chatTags: "chatTags",
     polls: "polls",
     pollAnswers: "pollAnswers",
-    pollOptions: "pollOptions"
+    pollOptions: "pollOptions",
+    triviaTemplates: "triviaTemplates",
+    triviaOptions: "triviaOptions",
+    triviaQuestions: "triviaQuestions",
+    triviaAnswers: "triviaAnswers"
 }
   

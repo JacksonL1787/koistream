@@ -80,8 +80,13 @@ body
 	.nav-content
 		width 100%
 		height 100%
-		overflow-y auto
+		overflow hidden
 		.bottom-content
+			background #101215
+			position absolute
+			bottom 0
+			left 0
+			width 100%
 			.link-wrap
 				width 100%
 				padding 15px 0
@@ -96,9 +101,9 @@ body
 					font-size 16px
 					text-align center
 		.top-content
-			min-height 517px
 			height calc(100% - 122px)
 			margin-top 20px
+			overflow-y auto
 			.logo-container
 				margin 0 0 0 25px
 				display flex
@@ -176,3 +181,8 @@ body
 			letter-spacing .5px
 			font-size 30px
 			margin-top 20px
+
+input::-webkit-outer-spin-button,
+input::-webkit-inner-spin-button
+	-webkit-appearance: none;
+	margin: 0;
