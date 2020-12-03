@@ -20,8 +20,6 @@ const AWS = require("aws-sdk");
 
 AWS.config.update({accessKeyId: process.env.AWS_ACCESS_KEY_ID, secretAccessKey: process.env.AWS_SECRET_ACCESS_KEY, region: 'us-west-2'});
 
-var multer = require('multer');
-
 const passportSetup = require('./config/passport-setup')
 
 const userConnect = require('./db/socketConnections/userConnect')
@@ -29,22 +27,11 @@ const userDisconnect = require('./db/socketConnections/userDisconnect')
 const resetUserStatuses = require('./db/socketConnections/resetUserStatuses')();
 const getUserAuth = require('./db/users/getUserAuth')
 
-var indexRouter = require('./routes/index');
-var authRouter = require('./routes/auth/auth');
-var apiRouter = require('./routes/api')
-var adminRouter = require('./routes/admin/admin')
-var adminAPIRouter = require('./routes/admin/api');
-const { exec } = require('child_process');
-
-
-var storage_errorCap = multer.diskStorage({
-  destination: 'src/static/img/uploads/errors/index',
-  filename: function(req, file, cb) {
-    cb(null, "error_capture" + '-' + Date.now() + '-' + randomstring.generate() + '.jpg');
-  }
-})
-
-var upload_errorCap = multer({ storage: storage_errorCap })
+const userPagesRouter = require('./routes/user/pages');
+const userAPIRouter = require('./routes/user/api');
+const adminPagesRouter = require('./routes/admin/pages')
+const adminAPIRouter = require('./routes/admin/api');
+const authRouter = require('./routes/auth');
 
 // view engine setup
 app.set('views', path.join(__dirname, 'views'));
@@ -72,10 +59,10 @@ app.use(sessionMiddleware);
 app.use(passport.initialize());
 app.use(passport.session());
 
-app.use('/', indexRouter);
+app.use('/', userPagesRouter);
 app.use('/auth', authRouter);
-app.use('/api', apiRouter)
-app.use('/admin', adminRouter)
+app.use('/user/api', userAPIRouter)
+app.use('/admin', adminPagesRouter)
 app.use('/admin/api', adminAPIRouter)
 
 // catch 404 and forward to error handler

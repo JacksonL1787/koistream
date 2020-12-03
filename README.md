@@ -1,2 +1,2 @@
-# Community Broadcast Platform
-### Connecting your community during these hard times. 
+# KoiStream
+### Connecting our students, staff and families.

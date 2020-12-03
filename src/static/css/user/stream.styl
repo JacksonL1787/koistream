@@ -1,0 +1,1102 @@
+body
+	overflow hidden
+
+// REUSABLE STYLES
+
+.blue-text-icon-button-style
+	display flex
+	align-items center
+	justify-content center
+	width fit-content
+	cursor pointer
+	padding 5px 10px
+	border-radius 1000px
+	transition background .3s
+	&:hover
+		background #16252d
+	.icon
+		width 18px
+		height 18px
+		min-width 18px
+		min-height 18px
+		margin-right 8px
+	.value
+		color #00A4FF
+		font-size 14px
+		letter-spacing .5px
+		font-weight 700
+
+.blue-round-text-button-style
+	color #fff
+	font-size 16px
+	letter-spacing .5px
+	font-weight 600
+	padding 12px 30px
+	border-radius 5px
+	background #00a4ff
+	border none
+	outline none
+	cursor pointer
+	transition background .3s
+	&:hover
+		background #077bbb !important
+	
+.list-option-style
+	display flex
+	align-items center
+	opacity .5
+	transition opacity .3s
+	cursor pointer
+	margin-bottom 15px
+	&:hover
+		opacity 1
+	&.selected
+		opacity 1
+		.dot
+			border-color #00a4ff
+			.inner-fill
+				background #00a4ff
+				transform translate(-50%, -50%) scale(1)
+		.value
+			color #00a4ff
+	.dot
+		margin-right 10px
+		border 2px solid white
+		width 16px
+		height 16px
+		border-radius 16px
+		position relative
+		transition border-color
+		.inner-fill
+			background white
+			position absolute
+			top 50%
+			left 50%
+			transform translate(-50%, -50%) scale(0)
+			width 11px
+			height 11px
+			border-radius 12px
+			transition transform .3s, background .3s
+	.value
+		color white
+		font-weight 600
+		font-size 15px
+		letter-spacing .5px
+		transition color .3s
+
+
+// PRELOADER STYLES:
+
+#preload-container
+	width 100%
+	height 100%
+	position fixed
+	top 0
+	left 0
+	z-index 1000
+	background #111217
+	visibility visible
+	//display none
+	opacity 1
+	transition opacity .3s, visibility .3s
+	&.done
+		opacity 0
+		visibility hidden
+	.preloader-content
+		position absolute
+		top calc(50% - 10px)
+		left 50%
+		transform translate(-50%, -50%)
+		text-align center
+		.logo
+			width 60px
+			height 60px
+			margin-bottom 30px
+		.loading-bar
+			background #005CFF
+			max-width 250px
+			margin 0 auto
+			width 90vw
+			height 5px
+			border-radius 5px
+			position relative
+			overflow hidden
+			.inside-loader
+				width 100%
+				height 100%
+				position absolute
+				left 0
+				background linear-gradient(90deg, transparent, #00C8F3 25%, #00C8F3 75%, transparent)
+				animation preloader  1.5s infinite linear
+
+@keyframes preloader
+	0%
+		left -100%
+	100%
+		left 100%
+
+// MODAL STYLES:
+
+#poll-modal
+	opacity 0
+	z-index 101
+	visibility hidden
+	max-width 600px
+	width 95%
+	height fit-content
+	position fixed
+	top calc(50% + 30px)
+	left 50%
+	transform translate(-50%, -50%)
+	background linear-gradient(#0097ea, #026FFF)
+	transition opacity .3s, visibility .3s, top .3s
+	&.active
+		opacity 1
+		visibility visible
+		top 50%
+	.poll-content
+		padding 20px
+		.top-flex-container
+			display flex
+			justify-content space-between
+			align-items center
+			margin-bottom 15px
+			.close-poll-modal
+				width 22px
+				height 22px
+				cursor pointer
+				opacity .6
+				transition opacity .3s
+				&:hover
+					opacity 1
+			.title
+				color #fff
+				opacity .7
+				padding 5px 10px
+				background rgba(0,0,0,0.3)
+				width fit-content
+				font-size 16px
+				text-transform uppercase
+				letter-spacing .5px
+		.question
+			color #fff
+			font-size 25px
+			letter-spacing .5px
+			margin-bottom 40px
+		.already-voted
+			text-align center
+			color #ffffffb8
+			letter-spacing 1px
+			text-transform uppercase
+			font-size 20px
+			padding-bottom 30px
+		.options-container
+			width 100%
+			.option
+				margin-bottom 15px
+				width 100%
+				padding 10px 0
+				border-radius 5px
+				cursor pointer
+				background rgba(255,255,255,0.2)
+				transition background .3s
+				&:hover
+					background rgba(255,255,255,1)
+					.value
+						color #333
+				&:last-child
+					margin-bottom 0 !important
+				.value
+					color #fff
+					font-size 18px
+					font-weight 600
+					width calc(100% - 30px)
+					padding 0 15px
+					transition color .3s
+
+#modal-active-overlay
+#poll-modal-overlay
+	position fixed
+	z-index 100
+	background #04080ae3
+	opacity 0
+	visibility hidden
+	top 0
+	left 0
+	width 100%
+	height 100%
+	transition opacity .3s, visibility .3s
+	&.active
+		opacity 1
+		visibility visible 
+
+.modal-container
+	opacity 0
+	z-index 101
+	visibility hidden
+	width 95%
+	position fixed
+	top calc(50% + 30px)
+	left 50%
+	transform translate(-50%, -50%)
+	background #111217
+	transition opacity .3s, visibility .3s, top .3s
+	&.active
+		opacity 1
+		visibility visible
+		top 50%
+	.modal-top
+		display flex
+		width calc(100% - 40px)
+		height 80px
+		align-items center
+		justify-content space-between
+		padding 0 20px
+		background linear-gradient(90deg, #026FFF, #0097ea)
+		.modal-title
+			font-size 30px
+			color #fff
+			letter-spacing 1px
+			font-weight 800
+			text-transform uppercase
+		.close-modal-button
+			cursor pointer
+			width 25px
+			height 25px
+			opacity .6
+			transition opacity .3s
+			&:hover
+				opacity 1
+	.scroll-container
+		width 100%
+		overflow-y auto
+		.modal-content
+			width calc(100% - 40px)
+			margin 30px auto 40px
+			height fit-content
+			position relative
+
+#chat-guidelines-modal
+	max-width 800px
+	ol
+		list-style none 
+		counter-reset li
+		padding-left 15px
+		margin 0
+		li
+			color #d3d7e0
+			letter-spacing .5px
+			margin-bottom 35px
+			padding-left 35px
+			font-size 17px
+			position relative
+			line-height 140%
+			&:last-child
+				margin-bottom 0 !important
+			&::before
+				content counter(li) "."
+				font-weight 700
+				font-size 19px
+				color #484c5d
+				counter-increment li
+				position absolute
+				left 0
+				top calc(50% + 2px)
+				transform translateY(-50%)
+
+#chat-settings-modal
+	max-width 900px
+	.modal-content
+		margin-bottom 45px !important
+	.modal-flex-container
+		display flex
+		justify-content space-between
+		width 100%
+		position relative
+		.chat-settings-select
+			width calc(50% - 20px)
+			.select-title
+				color #fff
+				font-weight 600
+				font-size 16px
+				letter-spacing .5px
+				margin-bottom 15px
+		.choose-chat-tag-container
+			.no-chat-tags
+				display flex
+				align-items center
+				.icon
+					width 22px
+					height 22px
+					margin-right 8px
+				.value
+					color #8e9096
+					font-size 15px
+					letter-spacing .5px
+			.options-container
+				.chat-tag-option
+					width 100%
+					height 40px
+					background #17181f
+					cursor pointer
+					position relative
+					margin-bottom 10px
+					transition background .3s
+					&:hover
+						background #1f212b
+					&.selected
+						background #2a2f3e
+						.checkmark-icon
+							opacity 1
+					.checkmark-icon
+						width 20px
+						height 20px
+						position absolute
+						top 50%
+						left 10px
+						transform translateY(-50%)
+						opacity 0
+						transition opacity .3s
+					.tag
+						font-size 12px
+						padding 1px 5px
+						border 1px solid transparent
+						border-radius .3em
+						text-transform uppercase
+						font-weight 800
+						letter-spacing .5px
+						position absolute
+						top 50%
+						left 50%
+						transform translate(-50%, -50%)
+		.choose-name-color-container
+			.options-container
+				display flex
+				width 100%
+				flex-flow row wrap
+				.name-color-option
+					width calc(20% - 8px)
+					margin-right 10px
+					height 40px
+					margin-bottom 10px
+					cursor pointer
+					position relative
+					transition transform .3s
+					&:hover
+						transform scale(1.1)
+						.selected-bg
+							transform scale(1.1) translate(-50%, -50%)
+					&:nth-child(5n)
+						margin-right 0
+					&.selected
+						.selected-bg
+							opacity 1
+						&:hover
+							transform none
+							.selected-bg
+								transform translate(-50%, -50%)
+					.selected-bg
+						width 34px
+						height 34px
+						border-radius 34px
+						position absolute
+						top 50%
+						left 50%
+						transform translate(-50%, -50%)
+						background rgba(0,0,0,0.6)
+						opacity 0
+						transition opacity .3s, transform .3s
+						.icon
+							width 20px
+							height 20px
+							position absolute
+							top 50%
+							left 50%
+							transform translate(-50%, -50%)
+	.update-chat-settings-button
+		margin 35px auto 0
+		display block
+
+#report-error-modal
+	max-width 700px
+	.modal-flex-container
+		display flex
+		width 100%
+		justify-content space-between
+		position relative
+		.error-type-container,
+		.error-description-container
+			//width calc(50% - 10px)
+			position relative
+			.container-title
+				color #fff
+				font-size 16px
+				font-weight 600
+				letter-spacing .5px
+				margin-bottom 15px
+				.title-information
+					color grey
+					font-size 13px
+					font-weight 500
+		.error-description-container
+			width calc(100% - 20px)
+			.error-description-input
+				resize none
+				outline none
+				width calc(100% - 18px)
+				height calc(100% - 37px)
+				overflow-y auto
+				overflow-x hidden
+				background #1b2129
+				border 1px solid #33394a
+				color #d3d7e0
+				font-weight 500
+				font-size 15px
+				letter-spacing .5px
+				border-radius 5px
+				padding 8px
+				transition border-color .3s
+				&:focus
+					border-color #00a4ff
+		.error-type-container
+			min-width fit-content
+			margin-right 50px
+			.error-type-option
+				margin-left 5px
+	.submit-error-report-button
+		margin 30px auto 0
+		display block
+
+
+
+// MAIN PAGE STYLES:
+
+#open-poll-button
+	position fixed
+	padding 12px 20px
+	width fit-content
+	background #00a4ff
+	z-index 10
+	cursor pointer
+	left 50%
+	transform translateX(-50%)
+	border-bottom-left-radius 5px
+	border-bottom-right-radius 5px
+	top -50px
+	box-shadow 0 0 7px 0 #00a4ff
+	transition background .3s, top .3s, box-shadow .3s
+	&:hover
+		background #077bbb
+		box-shadow 0 0 7px 0 #077bbb
+	&.active
+		top 0
+	p
+		color white
+		font-size 15px
+		text-transform uppercase
+		font-weight 600
+		letter-spacing .5px
+
+#main-scroll-container
+	width calc(100% - 400px)
+	height 100%
+	overflow-y scroll
+	overflow-x hidden
+#main-container
+	width calc(100% - 100px)
+	max-width 1300px
+	padding-left 15px
+	position relative
+	margin 0 auto
+	height fit-content
+	.main-header-container
+		width 100%
+		height 100px
+		display flex
+		align-items center
+		justify-content left
+		.header-logo-container
+			position relative
+			min-width 45px
+			min-height 45px
+			width 45px
+			height 45px
+			margin-right 20px
+			cursor pointer
+			.logo
+				width 100%
+				height 100%
+		.header-title-container
+			height 100%
+			display flex
+			flex-flow column nowrap
+			align-items left
+			margin-top 3px
+			justify-content center
+			.page-title
+				color #00a4ff
+				text-transform uppercase
+				font-size 12px
+				letter-spacing .8px
+				font-weight 800
+				width fit-content
+			.stream-title
+				color white
+				font-size 25px
+				letter-spacing .5px
+	.main-content-container
+		margin 0 auto
+		.stream-video-container
+			width fit-content
+			position relative
+			overflow hidden
+			.video-aspect-ratio
+				width 100%
+			#stream-slate
+				width 100%
+				height 100%
+				position absolute
+				top 0
+				left 0
+				z-index 5
+				background-size cover
+				background-repeat no-repeat
+				background-position center
+				background-image url("/img/slates/koistream-offline.png")
+			#koistream-video
+				width 100%
+				height 100%
+				position absolute
+				top 0
+				left 0
+				outline none !important
+				background #000000 !important
+				.vjs-control-bar
+					height 5em !important
+					background-color #00000099 !important
+					align-items center !important
+					transition opacity .5s !important
+				.vjs-button,
+				.vjs-control
+					height 3em !important
+					outline none !important
+				.vjs-icon-placeholder::before
+					font-size 2em !important
+				.vjs-remaining-time
+					display none !important
+				.vjs-progress-control
+					opacity 0 !important
+					visibility hidden !important
+				.vjs-picture-in-picture-control
+					display none !important
+				.vjs-big-play-button
+					top 50% !important 
+					left 50% !important 
+					transform translate(-50%, -50%)
+					background transparent !important
+					border none !important
+					font-size 6em
+					transition none !important
+				.vjs-tech
+					background #000000 !important
+		.stream-info-container
+			margin 40px 0 
+			.info-flex-container
+				display flex
+				justify-content center
+				align-items center
+				width 100%
+				.info-nav
+					display flex
+					justify-content left
+					align-items center
+					.info-nav-item
+						background transparent
+						border none
+						outline none
+						color #8a909e
+						font-size 14px
+						text-transform uppercase
+						font-weight 600
+						letter-spacing .5px
+						cursor pointer
+						transition color .3s
+						margin-right 15px
+						&:hover
+							color #ffffff
+						&.active
+							color #00a4ff
+						&:last-child
+							margin-right 0
+				.viewer-counter
+					display flex
+					justify-content right
+					align-items center
+					.viewer-icon
+						width 22px
+						height 22px
+						margin-right 10px
+					.viewer-count-value
+						color white
+						font-size 16px
+						font-weight 500
+						letter-spacing .5px
+			.info-container
+				margin 40px auto
+				width 100%
+				display none
+				&.active
+					display block
+			.episode-description-container
+				.description
+					color #e6e9f0
+					font-weight 500
+					font-size 16px
+					letter-spacing .5px
+					line-height 180%
+
+#chat-container
+	height 100%
+	width 400px
+	background #14161d
+	position fixed 
+	top 0
+	right 0
+	&.show-more-controls
+		.chat-header-container 
+			height 140px
+			.more-controls-container
+				left 0
+			.chat-header-content
+				left calc(-100% - 30px)
+		.chats-scroll-container
+			height calc(100% - 340px)
+	::-webkit-scrollbar-thumb
+		min-height 100px
+	.chat-header-container
+		height 80px
+		margin 0 auto
+		width calc(100% - 30px)
+		position relative
+		overflow hidden
+		transition height .3s linear
+		.icon-button
+			cursor pointer
+			width 40px
+			height 40px
+			min-width 40px
+			min-height 40px
+			border-radius 40px
+			position relative
+			background transparent
+			transition background .3s
+			&:hover
+				background #16252d
+			.button-icon
+				width 20px
+				height 20px
+				position absolute 
+				top 50%
+				left 50%
+				transform translate(-50%, -50%)
+		.chat-header-content,
+		.more-controls-container
+			display flex
+			height calc(100% - 2px)
+			width 100%
+			position absolute
+			top 0
+			transition left .3s linear
+		.more-controls-container
+			left calc(100% + 30px)
+			justify-content left
+			align-items center
+			.hide-more-controls-button
+				position absolute
+				top 50%
+				left 0
+				transform translateY(-50%)
+			.more-controls-content
+				display flex
+				width 100%
+				justify-content center
+				flex-flow column nowrap
+				align-items center
+				.control-button
+					margin 4px 0
+		.chat-header-content
+			left 0
+			justify-content space-between
+			align-items center
+			.user
+				display flex
+				align-items center
+				.user-picture
+					border-radius 40px
+					height 40px
+					width 40px
+					margin-right 12px
+				.user-name
+					color #00A4FF
+					font-size 17px
+					letter-spacing .5px
+					font-weight 700
+		.divider
+			height 2px
+			width 100%
+			position absolute
+			left 50%
+			transform translateX(-50%)
+			bottom 0
+			background #00A4FF
+	.chats-scroll-container
+		width 100%
+		height calc(100% - 280px)
+		overflow-y auto
+		position relative
+		transition height .3s linear
+	.all-chats-container
+		margin 0 auto
+		width calc(100% - 30px)
+		position relative
+		.chat
+			color #d3d7e0
+			font-size 14px
+			font-weight 400
+			word-wrap break-word;
+			letter-spacing .5px
+			margin-top 20px
+			line-height 170%
+			padding 0 3px
+			&.muted
+				color red
+				text-align center
+			&.cooldown
+				color grey
+				font-size 14px
+				font-weight 400
+				text-align center
+			.chat-tag
+				font-size 11px
+				padding 1px 5px
+				border 1px solid transparent
+				border-radius .3em
+				text-transform uppercase
+				font-weight 800
+				letter-spacing .5px
+				margin-right 5px
+			.chat-sender
+				color #FFFFFF
+				font-size 14px
+				font-weight 700
+				margin-right 5px
+				letter-spacing .5px
+			.chat-emoji
+				position relative
+				.chat-emoji-img
+					width 30px
+					height 30px
+					margin-bottom -10px
+			a
+				color #00A4FF
+				text-decoration none
+				&:hover
+					text-decoration underline !important
+	.enable-autoscroll-button
+		background #fff
+		color #333
+		border none
+		outline none
+		padding 8px 15px
+		letter-spacing .5px
+		font-size 14px
+		cursor pointer
+		font-weight 500
+		border-radius 5px
+		position absolute
+		bottom 210px
+		box-shadow 0 0 8px 0 rgba(0,0,0,0.2)
+		left 50%
+		opacity 0
+		visibility hidden
+		transform translateX(-50%)
+		transition opacity .3s, visibility .3s
+		&.active
+			opacity 1
+			visibility visible
+	.chat-input-container
+		width calc(100% - 30px)
+		margin 0 auto
+		height 110px
+		margin-top 20px
+		position relative
+		.emoji-menu
+			background #1b2129
+			width 100%
+			position absolute
+			bottom calc(100% + 15px)
+			border-radius 5px
+			height 200px
+			box-shadow 0 4px 12px 0 #0f1015ab
+			opacity 0
+			visibility hidden
+			transform translateY(-20px)
+			transition transform .3s, visibility .3s, opacity .3s
+			&.active
+				transform translateY(0)
+				visibility visible
+				opacity 1
+			.menu-header
+				border-top-right-radius 5px
+				border-top-left-radius 5px
+				background #222833
+				height 49px
+				position relative
+				border-bottom 1px solid #33384a
+				.title
+					color white
+					font-size 19px
+					letter-spacing .5px
+					position absolute
+					top 50%
+					left 50%
+					transform translate(-50%, -50%)
+			.scroll-container
+				height calc(100% - 50px)
+				overflow-y auto
+				overflow-x hidden
+				&::-webkit-scrollbar-thumb
+					min-height 60px
+				.emojis-container
+					margin 15px auto
+					display flex
+					justify-content center
+					align-items center
+					flex-flow row wrap
+					width 290px
+					.coming-soon
+						color #d3d7e0
+						letter-spacing 1px
+						text-transform uppercase
+						font-size 15px
+						margin-top 10px
+					.emoji-button
+						width 50px
+						height 50px
+						border-radius 5px
+						margin 0 10px 10px 0
+						cursor pointer
+						position relative
+						transition background .3s
+						&:hover
+							background #252d38
+						&:nth-child(5n)
+							margin-right 0 !important
+						.icon
+							width 35px
+							height 35px
+							position absolute
+							top 50%
+							left calc(50% + 1px)
+							transform translate(-50%, -50%)
+		.input-container
+			height 100%
+			width calc(100% - 2px)
+			background #1b2129
+			border 1px solid #33394a
+			border-radius 5px
+			position relative
+			transition border-color .3s
+			&.focus
+				border-color #00A4FF
+			#chat-input
+				width calc(100% - 64px)
+				height calc(100% - 16px)
+				display block
+				overflow-y auto
+				border none
+				outline none
+				color white
+				padding 8px 0 8px 8px
+				font-size 16px
+				font-weight 500
+		.chat-input-controls
+			position absolute
+			top 0
+			padding 4px 0
+			right 0
+			width 55px
+			height calc(100% - 8px)
+			border-top-right-radius 5px
+			border-bottom-right-radius 5px
+			background #222833
+			border-left 1px solid #333a4a
+			display flex
+			align-items center
+			justify-content space-between
+			flex-flow column nowrap
+			.chat-input-button
+				cursor pointer
+				width 40px
+				height 40px
+				border-radius 40px
+				position relative
+				background transparent
+				transition background .3s
+				&:hover
+					background #183c4e
+				&.active
+					background #1a4d69
+				&.emojis-menu-button .button-icon
+					width 23px
+					height 23px
+				&.send-chat-button .button-icon
+					width 20px
+					height 20px
+					left calc(50% + 2px)
+				.button-icon
+					position absolute 
+					top 50%
+					left 50%
+					transform translate(-50%, -50%)
+	.chat-bottom-container
+		height 70px
+		width 100%
+		position relative
+		display flex
+		align-items center
+		justify-content center
+
+@media only screen and (max-width: 1300px)
+	#main-container
+		width calc(100% - 30px) !important
+
+@media only screen and (max-width: 1000px)
+	body
+		overflow-y auto
+		&.inactive
+			overflow-y hidden
+	#open-poll-button
+		left auto !important
+		right 15px
+		transform none !important
+	#main-scroll-container
+		overflow hidden !important
+		height fit-content !important
+		width 100% !important
+	#main-container
+		padding 0 !important
+		.stream-info-container
+			margin 30px 0 !important
+	#chat-container
+		position relative !important
+		width calc(100% - 30px) !important
+		margin 0 auto 20px
+		height 700px !important
+		border-radius 5px !important
+		box-shadow 0 0 0 1px #1b2129
+
+@media only screen and (max-width: 900px)
+	#chat-settings-modal
+		height 100% !important
+		width 100% !important
+		top 0 !important
+		left 0 !important
+		transform none !important
+		transition opacity .3s, visibility .3s !important
+		&.active
+			top 0 !important
+		.modal-top
+			height 130px !important
+			justify-content center !important
+			flex-flow column-reverse nowrap !important
+			text-align center !important
+			.close-modal-button
+				margin-bottom 15px !important
+		.scroll-container
+			height calc(100% - 130px) !important
+		.modal-flex-container
+			align-items center !important
+			justify-content flex-start !important
+			flex-flow column nowrap !important
+		.no-chat-tags
+			justify-content center !important
+		.choose-name-color-container
+			margin-bottom 30px !important
+			.options-container
+				justify-content center
+				.name-color-option
+					width 40px !important
+					&:nth-child(5n)
+						margin-right 10px !important
+
+		.chat-settings-select
+			width 100% !important
+			max-width 500px !important
+			.select-title
+				text-align center
+@media only screen and (max-width: 750px)
+
+	#chat-guidelines-modal
+		height 100% !important
+		width 100% !important
+		top 0 !important
+		left 0 !important
+		transform none !important
+		transition opacity .3s, visibility .3s !important
+		&.active
+			top 0 !important
+		.modal-top
+			height 130px !important
+			justify-content center !important
+			flex-flow column-reverse nowrap !important
+			text-align center !important
+			.close-modal-button
+				margin-bottom 15px !important
+		.scroll-container
+			height calc(100% - 130px) !important
+		.list
+			padding-left 0 !important
+			li
+				font-size 15px !important
+				&::before
+					font-size 17px !important
+	#open-poll-button
+		left 50% !important
+		right 0 !important
+		transform translateX(-50%) !important
+	.main-header-container
+		flex-flow column nowrap !important
+		height fit-content !important
+		padding 25px 0
+		.header-logo-container
+			margin-right 0 !important
+			margin-bottom 10px !important
+		.header-title-container
+			align-items center !important
+			.stream-title
+				font-size 22px !important
+				text-align center
+			.page-title
+				font-size 11px !important
+
+@media only screen and (max-width: 600px)
+	#poll-modal
+		width 100% !important
+		height 100% !important
+		top 0 !important
+		left 0 !important
+		transform none !important
+		transition opacity .3s, visibility .3s !important
+		&.active
+			top 0 !important
+		.title
+			font-size 14px !important
+		.close-poll-modal
+			width 20px !important
+			height 20px !important
+		.question
+			font-size 23px !important
+		.option
+			.value
+				font-size 16px !important

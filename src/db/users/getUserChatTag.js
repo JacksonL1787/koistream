@@ -7,8 +7,9 @@ module.exports = async (id) => {
             name: `${tables.chatTags}.tag_name`,
             color: `${tables.chatTags}.tag_color`
         })
-        .from(tables.chatTags)
-        .where("id", id)
+        .from(tables.userChatTags)
+        .join(tables.chatTags, `${tables.userChatTags}.chatTagId`, '=', `${tables.chatTags}.id`)
+        .where(`${tables.userChatTags}.id`, id)
     chatTag = chatTag[0]
     return chatTag;
 }

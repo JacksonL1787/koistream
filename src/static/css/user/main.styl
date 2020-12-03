@@ -1,0 +1,52 @@
+@import url('https://fonts.googleapis.com/css?family=Rubik:300,300i,400,400i,500,500i,700,700i,900,900i&display=swap');
+@import url('https://fonts.googleapis.com/css?family=Muli:100,100i,200,200i,300,300i,400,400i,500,500i,600,600i,700,700i,800,800i,900,900i&display=swap');
+body 
+    margin 0px
+    font-family "Muli", sans-serif !important
+    background #111217
+    
+h1, h2, h3, h4, h5, h6, p, span 
+    margin 0
+
+textarea,
+input,
+button
+    font-family "Muli", sans-serif !important
+
+a, a:visited, a:hover, a:active, a:focus {
+   text-decoration: none !important;
+   outline: none !important;
+   color white
+}
+
+::-webkit-scrollbar
+    background-color:transparent;
+    width:16px
+
+::-webkit-scrollbar-track
+    background-color:transparent
+
+::-webkit-scrollbar-thumb
+    background-color:#a2a3a8;
+    border-radius:16px;
+    border:5px solid transparent
+    //min-height: 150px;
+    background-clip: content-box;
+
+::-webkit-scrollbar-thumb:hover
+    background-color:#cacbcf;
+
+
+/* set button(top and bottom of the scrollbar) */
+::-webkit-scrollbar-button 
+    display:none
+
+::-webkit-scrollbar-corner 
+    background: rgba(0,0,0,0.2)
+
+[contenteditable=true]:empty:before{
+    content: attr(placeholder);
+    pointer-events: none;
+    display: block;
+    color #686e84
+}

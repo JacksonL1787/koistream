@@ -1,0 +1,203 @@
+html
+	head
+		title KoiStream
+		meta(name="viewport" content="width=device-width, initial-scale=1")
+		link(href="https://unpkg.com/video.js@7/dist/video-js.min.css" rel="stylesheet")
+		link(rel="Stylesheet" href="/css/user/main.css")
+		link(rel="Stylesheet" href="/css/user/stream.css")
+		link(rel='apple-touch-icon' sizes='180x180' href='/img/favicons/apple-touch-icon.png')
+		link(rel='icon' type='image/png' sizes='32x32' href='/img/favicons/favicon-32x32.png')
+		link(rel='icon' type='image/png' sizes='16x16' href='/img/favicons/favicon-16x16.png')
+		link(rel='manifest' href='/img/favicons/site.webmanifest')
+
+		script.
+			window.auth = parseInt("#{auth}")
+			window.profilePicture = "#{profilePicture}"
+
+		script(src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.4.1/jquery.min.js")
+		script(src="https://cdnjs.cloudflare.com/ajax/libs/lodash.js/4.17.15/lodash.min.js")
+		script(src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.24.0/moment.js")
+		script(src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/2.2.0/socket.io.js")
+	body(style="overflow-y: hidden;")
+
+		#preload-container
+			.preloader-content
+				img.logo(src="/img/compressed-logo.png")
+				.loading-bar
+					.inside-loader
+		#modal-active-overlay
+		#chat-settings-modal.modal-container
+			.modal-top
+				h1.modal-title Chat Settings
+				img.close-modal-button(src="/img/close-icon-white.svg")
+			.scroll-container
+				.modal-content
+					.modal-flex-container
+						.choose-name-color-container.chat-settings-select
+							h1.select-title Select Name Color
+							.options-container
+						.choose-chat-tag-container.chat-settings-select
+							h1.select-title Select Chat Tag
+							.no-chat-tags 
+								img.icon(src="/img/alert-icon-grey.svg")
+								p.value You have no chat tags.
+							.options-container
+					button.update-chat-settings-button.blue-round-text-button-style Update Settings
+		#report-error-modal.modal-container
+			.modal-top
+				h1.modal-title Report Error
+				img.close-modal-button(src="/img/close-icon-white.svg")
+			.scroll-container
+				.modal-content
+					.modal-flex-container
+						.error-type-container
+							h1.container-title Error Type
+							.error-type-options-container
+								.error-type-option.list-option-style
+									.dot
+										.inner-fill
+									p.value Video Buffering
+								.error-type-option.list-option-style
+									.dot
+										.inner-fill
+									p.value Audio Cutting Out
+								.error-type-option.list-option-style
+									.dot
+										.inner-fill
+									p.value Chat Issues
+								.error-type-option.list-option-style
+									.dot
+										.inner-fill
+									p.value Website Issues
+								.error-type-option.list-option-style
+									.dot
+										.inner-fill
+									p.value Other
+						.error-description-container
+							h1.container-title Description <span class="title-information">- optional</span>
+							textarea.error-description-input(data-gramm_editor="false")
+					button.submit-error-report-button.blue-round-text-button-style Submit Report
+		#chat-guidelines-modal.modal-container
+			.modal-top
+				h1.modal-title Chat Guidelines
+				img.close-modal-button(src="/img/close-icon-white.svg")
+			.scroll-container
+				.modal-content
+					ol.list
+						li Be kind and respectful to other viewers
+						li No bullying, sexism, racism, homophobia, politics or other hateful chats
+						li Keep your chats positive and relevant to what is happening during the stream
+						li Listen to staff members and the chat moderation team
+						li No spamming in the chat
+						li Do not advertise, self-promote or post links
+		#open-poll-button
+			p Open Active Poll
+		#poll-modal-overlay
+		#poll-modal
+			.poll-content
+				.top-flex-container
+					h2.title Poll
+					img.close-poll-modal(src="/img/close-icon-white.svg")
+				h1.question
+				p.already-voted Already Voted
+				.options-container
+		#main-scroll-container
+			#main-container
+				.main-header-container
+					a.header-logo-container(href="/")
+						img.logo(src="/img/logo.png")
+					.header-title-container
+						h2.page-title Live
+						h1.stream-title KoiStream - Holiday Special
+				.main-content-container
+					.stream-video-container
+						img.video-aspect-ratio(src="/img/video-aspect-ratio.png")
+						#stream-slate(style="display: none;")
+					.stream-info-container
+						.info-flex-container
+							//- .info-nav
+							//- 	button.info-nav-item.episode-description-nav-item.active Episode Description
+							//- 	button.info-nav-item.about-us-nav-item About Us
+							//- 	button.info-nav-item.previous-stream-nav-item Previous Streams
+							.viewer-counter
+								img.viewer-icon(src="/img/viewer-icon-blue.svg")
+								p.viewer-count-value 0 Viewers
+						//- .info-container.episode-description-container.active
+						//- 	p.description Lorem ipsum dolor sit amet, consectetur adipiscing elit. Suspendisse semper enim eget enim gravida cursus. Praesent ut risus quis sem dapibus lacinia. Quisque quis interdum dolor, in tempus mauris. Nullam eu ipsum a libero volutpat condimentum efficitur scelerisque nunc. Mauris hendrerit sapien suscipit, vehicula nisl at, aliquam mauris. Etiam justo urna, fermentum semper sodales in, convallis at lacus. Nullam sollicitudin metus ac felis imperdiet, id blandit libero suscipit. Proin venenatis quam eget malesuada finibus. Donec in magna quis massa vulputate pellentesque posuere ultricies ante. Cras eget mauris vitae risus luctus convallis. Nulla id tempor justo. Proin ac lorem sodales, dictum ante sed, faucibus tortor. Vestibulum diam diam, aliquam et ullamcorper vitae, mollis vitae purus.
+						//- .info-container.about-us-container
+						//- .info-container.previous-streams-container
+					
+		#chat-container
+			.chat-header-container
+				.chat-header-content
+					.user
+						img.user-picture
+						p.user-name=name
+					.show-more-controls-button.icon-button
+						img.button-icon(src="/img/show-more-icon-blue.svg")
+				.more-controls-container
+					.hide-more-controls-button.icon-button
+						img.button-icon(src="/img/back-icon-blue.svg")
+					.more-controls-content
+						.control-button.chat-settings-button.blue-text-icon-button-style
+							img.icon(src="/img/settings-icon-blue.svg")
+							p.value Chat Settings
+						//- .control-button.report-error-button.blue-text-icon-button-style
+						//- 	img.icon(src="/img/report-icon-blue.svg")
+						//- 	p.value Report Error
+						.control-button.logout-button.blue-text-icon-button-style
+							img.icon(src="/img/logout-icon-blue.svg")
+							p.value Log out
+				.divider
+			.chats-scroll-container
+				.all-chats-container
+					.chat.announcement(id="undefined")
+						span.chat-tag(style="color: #00a4ff; background: #00a4ff26; border-color: #00a4ff; box-shadow: 0 0 3px 0 #00a4ff;") BOT
+						span.chat-sender Team KoiStream:
+						span.chat-text Welcome to KoiStream! If you have any questions or issues, feel free to email us at <a href="mailto:koistream@dtechhs.com">koistream@dtechhs.com</a>.
+			button.enable-autoscroll-button Enable Auto Scroll
+			.chat-input-container
+				.emoji-menu
+					.menu-header
+						h1.title Emojis
+					.scroll-container
+						.emojis-container
+							p.coming-soon Coming Soon
+							//- .emoji-button
+							//- 	img.icon(src="/img/emojis/dragon.png")
+							//- .emoji-button
+							//- 	img.icon(src="/img/emojis/dragon.png")
+							//- .emoji-button
+							//- 	img.icon(src="/img/emojis/dragon.png")
+							//- .emoji-button
+							//- 	img.icon(src="/img/emojis/dragon.png")
+							//- .emoji-button
+							//- 	img.icon(src="/img/emojis/dragon.png")
+							//- .emoji-button
+							//- 	img.icon(src="/img/emojis/dragon.png")
+							//- .emoji-button
+							//- 	img.icon(src="/img/emojis/dragon.png")
+							//- .emoji-button
+							//- 	img.icon(src="/img/emojis/dragon.png")
+							//- .emoji-button
+							//- 	img.icon(src="/img/emojis/dragon.png")
+							//- .emoji-button
+							//- 	img.icon(src="/img/emojis/dragon.png")
+				.input-container
+					span#chat-input(data-gramm_editor="false" contenteditable="true" placeholder="Send Message")
+					.chat-input-controls
+						.emojis-menu-button.chat-input-button
+							img.button-icon(src="/img/emoji-icon-blue.svg")
+						.send-chat-button.chat-input-button
+							img.button-icon(src="/img/send-icon-blue.svg")
+			.chat-bottom-container
+				#chat-guidlines-button.blue-text-icon-button-style
+					img.icon(src="/img/list-icon-blue.svg" style="width: 20px; height: 20px; min-height: 20px; min-width: 20px;")
+					p.value Chat Guidelines
+
+script(src="https://cdnjs.cloudflare.com/ajax/libs/video.js/7.8.0/video.min.js")
+script(src="https://cdnjs.cloudflare.com/ajax/libs/videojs-contrib-hls/5.15.0/videojs-contrib-hls.min.js")
+script(src="/videojs/videojs-contrib-quality-levels/dist/videojs-contrib-quality-levels.min.js")
+script(src="/videojs/videojs-hls-quality-selector/dist/videojs-hls-quality-selector.min.js")
+script(src="/js/user/components/nav.js")
+script(src="/js/user/stream.js")

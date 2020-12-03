@@ -12,7 +12,7 @@ module.exports = async () => {
             users."googleProfilePicture"
         FROM "socketConnections"
         JOIN users on "socketConnections"."googleId" = users."googleId"
-        WHERE page = '/'
+        WHERE page = '/stream'
         ORDER BY
             "googleId"
     `)

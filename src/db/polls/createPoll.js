@@ -2,11 +2,11 @@ const { reader, writer } = require("../pool")
 const tables = require("../tables")
 const randomstring = require("randomstring")
 const getActiveStream = require("../streams/getActiveStream")
-const isPollActive = require("./isPollActive")
+const getActivePollId = require("./getActivePollId")
 
 module.exports = async (data) => {
-    const activePoll = await isPollActive()
-    if(activePoll) return false;
+    const activePollId = await getActivePollId()
+    if(activePollId) return false;
     const activeStream = await getActiveStream()
     if(!activeStream.streamId) return false;
     const trx = await writer.transaction();

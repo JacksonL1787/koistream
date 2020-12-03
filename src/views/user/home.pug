@@ -1,0 +1,35 @@
+html
+	head
+		title KoiStream
+		meta(name="viewport" content="width=device-width, initial-scale=1")
+		link(rel="Stylesheet" href="/css/user/main.css")
+		link(rel="Stylesheet" href="/css/user/home.css")
+		link(rel='apple-touch-icon' sizes='180x180' href='/img/favicons/apple-touch-icon.png')
+		link(rel='icon' type='image/png' sizes='32x32' href='/img/favicons/favicon-32x32.png')
+		link(rel='icon' type='image/png' sizes='16x16' href='/img/favicons/favicon-16x16.png')
+		link(rel='manifest' href='/img/favicons/site.webmanifest')
+		link(href="https://unpkg.com/video.js@7/dist/video-js.min.css" rel="stylesheet")
+	body
+		.left-container
+			.main-content
+				.nav
+					img.logo(src="/img/logo.png")
+				.header
+					h1.title KoiStream
+					p.subtitle Connecting our students, staff and families.
+					.action-button-container
+						if !user
+							a.login-btn(href="/auth/google") Login With Google
+						else
+							a.see-stream-btn(href="/stream") Go To Stream
+						a.contact-btn(href="mailto:koistream@dtechhs.org") Contact Us
+		.right-container
+			if user
+				p.user-name Welcome, #{name}!
+			.overlay
+			img.splash-image(src="/img/home-splash.jpg")
+script(src="https://cdnjs.cloudflare.com/ajax/libs/video.js/7.8.0/video.min.js")
+script(src="https://cdnjs.cloudflare.com/ajax/libs/videojs-contrib-hls/5.15.0/videojs-contrib-hls.min.js")
+script(src="/videojs/videojs-contrib-quality-levels/dist/videojs-contrib-quality-levels.min.js")
+script(src="/videojs/videojs-hls-quality-selector/dist/videojs-hls-quality-selector.min.js")
+script(src="/js/user/home.js")

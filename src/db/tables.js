@@ -11,14 +11,15 @@ module.exports = {
     slate: "slate",
     socketConnections: "socketConnections",
     slateTypes: "slateTypes",
-    userSettings: "userSettings",
     chatTags: "chatTags",
-    polls: "polls",
+    pollTemplates: "pollTemplates",
     pollAnswers: "pollAnswers",
     pollOptions: "pollOptions",
     triviaTemplates: "triviaTemplates",
     triviaOptions: "triviaOptions",
     triviaQuestions: "triviaQuestions",
-    triviaAnswers: "triviaAnswers"
+    triviaAnswers: "triviaAnswers",
+    nameColors: "nameColors",
+    userChatTags: "userChatTags"
 }
   

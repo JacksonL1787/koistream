@@ -25,10 +25,10 @@ const updateStreamTitle = require('../../db/streams/updateStreamTitle')
 const createPoll = require('../../db/polls/createPoll')
 const endPoll = require('../../db/polls/endPoll')
 const getRecentPollResults = require('../../db/polls/getRecentPollResults')
-const isPollActive = require("../../db/polls/isPollActive")
 const sendBotMessage = require("../../db/liveChats/sendBotMessage")
 const triviaNextStep = require("../../db/trivia/nextStep")
 const endTrivia = require("../../db/trivia/endTrivia")
+const startPoll = require("../../db/polls/startPoll")
 
 
 const adminAuth = (req,res,next) => {
@@ -61,26 +61,30 @@ router.get("/isStreamActive", adminAuth, async (req, res, next) => {
     res.json({active})
 })
 
-router.get("/isPollActive", adminAuth, async (req, res, next) => {
-    const active = await isPollActive()
-    res.json({active})
-})
-
 router.get("/recentPollResults", adminAuth, async (req, res, next) => {
     const results = await getRecentPollResults()
     if(!results) return res.sendStatus(500);
     res.json(results)
 })
 
-router.post("/createPoll", adminAuth, async (req, res, next) => {
-    const poll = await createPoll(req.body)
-    console.log(poll)
+router.post("/startPoll", adminAuth, async (req, res, next) => {
+    const poll = await startPoll()
     if(!poll) return res.sendStatus(500)
     const io = req.app.get("socketio")
-    notification(io, `{${req.user.googleId}} started a poll`)
+    //notification(io, `{${req.user.googleId}} started a poll`)
     io.emit("startPoll")
     res.sendStatus(200)
 })
+
+router.post("/endPoll", adminAuth, async (req, res, next) => {
+    const pollData = await endPoll()
+    if(!pollData) return res.sendStatus(500)
+    const io = req.app.get("socketio")
+    //notification(io, `{${req.user.googleId}} ended a poll`)
+    io.emit("endPoll")
+    res.json(pollData)
+})
+
 
 router.post("/triviaNextStep", adminAuth, async (req, res, next) => {
     const step = await triviaNextStep()
@@ -97,14 +101,6 @@ router.post("/endTrivia", adminAuth, async (req, res, next) => {
     res.sendStatus(200)
 })
 
-router.post("/endPoll", adminAuth, async (req, res, next) => {
-    const poll = await endPoll()
-    if(!poll) return res.sendStatus(500)
-    const io = req.app.get("socketio")
-    notification(io, `{${req.user.googleId}} ended a poll`)
-    io.emit("endPoll")
-    res.sendStatus(200)
-})
 
 router.post("/muteUser", adminAuth, async (req, res, next) => {
     const googleId = req.body.googleId

@@ -1,15 +1,19 @@
 const { reader, writer } = require("../pool")
 const tables = require("../tables")
-const isPollActive = require("./isPollActive")
+const getActivePollId = require("./getActivePollId")
 
-module.exports = async (data) => {
-    const activePoll = await isPollActive()
-    if(!activePoll) return false;
-    const poll = await writer(tables.polls)
+module.exports = async () => {
+    const activePollId = await getActivePollId()
+    if(!activePollId) return false;
+    const poll = await writer(tables.pollTemplates)
         .update({
-            active: false,
-            time_end: writer.fn.now()
+            active: false
         })
         .where("active", true)
-    return true;
+    
+    const options = await reader
+        .select(["value", "voteCount"])
+        .from(tables.pollOptions)
+    
+    return options;
 }

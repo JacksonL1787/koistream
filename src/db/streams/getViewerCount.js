@@ -5,7 +5,7 @@ module.exports = async () => {
     let count = await reader.raw(`
         SELECT COUNT(DISTINCT "googleId")
         FROM "${tables.socketConnections}"
-        WHERE page = '/';
+        WHERE page = '/stream';
     `)
     return count.rows[0].count;
 }
