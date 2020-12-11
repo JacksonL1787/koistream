@@ -6,15 +6,15 @@ const Filter = require('bad-words'),
     filter = new Filter();
 
 module.exports = async (user, message) => {
-    let streamId = await reader.select("streamId").from(tables.streams).where("active", true)
-    if(!streamId[0]) return 500;
-    streamId = streamId[0].streamId
+    let activeStream = await reader.select("id").from(tables.streams).where("active", true)
+    if(!activeStream[0]) return 500;
+    let activeStreamId = activeStream[0].id
     
     let chat = await writer.insert({
         message: message,
         messageFiltered: filter.clean(message),
         chatId: randomstring.generate(),
-        streamId: streamId,
+        streamId: activeStreamId,
         userGoogleId: user.googleId
     })
     .into(tables.liveChats)

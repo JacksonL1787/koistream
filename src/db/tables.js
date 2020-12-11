@@ -20,6 +20,7 @@ module.exports = {
     triviaQuestions: "triviaQuestions",
     triviaAnswers: "triviaAnswers",
     nameColors: "nameColors",
-    userChatTags: "userChatTags"
+    userChatTags: "userChatTags",
+    streamSettings: "streamSettings"
 }
   

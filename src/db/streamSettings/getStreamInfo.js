@@ -5,11 +5,8 @@ module.exports = async () => {
     let info = await reader
         .select([
             "title",
-            "description",
-            "active"
+            "description"
         ])
-        .from(tables.streams)
-        .where("active", true)
-    info = info[0]
-    return info;
+        .from(tables.streamSettings)
+    return info[0];
 }

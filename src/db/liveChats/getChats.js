@@ -5,9 +5,9 @@ const tables = require("../tables")
 module.exports = async (isAdmin) => {
     try {
 
-        let activeStreamId = await reader.select("streamId").from(tables.streams).where("active",true)
-        if(!activeStreamId[0]) return []
-        activeStreamId = activeStreamId[0].streamId
+        let activeStream = await reader.select("id").from(tables.streams).where("active",true)
+        if(!activeStream[0]) return [];
+        let activeStreamId = activeStream[0].id
         
         let query = [
             `${tables.liveChats}.messageFiltered as message`,
@@ -33,7 +33,6 @@ module.exports = async (isAdmin) => {
 			.fullOuterJoin(tables.nameColors, `${tables.nameColors}.id`, '=', `${tables.users}.nameColor`)
 			.where(`${tables.liveChats}.deleted`, false)
 			.andWhere(`${tables.liveChats}.streamId`, activeStreamId)
-		console.log(await chats)
         return chats;
     } catch(e) {
         throw new Error(e)

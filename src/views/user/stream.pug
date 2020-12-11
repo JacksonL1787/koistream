@@ -45,7 +45,7 @@ html
 					button.update-chat-settings-button.blue-round-text-button-style Update Settings
 		#report-error-modal.modal-container
 			.modal-top
-				h1.modal-title Report Error
+				h1.modal-title Report An Error
 				img.close-modal-button(src="/img/close-icon-white.svg")
 			.scroll-container
 				.modal-content
@@ -53,23 +53,23 @@ html
 						.error-type-container
 							h1.container-title Error Type
 							.error-type-options-container
-								.error-type-option.list-option-style
+								.error-type-option.list-option-style.selected(data-type="1")
 									.dot
 										.inner-fill
 									p.value Video Buffering
-								.error-type-option.list-option-style
+								.error-type-option.list-option-style(data-type="2")
 									.dot
 										.inner-fill
 									p.value Audio Cutting Out
-								.error-type-option.list-option-style
+								.error-type-option.list-option-style(data-type="3")
 									.dot
 										.inner-fill
 									p.value Chat Issues
-								.error-type-option.list-option-style
+								.error-type-option.list-option-style(data-type="4")
 									.dot
 										.inner-fill
 									p.value Website Issues
-								.error-type-option.list-option-style
+								.error-type-option.list-option-style(data-type="5")
 									.dot
 										.inner-fill
 									p.value Other
@@ -115,17 +115,18 @@ html
 						#stream-slate(style="display: none;")
 					.stream-info-container
 						.info-flex-container
-							//- .info-nav
-							//- 	button.info-nav-item.episode-description-nav-item.active Episode Description
-							//- 	button.info-nav-item.about-us-nav-item About Us
-							//- 	button.info-nav-item.previous-stream-nav-item Previous Streams
+							.info-nav
+								button.info-nav-item.episode-description-nav-item.active Episode Description
+								//button.info-nav-item.about-us-nav-item About Us
+								//button.info-nav-item.previous-stream-nav-item Previous Streams
 							.viewer-counter
 								img.viewer-icon(src="/img/viewer-icon-blue.svg")
-								p.viewer-count-value 0 Viewers
-						//- .info-container.episode-description-container.active
-						//- 	p.description Lorem ipsum dolor sit amet, consectetur adipiscing elit. Suspendisse semper enim eget enim gravida cursus. Praesent ut risus quis sem dapibus lacinia. Quisque quis interdum dolor, in tempus mauris. Nullam eu ipsum a libero volutpat condimentum efficitur scelerisque nunc. Mauris hendrerit sapien suscipit, vehicula nisl at, aliquam mauris. Etiam justo urna, fermentum semper sodales in, convallis at lacus. Nullam sollicitudin metus ac felis imperdiet, id blandit libero suscipit. Proin venenatis quam eget malesuada finibus. Donec in magna quis massa vulputate pellentesque posuere ultricies ante. Cras eget mauris vitae risus luctus convallis. Nulla id tempor justo. Proin ac lorem sodales, dictum ante sed, faucibus tortor. Vestibulum diam diam, aliquam et ullamcorper vitae, mollis vitae purus.
-						//- .info-container.about-us-container
-						//- .info-container.previous-streams-container
+								p.viewer-count-value <b id="viewer-number"></b> <b class="viewer-count-label">Viewers</b>
+						.info-container.episode-description-container.active
+							p.description Lorem ipsum dolor sit amet, consectetur adipiscing elit. Suspendisse semper enim eget enim gravida cursus. Praesent ut risus quis sem dapibus lacinia. Quisque quis interdum dolor, in tempus mauris. Nullam eu ipsum a libero volutpat condimentum efficitur scelerisque nunc. Mauris hendrerit sapien suscipit, vehicula nisl at, aliquam mauris. Etiam justo urna, fermentum semper sodales in, convallis at lacus. Nullam sollicitudin metus ac felis imperdiet, id blandit libero suscipit. Proin venenatis quam eget malesuada finibus. Donec in magna quis massa vulputate pellentesque posuere ultricies ante. Cras eget mauris vitae risus luctus convallis. Nulla id tempor justo. Proin ac lorem sodales, dictum ante sed, faucibus tortor. Vestibulum diam diam, aliquam et ullamcorper vitae, mollis vitae purus.
+						.info-container.about-us-container
+							p.coming-soon Coming Soon
+						.info-container.previous-streams-container
 					
 		#chat-container
 			.chat-header-container
@@ -134,13 +135,13 @@ html
 						img.user-picture
 						p.user-name=name
 					.show-more-controls-button.icon-button
-						img.button-icon(src="/img/show-more-icon-blue.svg")
+						img.button-icon(src="/img/settings-icon-blue.svg")
 				.more-controls-container
 					.hide-more-controls-button.icon-button
 						img.button-icon(src="/img/back-icon-blue.svg")
 					.more-controls-content
 						.control-button.chat-settings-button.blue-text-icon-button-style
-							img.icon(src="/img/settings-icon-blue.svg")
+							img.icon(src="/img/chat-bubble-icon-blue.svg")
 							p.value Chat Settings
 						//- .control-button.report-error-button.blue-text-icon-button-style
 						//- 	img.icon(src="/img/report-icon-blue.svg")
@@ -183,6 +184,10 @@ html
 							//- 	img.icon(src="/img/emojis/dragon.png")
 							//- .emoji-button
 							//- 	img.icon(src="/img/emojis/dragon.png")
+				.disabled-container.chat-state-container
+					h1 Disabled
+				.muted-container.chat-state-container
+					h1 Muted
 				.input-container
 					span#chat-input(data-gramm_editor="false" contenteditable="true" placeholder="Send Message")
 					.chat-input-controls

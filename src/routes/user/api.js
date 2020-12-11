@@ -3,22 +3,20 @@ const router = express.Router();
 const randomstring = require("randomstring")
 const { check } = require('express-validator');
 
-const _ = require("lodash")
-
-var multer  = require('multer');
-var upload = multer();
+const _ = require("lodash");
+const stripHtml = require("string-strip-html");
+const logSymbols = require('log-symbols');
 
 
 const addChat = require('../../db/liveChats/addChat')
-const getChatSettings = require('../../db/chatSettings/getChatSettings')
+const getChatSettings = require('../../db/streamSettings/getChatSettings')
 const updateLastChatTime = require('../../db/users/updateLastChatTime')
 const getEmojis = require('../../db/emojis/getEmojis')
 const getChats = require('../../db/liveChats/getChats')
-const getActiveSlate = require('../../db/slate/getActiveSlate')
-const getStreamInfo = require("../../db/streams/getStreamInfo")
+const getSlate = require('../../db/streamSettings/getSlate')
+const getStreamInfo = require("../../db/streamSettings/getStreamInfo")
 const getViewerCount = require("../../db/streams/getViewerCount")
 const createError = require("../../db/errors/createError")
-const stripHtml = require("string-strip-html");
 const getUserChatTag = require("../../db/users/getUserChatTag")
 const getUserNameColor = require("../../db/users/getUserNameColor")
 const getUserChatSettings = require("../../db/users/getUserChatSettings")
@@ -26,7 +24,7 @@ const setUserChatSettings = require("../../db/users/setUserChatSettings")
 const getActivePoll = require("../../db/polls/getActivePoll")
 const submitPollAnswer = require("../../db/polls/submitPollAnswer")
 
-const logSymbols = require('log-symbols');
+
 
 const AWS = require("aws-sdk");
 
@@ -45,10 +43,9 @@ router.post('/sendMessage', [
 ], async (req, res, next) => {
     
     if(!req.user) return res.sendStatus(500);
-
     const chatSettings = await getChatSettings()
     chatSettings.cooldown = parseInt(chatSettings.cooldown) * 1000
-    if((chatSettings.status === "disabled" || req.user.muted) && req.user.auth <= 1) {
+    if((!chatSettings.active || req.user.muted) && req.user.auth <= 1) {
         res.json({
             type: "disabled"
         })
@@ -100,9 +97,9 @@ router.post('/sendMessage', [
     res.sendStatus(200)
 })
 
-router.get("/getChats", authCheck, async (req, res, next) => {
+router.get("/chats", authCheck, async (req, res, next) => {
     const chatSettings = await getChatSettings()
-    if(chatSettings.status === "disabled") return res.json([])
+    if(!chatSettings.active) return res.json([])
     const chats = await getChats(false)
     res.json(chats)
 })
@@ -112,8 +109,8 @@ router.get("/getChatStatus", authCheck, async (req, res, next) => {
     res.send(req.user.muted ? "muted" : settings.status)
 })
 
-router.get("/getActiveSlate", authCheck, async (req, res, next) => {
-    const slate = await getActiveSlate()
+router.get("/getSlate", authCheck, async (req, res, next) => {
+    const slate = await getSlate()
     res.json(slate)
 })
 
@@ -131,7 +128,6 @@ router.post("/submitPollAnswer", authCheck, async (req, res, next) => {
 
 router.get("/getStreamInfo", authCheck, async (req, res, next) => {
     const info = await getStreamInfo()
-    if(!info) return res.sendStatus(500)
     res.json(info)
 })
 

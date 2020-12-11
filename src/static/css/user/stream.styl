@@ -1,6 +1,11 @@
 body
 	overflow hidden
 
+@property --num
+	syntax: '<integer>';
+	initial-value: 0;
+	inherits: false;
+
 // REUSABLE STYLES
 
 .blue-text-icon-button-style
@@ -55,7 +60,6 @@ body
 		.dot
 			border-color #00a4ff
 			.inner-fill
-				background #00a4ff
 				transform translate(-50%, -50%) scale(1)
 		.value
 			color #00a4ff
@@ -66,17 +70,17 @@ body
 		height 16px
 		border-radius 16px
 		position relative
-		transition border-color
+		transition border-color .3s
 		.inner-fill
-			background white
 			position absolute
 			top 50%
 			left 50%
 			transform translate(-50%, -50%) scale(0)
 			width 11px
 			height 11px
+			background #00a4ff
 			border-radius 12px
-			transition transform .3s, background .3s
+			transition transform .3s
 	.value
 		color white
 		font-weight 600
@@ -603,7 +607,7 @@ body
 			margin 40px 0 
 			.info-flex-container
 				display flex
-				justify-content center
+				justify-content space-between
 				align-items center
 				width 100%
 				.info-nav
@@ -617,9 +621,9 @@ body
 						color #8a909e
 						font-size 14px
 						text-transform uppercase
-						font-weight 600
+						font-weight 800
 						letter-spacing .5px
-						cursor pointer
+						cursor context-menu
 						transition color .3s
 						margin-right 15px
 						&:hover
@@ -641,6 +645,13 @@ body
 						font-size 16px
 						font-weight 500
 						letter-spacing .5px
+						b
+							font-weight 500
+						#viewer-number
+							transition --num 1s
+							counter-reset num var(--num)	
+							&::after
+								content counter(num)					
 			.info-container
 				margin 40px auto
 				width 100%
@@ -837,7 +848,7 @@ body
 			bottom calc(100% + 15px)
 			border-radius 5px
 			height 200px
-			box-shadow 0 4px 12px 0 #0f1015ab
+			box-shadow 0 4px 12px 0 rgba(15, 16, 21, .4)
 			opacity 0
 			visibility hidden
 			transform translateY(-20px)
@@ -899,8 +910,31 @@ body
 							top 50%
 							left calc(50% + 1px)
 							transform translate(-50%, -50%)
-		.input-container
+		.chat-state-container
+			width 100%
 			height 100%
+			position absolute
+			top 0
+			left 0
+			z-index 20
+			background rgba(37, 39, 49, .9)
+			box-shadow inset 0 0 30px 0 #13151b
+			border-radius 5px
+			display none
+			&.muted-container h1
+				color #f00
+			h1
+				color rgba(255, 255, 255, .8)
+				font-weight 800
+				text-transform uppercase
+				font-size 18px
+				letter-spacing 1px
+				position absolute
+				top 50%
+				left 50%
+				transform translate(-50%, -50%)
+		.input-container
+			height calc(100% - 2px)
 			width calc(100% - 2px)
 			background #1b2129
 			border 1px solid #33394a
@@ -970,6 +1004,12 @@ body
 @media only screen and (max-width: 1300px)
 	#main-container
 		width calc(100% - 30px) !important
+
+@media only screen and (max-width: 1100px)
+	.info-flex-container
+		flex-flow column-reverse nowrap
+		.viewer-counter
+			margin-bottom 25px
 
 @media only screen and (max-width: 1000px)
 	body
@@ -1100,3 +1140,13 @@ body
 		.option
 			.value
 				font-size 16px !important
+
+
+@media only screen and (max-width: 550px)
+	.info-nav
+		flex-flow column nowrap
+		.info-nav-item
+			margin-bottom 15px
+			margin-right 0 !important
+			&:last-child
+				margin-bottom 0

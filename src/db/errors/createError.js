@@ -3,12 +3,8 @@ const tables = require("../tables")
 const randomstring = require("randomstring")
 
 module.exports = async (data, googleId) => {
-
-    let activeStreamId = await reader.select("streamId").from(tables.streams).where("active", true)
-    console.log(activeStreamId)
-    if(activeStreamId.length <= 0) return false;
-    activeStreamId = activeStreamId[0].streamId
-    console.log(data)
+    let isType = await reader.select("*").from(tables.errorTypes).where("id", parseInt(data.type))
+    if(isType.length === 0) return false;
     await writer(tables.errors)
         .insert({
             id: randomstring.generate(), 
@@ -16,7 +12,7 @@ module.exports = async (data, googleId) => {
             type: data.type,
             userGoogleId: googleId,
             description: data.description,
-            streamId: activeStreamId
+            notes: ""
         })
     return true;
 

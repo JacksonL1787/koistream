@@ -3,6 +3,7 @@ let modalCallback;
 let autoScroll = true;
 let player;
 
+
 const exitFullscreen = () => {
 	if($("#koistream-video").hasClass("vjs-fullscreen")) {
 		$(".vjs-fullscreen-control").click()
@@ -13,18 +14,90 @@ const setViewerCount = () => {
 	$.get({
 		url: "/user/api/getViewerCount",
 		success: (count) => {
-			$(".viewer-counter .viewer-count-value").text(`${count} ${count == 1 ? "Viewer" : "Viewers"}`)
+			$('#viewer-number').css("--num", count)
+			$(".viewer-count-label").text(count == 1 ? "Viewer" : "Viewers")
 		}
 	})
 }
 
+const reloadStreamSource = () => {
+	player.src(player.src())
+	player.play()
+	player.muted(false);
+}
+
 const setSlate = () => {
+	//if(!window.streamActive) return;
 	$.get({
-		url: "/user/api/getActiveSlate",
+		url: "/user/api/getSlate",
 		success: (data) => {
 			exitFullscreen()
-			if(!data.active) return $('#stream-slate').hide();
-			$('#stream-slate').show().css("background-image", `url(/img/slates/${data.src})`)
+			if(!data.slate) return $('#stream-slate').hide();
+			$('#stream-slate').show()
+		}
+	})
+}
+
+const setChatStatus = () => {
+	if(!window.streamActive) return;
+	$.get({
+		url: "/user/api/getChatStatus",
+		success: (data) => {
+			$(".chat-state-container").hide()
+			$("#chat-input").blur().val("")
+			$("#chat-container .chat-input-container .emoji-menu").removeClass("active")
+			$("#chat-container .chat-input-controls .emojis-menu-button.chat-input-button").removeClass("active")
+			switch (data.state) {
+				case "disabled":
+					$(".chat-state-container.disabled-container").show()
+					break;
+				case "muted":
+					$(".chat-state-container.muted-container").show()
+					break;
+			}
+		}
+	})
+}
+
+const setStreamInfo = () => {
+	//if(!window.streamActive) return;
+	$.get({
+		url: "/user/api/getStreamInfo",
+		success: (data) => {
+			$(".header-title-container .stream-title").text(data.title)
+			$(".episode-description-container .description").text(data.description)
+		}
+	})
+}
+
+const streamOnline = () => {
+	$(".header-title-container .page-title").text("Live")
+	setStreamInfo()
+	setChatStatus()
+	setSlate()
+	reloadStreamSource()
+}
+
+const streamOffline = () => {
+	$(".header-title-container .page-title").text("Offline")
+	$(".header-title-container .stream-title").text("KoiStream")
+	$(".episode-description-container .description").text("Koistream is currently offline.")
+	$('#stream-slate').show()
+	$(".chat-state-container").hide()
+	$(".chat-state-container.disabled-container").show()
+	$(".chat-state-container").hide()
+	$("#chat-input").blur().val("")
+	$("#chat-container .chat-input-container .emoji-menu").removeClass("active")
+	$("#chat-container .chat-input-controls .emojis-menu-button.chat-input-button").removeClass("active")
+}
+
+const setStreamStatus = () => {
+	$.get({
+		url: "/user/api/getStreamStatus",
+		success: (data) => {
+			window.streamActive = data.active
+			if(data.active) return streamOnline();
+			streamOffline();
 		}
 	})
 }
@@ -198,6 +271,7 @@ const appendAllChats = () => {
 setTimeout(() => {
 	$("#preload-container").addClass("done")
 	$("body").removeAttr("style")
+	setViewerCount()
     setTimeout(() => {
         $("#preload-container").remove()
     }, 300)
@@ -249,6 +323,7 @@ $("#chat-container .more-controls-container .control-button.chat-settings-button
 $("#chat-container .more-controls-container .control-button.report-error-button").click(() => {
 	modalCallback = () => {
 		$("#report-error-modal .error-type-option").removeClass("selected")
+		$("#report-error-modal .error-type-option").first().addClass("selected")
 		$("#report-error-modal .error-description-input").val("")
 	}
 	openModal($("#report-error-modal"))
@@ -324,6 +399,41 @@ $("#chat-settings-modal .update-chat-settings-button").click(() => {
 
 })
 
+$("#report-error-modal .submit-error-report-button").click(() => {
+	const data = {
+		type: $("#report-error-modal .error-type-option.selected").attr("data-type"),
+		description: $("#report-error-modal .error-description-input").val()
+	}
+
+	closeModal()
+
+	$.post({
+		url: "/user/api/submitError",
+		data,
+		success: () => {
+			appendChat({
+				message: "We got your report! We will get your problem resolved as soon as possible.",
+				userName: "KoiStream",
+				chatId: undefined,
+				tagName: "Success",
+				tagColor : "#03fc0b",
+				nameColor: "#03fc0b"
+			})
+		},
+		error: () => {
+			appendChat({
+				message: "Failed to submit report! If this issue persists, contact us directly at koistream@dtechhs.org",
+				userName: "KoiStream",
+				chatId: undefined,
+				tagName: "Error",
+				tagColor : "#f00",
+				nameColor: "#f00"
+			})
+		}
+	})
+
+})
+
 $(document).on("click", ".choose-name-color-container .name-color-option", function() {
 	if($(this).hasClass("selected")) return;
 	$(".choose-name-color-container .name-color-option").removeClass("selected")
@@ -346,6 +456,11 @@ $(document).on("click", ".all-chats-container .chat", function() {
 		url: "/admin/api/deleteChat",
 		data
 	})
+})
+
+$(document).on("click", "#report-error-modal .error-type-option", function() {
+	$("#report-error-modal .error-type-option").removeClass("selected")
+	$(this).addClass("selected")
 })
 
 $(document).on("click", "#poll-modal .options-container .option", function() {
@@ -394,7 +509,7 @@ $(document).keydown((e) => {
 $(document).ready(() => {
 	openPoll()
 	setSlate()
-	setViewerCount()
+	setStreamInfo()
 	setInterval(setViewerCount, 15000)
 	$("#chat-container .user-picture").attr("src", window.profilePicture)
 	$(".stream-video-container").append('<video class="video-js" id="koistream-video" controls="controls" preload="auto" width="1920" height="1080" poster="/img/video-poster.png" autoplay><source class="vidSrc" src="https://dviuhv1vhftjw.cloudfront.net/out/v1/ffab5e1f68414aaba7309406dacfa7df/stream.m3u8" type="application/x-mpegURL"/></video>')
@@ -432,7 +547,7 @@ $(document).ready(() => {
 			window.emojis = emojis
 		}),
 	
-		$.get("/user/api/getChats", (chats) => {
+		$.get("/user/api/chats", (chats) => {
 			window.chats = chats
 			
 		}),
@@ -455,8 +570,4 @@ socket.on("deleteChat", deleteChat)
 socket.on("startPoll", startPoll)
 socket.on("endPoll", endPoll)
 socket.on('slateChange', setSlate)
-socket.on('reloadStreamSource', () => {
-	player.src(player.src())
-	player.play()
-	player.muted(false);
-})
+socket.on('reloadStreamSource', reloadStreamSource)
