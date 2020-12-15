@@ -1,0 +1,58 @@
+html
+	head
+		title=title
+		meta(name="viewport" content="width=device-width, initial-scale=1")
+		link(rel="stylesheet" href="/css/admin/main.css")
+		link(rel='apple-touch-icon' sizes='180x180' href='/img/favicons/apple-touch-icon.png')
+		link(rel='icon' type='image/png' sizes='32x32' href='/img/favicons/favicon-32x32.png')
+		link(rel='icon' type='image/png' sizes='16x16' href='/img/favicons/favicon-16x16.png')
+		link(rel='manifest' href='/img/favicons/site.webmanifest')
+
+		script(src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.4.1/jquery.min.js")
+		script(src="https://cdnjs.cloudflare.com/ajax/libs/lodash.js/4.17.15/lodash.min.js")
+		script(src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.24.0/moment.js")
+		script(src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/2.2.0/socket.io.js")
+		script(src="/js/admin/main.js")
+	body
+		#modal-active-overlay
+		.notification
+			.icon
+			p.message
+		#nav
+			
+			.nav-scroll-container
+				.nav-content-container
+					.header-container
+						img.logo(src="/img/logo.png")
+						h1.title KoiStream
+					.nav-links-container
+						a.nav-link.active
+							img.icon(src="/img/stream-icon-white.svg")
+							p.value Stream
+						a.nav-link
+							img.icon(src="/img/chat-bubble-icon-white.svg")
+							p.value Chat
+						a.nav-link
+							img.icon(src="/img/report-icon-white.svg")
+							p.value Reports
+						a.nav-link
+							img.icon(src="/img/folder-icon-white.svg")
+							p.value Templates
+						a.nav-link
+							img.icon(src="/img/users-icon-white.svg")
+							p.value Users
+				
+		#page-container
+			#page-content
+				case page
+					when 'Stream'
+						link(href="https://unpkg.com/video.js@7/dist/video-js.min.css" rel="stylesheet")
+						link(rel='stylesheet', href="/css/admin/stream.css")
+						include stream
+						script(src="https://cdnjs.cloudflare.com/ajax/libs/video.js/7.8.0/video.min.js")
+						script(src="https://cdnjs.cloudflare.com/ajax/libs/videojs-contrib-hls/5.15.0/videojs-contrib-hls.min.js")
+						script(src="/videojs/videojs-contrib-quality-levels/dist/videojs-contrib-quality-levels.min.js")
+						script(src="/videojs/videojs-hls-quality-selector/dist/videojs-hls-quality-selector.min.js")
+case page
+	when 'Stream'
+		script(src="/js/admin/stream.js")

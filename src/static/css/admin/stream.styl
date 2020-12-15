@@ -1,622 +1,208 @@
-.page-title-flex-container
+.widget-flex-container
 	display flex
-	justify-content left
-	align-items center
 	width 100%
-	margin-top 20px
-	.page-title
-		margin-top 0 !important
-		margin 0 10px 0 0
-	.status-tag
-		padding 2px 8px
-		text-transform uppercase
-		font-size 11px
-		letter-spacing .3px
-		margin-top 1px
-		border-radius .3em
-		&.inactive
-			border #FF1D45 1px solid
-			background rgba(255, 29, 69, 0.18)
-			color #FF1D45
-			box-shadow 0 0 7px 0 rgba(255, 29, 69, 0.5)
-		&.live
-			border #1dff54 1px solid
-			background rgba(29, 255, 84, 0.18)
-			box-shadow 0 0 7px 0 rgba(29, 255, 84, 0.5)
-			color #1dff54
-.loader
-	background-image url("/img/loader.svg")
-	background-size cover
-	background-position center
-	background-repeat no-repeat
-	width 35px
-	height 35px
-	margin 40px auto 0
-	display none
+	justify-content center
 
-.radio-button
-	display flex
-	align-items center
-	opacity 0.6
+.widget-column-container
+	margin-right 100px
+	&:last-child
+		margin-right 0
+
+.blue-round-text-button-style
+	color #fff
+	font-size 15px
+	letter-spacing .5px
+	font-weight 600
+	padding 10px 30px
+	border-radius 5px
+	background #026FFF
+	border none
+	outline none
 	cursor pointer
-	transition opacity .3s
+	transition background .3s
 	&:hover
-		opacity 1
-	&.active
-		opacity 1
-		.radio-circle
-			border-color #f05027
-			.fill
-				opacity 1
-				transform translate(-50%, -50%) scale(1)
-				background #f05027
-		p
-			color #f05027
-	.radio-circle
-		width 16px
-		height 16px
-		border-radius 20px
-		position relative
-		border 2px solid white
-		margin-right 6px
-		transition border-color .3s
-		.fill
-			background white
-			width 11px
-			height 11px
-			border-radius 16px 
-			position absolute
-			top 50%
-			left 50%
-			transform translate(-50%, -50%) scale(0.5)
-			opacity 0
-			transition transform .3s, opacity .3s, background .3s
-	p
-		color white
-		letter-spacing .3px
-		font-size 16px
-		font-weight 500
-		transition color .3s
+		background #0054c3 !important
 
-.modal
-	width 600px
-	height fit-content
-	z-index 150
-	opacity 0
-	visibility hidden
-	position fixed
-	top calc(50% - 20px)
-	left 50%
-	background #101215
-	transform translate(-50%, -50%) scale(0.5)
-	max-width 95%
-	max-height 95%
-	transition opacity .3s, visibility .3s, transform .3s
-	&.active
-		opacity 1
-		visibility visible
-		transform translate(-50%, -50%) scale(1)
-	.modal-top
-		background #131519
-		width 100%
-		padding 30px 0
-		display flex
-		justify-content space-between
-		flex-flow row wrap
-		align-items center
-		.title
-			color white
-			margin-left 20px
-			letter-spacing .5px
-			font-weight 600
-			font-size 22px
-		.close
-			background-image url("/img/close.svg")
-			background-size cover
-			background-repeat no-repeat
-			background-position center
-			width 18px
-			height 18px
-			cursor pointer
-			margin-right 20px
-			opacity 0.6
-			transition opacity .3s
-			&:hover
-				opacity 1
-	.modal-content
-		position relative
-		padding 20px 0 30px
+.widget-container
+	margin-bottom 40px
+	.widget-title
+		color #fff
+		font-size 15px
+		font-weight 600
+		letter-spacing 1px
+		text-transform uppercase
+		margin-bottom 15px
 
-.create-poll-modal
-	.modal-content
-		margin-left 20px
-	input
-		display block
-		margin-bottom 20px
-
-.poll-results-modal
-	.data-point
-		color white
-		font-size 20px
-		margin-bottom 20px
-		margin-left 20px
-
-.stream-inactive-container,
-.stream-active-container
-	width 100%
-	height fit-content
-	position relative
-	transition opacity .3s, visibility .3s
-
-.start-stream-form
-	margin 80px auto 0
-	opacity 1
-	width 100%
-	max-width 500px
-	transition opacity .3s, visibility .3s
-	.cancel-btn
-		background-image url("/img/close.svg")
-		background-size cover
-		background-position center
-		background-repeat no-repeat
-		width 25px
-		height 25px
-		cursor pointer
-		opacity 0.7
-		margin 0 auto 40px
-		transition opacity .3s
-		&:hover
-			opacity 1
-	.input-container
-		position relative
-		&.error
-			.title-input
-				border-bottom-color #f23452
-			.placeholder
-				color #f23452
-		&.active
-			.placeholder
-				bottom 35px
-				font-size 11px
-		.placeholder
-			font-size 20px
-			position absolute
-			color #bbbbbb
-			letter-spacing .3px
-			bottom 8px
-			left 2px
-			z-index -1
-			transition font-size .2s, bottom .2s
-		.title-input
-			width 100%
-			background none
-			z-index 5
-			border none
-			border-bottom 1px solid #bbbbbb
-			color white
-			font-size 20px
-			letter-spacing .3px
-			font-weight 500
-			padding 30px 2px 8px
-			outline none
-	.action-container
-		width 100%
-		margin-top 15px
-		display flex
-		justify-content space-between
-		align-items center
-		opacity 0
-		visibility hidden
-		transition opacity .3s, visibility .3s
-		&.active
-			visibility visible
-			opacity 1
-		.confirm-start-btn
+#quick-actions-widget
+	.quick-actions-container
+		width 350px
+		height fit-content
+		padding 20px 0
+		background #14161d
+		border-radius 5px
+		.action-button
+			width calc(100% - 60px)
+			margin 0 auto 20px
+			padding 10px 15px
+			border-radius 5px
 			display flex
 			align-items center
-			justify-content center
 			cursor pointer
-			opacity 0.6
-			transition opacity .3s
+			justify-content left
+			transition background .3s
+			&:last-child
+				margin-bottom 0
 			&:hover
-				opacity 1
+				background #1b1e27
 			.icon
-				background-image url("/img/white-right-arrow.svg")
-				background-size cover
-				background-repeat no-repeat
-				background-position center
-				width 20px
-				height 20px
-			p
-				color white
-				font-size 17px
-				font-weight 600
-				letter-spacing .3px
-				margin-right 8px
-
-.stream-inactive-container
-	.start-stream-btn
-		width 250px
-		height 250px
-		margin 75px auto
-		border-radius 200px
-		cursor pointer
-		position relative
-		transition background .3s, box-shadow .3s
-		&:hover
-			background rgba(255,255,255,0.04)
-			box-shadow 0 0 75px 75px rgba(255,255,255,0.04)
-		.content
-			position absolute
-			top 50%
-			left calc(50% + 5px)
-			transform translate(-50%, -50%)
-			width fit-content
-			height fit-content
-			.icon
-				background-image url("/img/start-stream.svg")
-				background-size cover
-				background-position center
-				background-repeat no-repeat
-				width 75px
-				height 75px
-				margin 0 auto 30px
-			h1
-				color white
-				letter-spacing .5px
-				width 100%
-				text-align center
-
-
-.stream-active-container
-	margin-top 30px
-	.top-row-container
-		display flex
-		justify-content space-between
-		align-items center
-		width 100%
-		.started-by
-			display flex
-			align-items center
-			.label
-				color #d3d3d3
-				font-size 15px
-				letter-spacing .3px
-				margin-right 3px
-			.user
-				color white
-				font-size 15px
-				padding 2px
-				letter-spacing .3px
-				cursor pointer
-				transition background .3s
-				&:hover
-					background rgba(255,255,255,0.1)
-	.flex-wrap
-		display flex
-		justify-content right
-		align-items center
-		.cancel-stop-stream-btn
-			color grey
-			font-size 15px
-			font-weight 500
-			cursor pointer
-			display none
-			margin-right 15px
-			&:hover
-				text-decoration underline
-		.stop-stream-btn
-			display flex
-			align-items center
-			justify-content center
-			cursor pointer
-			opacity 0.6
-			transition opacity .3s
-			&.confirm
-				.icon
-					background-image url("/img/white-checkmark.svg")
-			&:hover
-				opacity 1
-			.icon
-				background-image url("/img/stop.svg")
-				background-size cover
-				background-repeat no-repeat
-				background-position center
-				width 18px
-				height 18px
-				margin-right 6px
-			p
-				color white
-				font-size 16px
-				font-weight 600
-				letter-spacing .3px
-	.stream-slate-flex-container
-		display flex
-		justify-content space-between
-		flex-wrap wrap
-		align-items flex-start
-		width 100%
-		margin-top 20px
-		.stream-view-widget
-			background #101215
-			width calc(100% - 420px)
-			.top-content
-				background #191b1f
-				width 100%
-				border-top-right-radius .3em
-				border-top-left-radius .3em
-				padding 10px 0
-				.stream-title
-					color #c0c8cc
-					font-size 22px
+				width 35px
+				height 35px
+				margin-right 20px
+			.button-details
+				.value
+					color #fff
+					font-size 16px
 					letter-spacing .5px
-					line-height 150%
-					font-weight 500
-					margin 0 15px
-					display block
-					width fit-content
-					text-align left
-					word-break break-all
-					max-width calc(100% - 40px)
-					padding 5px
-					border 1px solid transparent
-					&:hover
-						border-color rgba(255,255,255,0.3)
-					&:focus
-						border 1px solid rgba(255,255,255,0.3) !important
-						outline none !important
-					&.error
-						border 1px solid red !important
-			.stream-video-container
+					font-weight 700
+				.description
+					color #acb8ca
+					letter-spacing .5px
+					font-size 14px
+					margin-top -2px
+					font-weight 300
+
+#stream-information-widget
+	.stream-information-form-container
+		width 500px
+		height fit-content
+		padding 20px 0
+		background #14161d
+		border-radius 5px
+		.input-container
+			width calc(100% - 60px)
+			margin 0 auto
+			margin-bottom 25px
+			position relative
+			.label
+				color #acb8ca
+				font-size 15px
+				font-weight 500
+				letter-spacing .5px
+				margin-bottom 5px
+			textarea
+				resize none
+				height 150px
+			input,
+			textarea
+				outline none
 				width 100%
 				overflow-y auto
 				overflow-x hidden
-				display flex
-				flex-flow column nowrap
-				margin-right 20px
-				.stream-video
-					position relative
-					width fit-content
-					overflow hidden
-					img
-						width 100%
-					.slate
-						z-index 20
-					.slate,
-					#my-video
-						width 100%
-						height 100%
-						position absolute
-						top 0
-						left 0
-			.stream-info-container
-				width calc(100% - 40px)
-				margin 20px auto 50px
-				.flex-wrap
-					display flex
-					width 100%
-					align-items center
-					justify-content space-between
-					.viewer-count
-						display flex
-						align-items center
-						&:hover
-							p
-								text-decoration underline
-						.icon
-							background-image url("/img/viewer-icon.svg")
-							background-size cover
-							background-repeat no-repeat
-							background-position center
-							width 16px
-							height 22px
-							margin 5px 8px 0 0
-						p
-							color #f05027
-							font-size 16px
-							letter-spacing .3px
-					.stream-timer
-						display flex
-						align-items center
-						.icon
-							background-image url("/img/clock.svg")
-							background-repeat no-repeat
-							background-position center
-							backgorund-size cover
-							width 18px
-							height 18px
-							margin 0 8px 0 0
-							opacity 0.6
-						.time
-							display flex
-							align-items center
-							.time-val
-								color white
-								font-size 17px
-							.time-spacer
-								color white
-								opacity 0.6
-								margin 0 1px 2px
-								font-size 17px
-								font-weight 300
-				.change-slate-preview-btn
-					display flex
-					align-items center
-					justify-content center
-					cursor pointer
-					opacity 0.6
-					margin 10px auto
-					width fit-content
-					transition opacity .3s
-					&:hover
-						opacity 1
-					&.active
-						.icon
-							background-image url("/img/preview-with-slate.svg")
-					.icon
-						background-image url("/img/preview-without-slate.svg")
-						background-size cover
-						background-repeat no-repeat
-						background-position center
-						width 25px
-						height 25px
-						margin 2px 8px 0 0
-					p
-						color white
-						font-size 17px
-						font-weight 600
-						letter-spacing .3px
-		.slate-control-widget
-			width 400px
-			background #101215
-			.top-content
-				background #191b1f
-				width 100%
-				border-top-right-radius .3em
-				border-top-left-radius .3em
-				padding 20px 0
-				.slate-widget-title
-					color #c0c8cc
-					font-size 22px
-					letter-spacing .5px
-					font-weight 500
-					padding 0 20px
-					display block
-					width fit-content
-					text-align left
-					word-break break-all
-			.widget-content
-				height calc(100% - 68px)
-				width 100%
-				position relative
-				overflow-y auto
-				.active-slate-btn
-					width fit-content
-					margin 30px auto 0
-				.slate-inactive
-					color rgba(255,255,255,0.4)
-					font-size 25px
-					text-transform uppercase
-					position absolute
-					top calc(50% - 20px)
-					left 50%
-					width 100%
+				background #111217
+				border 1px solid #20232f
+				color #fff
+				font-weight 500
+				font-size 15px
+				letter-spacing .5px
+				border-radius 5px
+				padding 8px
+				transition border-color .3s
+				&:focus
+					border-color #026FFF
+		.update-stream-information-button
+			margin 0 auto 10px
+			display block
+
+#stream-preview-widget
+	.video-preview-container
+		width 500px
+		height fit-content
+		padding 30px 0
+		background #14161d
+		border-radius 5px
+		position relative
+		overflow hidden
+		.ratio-container
+			width fit-content
+			position relative
+			overflow hidden
+			margin-left 30px
+			.video-ratio-controller
+				width calc(100% - 30px)
+			#stream-video
+				width calc(100% - 30px)
+				height 100%
+				position absolute
+				top 0
+				left 0
+				outline none !important
+				background #000000 !important
+				.vjs-control-bar
+					height 5em !important
+					background-color #00000099 !important
+					align-items center !important
+					transition opacity .5s !important
+				.vjs-button,
+				.vjs-control
+					height 3em !important
+					outline none !important
+				.vjs-icon-placeholder::before
+					font-size 2em !important
+				.vjs-remaining-time
+					display none !important
+				.vjs-progress-control
+					opacity 0 !important
+					visibility hidden !important
+				.vjs-picture-in-picture-control
+					display none !important
+				.vjs-big-play-button
+					top 50% !important 
+					left 50% !important 
 					transform translate(-50%, -50%)
-					text-align center
-					letter-spacing 1px
-					font-weight 100
-					display none
-				.slate-select
-					width calc(100% - 100px)
-					margin 30px auto
-					display none
-					.slate-option
-						width 100%
-						margin-bottom 30px
-						cursor pointer
-						position relative
-						&:hover
-							.hover-bg
-								opacity 1
-						&.active
-							.hover-bg
-								height 40px !important
-								opacity 1 !important
-								background #f05027 !important
-						img
-							width 100%
-						.hover-bg
-							background rgba(0,0,0,0.7)
-							width 100%
-							height 100%
-							position absolute
-							top 0
-							left 0
-							opacity 0
-							transition opacity .3s, height .3s, background .3s
-							.icon
-								background-image url("/img/white-checkmark.svg")
-								background-size cover
-								background-repeat no-repeat
-								background-position center
-								width 25px
-								height 25px
-								opacity 1
-								position absolute
-								top 50%
-								left 50%
-								transform translate(-50%, -50%)
-								transition opacity .3s
-	.action-buttons-widget
-		width 100%
-		background #101215
-		padding 50px 0
-		margin-top 20px
-		.flex-wrap
-			margin 0 auto
-			width 90%
-			display flex
-			justify-content space-around
-			align-items center
-			.action-btn
-				display flex
-				align-items center
-				justify-content center
-				cursor pointer
-				opacity 0.6
-				width fit-content
-				transition opacity .3s
-				&:hover
-					opacity 1
-				&.reload-client-stream-source-btn .icon
-					background-image url("/img/admin/viewers/refresh.svg")
-					margin 2px 10px 0 0
-				&.save-stream-title-btn .icon
-					background-image url("/img/save.svg")
-					margin 2px 10px 0 0
-				&.see-prevous-poll-results-btn .icon
-					background-image url("/img/previous-poll-results.svg")
-					margin 2px 10px 0 0
-					width 24px
-					height 22px
-				&.manage-poll-btn .icon
-					background-image url("/img/manage-poll.svg")
-					margin 2px 10px 0 0
-				&.create-poll-btn .icon
-					background-image url("/img/create-poll.svg")
-					margin 0 10px 0 0
-					width 19px
-					height 19px
-				&.trivia-next-btn .icon
-					background-image url("/img/back-arrow.svg")
-					transform rotate(180deg)
-					margin 2px 10px 0 0
-				&.trivia-end-btn .icon
-					background-image url("/img/stop.svg")
-					margin 2px 10px 0 0
-				.icon
-					background-image url("/img/preview-without-slate.svg")
-					background-size cover
-					background-repeat no-repeat
-					background-position center
-					width 20px
-					height 20px
-				p
-					color white
-					font-size 17px
-					font-weight 600
-					letter-spacing .3px
-.video-js
-	background #0d171d !important
+					background transparent !important
+					border none !important
+					font-size 6em
+					transition none !important
+				.vjs-tech
+					background #000000 !important
+		.disclaimer
+			color #acb8ca
+			font-weight 600
+			text-align center
+			margin 20px 0 5px
+			font-size 15px
 
-.video-js .vjs-picture-in-picture-control
-	display none !important
-	
-
-button , video, div
-	outline none !important
-
-.vjs-big-play-button
-	top 50% !important 
-	left 50% !important 
-	transform translate(-50%, -50%)
+#stream-controls-widget
+	.stream-controls-container
+		width 350px
+		height fit-content
+		border-radius 5px
+		display flex
+		align-items center
+		flex-flow row wrap
+		.big-button-container
+			background #3c3e46
+			width 160px
+			height 100px
+			border-radius 5px
+			cursor pointer
+			margin-right 30px
+			transition background .3s
+			position relative
+			&:hover
+				background #5a5c67
+			&.active
+				background #026fff
+			&:nth-child(2n)
+				margin-right 0
+			.value
+				position absolute
+				top 50%
+				left 50%
+				transform translate(-50%, -50%)
+				text-align center
+				color #fff
+				text-transform uppercase
+				font-weight 300
+				font-size 16px
+				letter-spacing 1px

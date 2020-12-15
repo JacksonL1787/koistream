@@ -21,6 +21,8 @@ module.exports = {
     triviaAnswers: "triviaAnswers",
     nameColors: "nameColors",
     userChatTags: "userChatTags",
-    streamSettings: "streamSettings"
+    streamSettings: "streamSettings",
+    polls: "polls",
+    pollTemplateOptions: "pollTemplateOptions"
 }
   

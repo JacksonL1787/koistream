@@ -1,0 +1,55 @@
+.widget-flex-container
+    .widget-column-container
+        .widget-container#stream-preview-widget
+            h2.widget-title Preview
+            .video-preview-container
+                .ratio-container
+                    img.video-ratio-controller(src="/img/video-aspect-ratio.png")
+        .widget-container#stream-information-widget
+            h2.widget-title Stream Information
+            .stream-information-form-container
+                .input-container
+                    p.label Title
+                    input.stream-title-input
+                .input-container
+                    p.label Description
+                    textarea.stream-description-input(data-gramm_editor="false")
+                button.update-stream-information-button.blue-round-text-button-style Update
+
+    .widget-column-container
+        .widget-container#stream-controls-widget
+            h2.widget-title Stream Controls
+            .stream-controls-container
+                .big-button-container.stream-control-button
+                    p.value Stream Offline
+                .big-button-container.slate-control-button
+                    p.value
+
+        .widget-container#quick-actions-widget
+            h2.widget-title Quick Actions
+            .quick-actions-container
+                .action-button#reload-stream-source-button
+                    img.icon(src="/img/action-button-reload-source-icon.svg")
+                    .button-details
+                        p.value Refresh Stream Source
+                        p.description Update Viewer's Stream
+                .action-button
+                    img.icon(src="/img/action-button-poll-icon.svg")
+                    .button-details
+                        p.value Manage Polls
+                        p.description Start and Stop Polls
+                .action-button
+                    img.icon(src="/img/action-button-viewers-icon.svg")
+                    .button-details
+                        p.value See Viewers
+                        p.description Who is Watching the Stream
+                .action-button
+                    img.icon(src="/img/action-button-notification-icon.svg")
+                    .button-details
+                        p.value Make Announcement
+                        p.description Notify Viewers
+                .action-button
+                    img.icon(src="/img/action-button-controls-icon.svg")
+                    .button-details
+                        p.value Chat Settings
+                        p.description Control the Chat

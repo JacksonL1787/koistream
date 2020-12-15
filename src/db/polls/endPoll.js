@@ -5,7 +5,8 @@ const getActivePollId = require("./getActivePollId")
 module.exports = async () => {
     const activePollId = await getActivePollId()
     if(!activePollId) return false;
-    const poll = await writer(tables.pollTemplates)
+
+    const poll = await writer(tables.polls)
         .update({
             active: false
         })
@@ -14,6 +15,7 @@ module.exports = async () => {
     const options = await reader
         .select(["value", "voteCount"])
         .from(tables.pollOptions)
+        .where("poll_id", activePollId)
     
     return options;
 }

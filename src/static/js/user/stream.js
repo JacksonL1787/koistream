@@ -3,7 +3,6 @@ let modalCallback;
 let autoScroll = true;
 let player;
 
-
 const exitFullscreen = () => {
 	if($("#koistream-video").hasClass("vjs-fullscreen")) {
 		$(".vjs-fullscreen-control").click()
@@ -21,13 +20,14 @@ const setViewerCount = () => {
 }
 
 const reloadStreamSource = () => {
+	if(!player) return;
 	player.src(player.src())
 	player.play()
 	player.muted(false);
 }
 
 const setSlate = () => {
-	//if(!window.streamActive) return;
+	if(!window.streamActive) return;
 	$.get({
 		url: "/user/api/getSlate",
 		success: (data) => {
@@ -60,7 +60,7 @@ const setChatStatus = () => {
 }
 
 const setStreamInfo = () => {
-	//if(!window.streamActive) return;
+	if(!window.streamActive) return;
 	$.get({
 		url: "/user/api/getStreamInfo",
 		success: (data) => {
@@ -85,7 +85,6 @@ const streamOffline = () => {
 	$('#stream-slate').show()
 	$(".chat-state-container").hide()
 	$(".chat-state-container.disabled-container").show()
-	$(".chat-state-container").hide()
 	$("#chat-input").blur().val("")
 	$("#chat-container .chat-input-container .emoji-menu").removeClass("active")
 	$("#chat-container .chat-input-controls .emojis-menu-button.chat-input-button").removeClass("active")
@@ -167,10 +166,10 @@ const endPoll = () => {
 const appendChat = (data) => {
 	let message = $('<textarea/>').html(data.message).text();
 	message = `<span class="chat-text">${message}</span>`
-	// window.emojis.forEach((e) => {
-	//     let re  = new RegExp(`:${e.tag}:`,"gmi")
-	//     message = message.replace(re,`</span><span class="chat-emoji" data-tag="${e.tag}"><img class="chat-emoji-img" src="/img/customEmojis/${e.src}"></span><span class="chat-text">`)
-	// })
+	window.emojis.forEach((e) => {
+	    let re  = new RegExp(`:${e.tag}:`,"gmi")
+	    message = message.replace(re,`</span><span class="chat-emoji" data-tag="${e.tag}"><img class="chat-emoji-img" src="/img/emojis/${e.src}"></span><span class="chat-text">`)
+	})
 	message = message.replace(/\<span class="chat-text"\>\<\/span\>/gmi, "")
 	$("#chat-container .all-chats-container").append(`
 		<div class="chat" id="${data.chatId}">
@@ -208,7 +207,13 @@ const sendMessage = () => {
 }
 
 const appendEmojis = () => {
-
+	window.emojis.forEach((e) => {
+		$(".emoji-menu .emojis-container").append(`
+			<div class="emoji-button" data-tag="${e.tag}">
+				<img class="icon" src="/img/emojis/${e.src}">
+			</div>
+		`)
+	})
 }
 
 const setUserChatSettings = () => {
@@ -354,6 +359,11 @@ $("#chat-input").bind("paste", (e) => {
 	document.execCommand('insertText', false, e.originalEvent.clipboardData.getData('text/plain'))
 })
 
+$('#chat-input').bind('dragover drop', (e) => {
+    e.preventDefault();
+    return false;
+});
+
 $(".chat-input-controls .send-chat-button").click(sendMessage)
 
 $("#chat-settings-modal .update-chat-settings-button").click(() => {
@@ -498,6 +508,19 @@ $(document).on("click", "#poll-modal .options-container .option", function() {
 
 })
 
+$(document).on("click", ".emoji-menu .emoji-button", function() {
+	const tag = `:${$(this).attr("data-tag")}:`
+	$("#chat-input").text($("#chat-input").text() + tag)
+})
+
+$(document).on("click", function(e) {
+	let elem = $(e.target)
+	console.log(elem)
+	if(elem.hasClass("emoji-menu") || elem.parents().hasClass("emoji-menu") || !$(".emoji-menu").hasClass("active") || elem.hasClass("emojis-menu-button") || elem.parents().hasClass("emojis-menu-button")) return;
+	$(".emoji-menu").removeClass("active")
+	$(".emojis-menu-button").removeClass("active")
+})
+
 $(document).keydown((e) => {
 	if(e.keyCode===27 && $(".modal-container").hasClass("active")) return closeModal()
 	if(e.keyCode===13 && $("#chat-input").is(":focus")) {
@@ -508,8 +531,7 @@ $(document).keydown((e) => {
 
 $(document).ready(() => {
 	openPoll()
-	setSlate()
-	setStreamInfo()
+	setStreamStatus()
 	setInterval(setViewerCount, 15000)
 	$("#chat-container .user-picture").attr("src", window.profilePicture)
 	$(".stream-video-container").append('<video class="video-js" id="koistream-video" controls="controls" preload="auto" width="1920" height="1080" poster="/img/video-poster.png" autoplay><source class="vidSrc" src="https://dviuhv1vhftjw.cloudfront.net/out/v1/ffab5e1f68414aaba7309406dacfa7df/stream.m3u8" type="application/x-mpegURL"/></video>')
@@ -570,4 +592,6 @@ socket.on("deleteChat", deleteChat)
 socket.on("startPoll", startPoll)
 socket.on("endPoll", endPoll)
 socket.on('slateChange', setSlate)
+socket.on('setStreamStatus', setStreamStatus)
+socket.on('updateStreamInfo', setStreamInfo)
 socket.on('reloadStreamSource', reloadStreamSource)

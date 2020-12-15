@@ -3,18 +3,18 @@ const tables = require("../tables")
 const getActivePollId = require("./getActivePollId")
 
 module.exports = async (optionId, user) => {
-    const pollId = await getActivePollId()
-    if(!pollId) return false;
+    const activePollId = await getActivePollId()
+    if(!activePollId) return false;
     let userAnswered = await reader
         .select(`*`)
         .from(tables.pollAnswers)
         .where("user", user)
-        .andWhere("poll_id", pollId)
+        .andWhere("poll_id", activePollId)
     if(userAnswered.length > 0) return false;
     const options = await reader
             .select(`*`)
             .from(tables.pollOptions)
-            .where("poll_id", pollId)
+            .where("poll_id", activePollId)
             .andWhere("id", optionId)
     if(!options.length) return false;
 
@@ -22,7 +22,7 @@ module.exports = async (optionId, user) => {
     try {
         await trx(tables.pollAnswers)
             .insert({
-                poll_id: pollId,
+                poll_id: activePollId,
                 user: user,
                 option_id: optionId
             })

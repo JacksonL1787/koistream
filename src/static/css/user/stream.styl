@@ -18,15 +18,15 @@ body
 	border-radius 1000px
 	transition background .3s
 	&:hover
-		background #16252d
+		background #026fff17
 	.icon
-		width 18px
-		height 18px
+		width 25px
+		height 25px
 		min-width 18px
 		min-height 18px
-		margin-right 8px
+		margin-right 6px
 	.value
-		color #00A4FF
+		color #026FFF
 		font-size 14px
 		letter-spacing .5px
 		font-weight 700
@@ -38,13 +38,13 @@ body
 	font-weight 600
 	padding 12px 30px
 	border-radius 5px
-	background #00a4ff
+	background #026FFF
 	border none
 	outline none
 	cursor pointer
 	transition background .3s
 	&:hover
-		background #077bbb !important
+		background #0054c3 !important
 	
 .list-option-style
 	display flex
@@ -58,11 +58,11 @@ body
 	&.selected
 		opacity 1
 		.dot
-			border-color #00a4ff
+			border-color #026FFF
 			.inner-fill
 				transform translate(-50%, -50%) scale(1)
 		.value
-			color #00a4ff
+			color #026FFF
 	.dot
 		margin-right 10px
 		border 2px solid white
@@ -78,7 +78,7 @@ body
 			transform translate(-50%, -50%) scale(0)
 			width 11px
 			height 11px
-			background #00a4ff
+			background #026FFF
 			border-radius 12px
 			transition transform .3s
 	.value
@@ -461,7 +461,7 @@ body
 				padding 8px
 				transition border-color .3s
 				&:focus
-					border-color #00a4ff
+					border-color #026FFF
 		.error-type-container
 			min-width fit-content
 			margin-right 50px
@@ -479,7 +479,7 @@ body
 	position fixed
 	padding 12px 20px
 	width fit-content
-	background #00a4ff
+	background #026FFF
 	z-index 10
 	cursor pointer
 	left 50%
@@ -487,11 +487,11 @@ body
 	border-bottom-left-radius 5px
 	border-bottom-right-radius 5px
 	top -50px
-	box-shadow 0 0 7px 0 #00a4ff
+	box-shadow 0 0 7px 0 #026FFF
 	transition background .3s, top .3s, box-shadow .3s
 	&:hover
-		background #077bbb
-		box-shadow 0 0 7px 0 #077bbb
+		background #0054c3
+		box-shadow 0 0 7px 0 #0054c3
 	&.active
 		top 0
 	p
@@ -538,9 +538,9 @@ body
 			margin-top 3px
 			justify-content center
 			.page-title
-				color #00a4ff
+				color #026FFF
 				text-transform uppercase
-				font-size 12px
+				font-size 11px
 				letter-spacing .8px
 				font-weight 800
 				width fit-content
@@ -623,13 +623,13 @@ body
 						text-transform uppercase
 						font-weight 800
 						letter-spacing .5px
-						cursor context-menu
+						cursor text
 						transition color .3s
 						margin-right 15px
 						&:hover
 							color #ffffff
 						&.active
-							color #00a4ff
+							color #026FFF
 						&:last-child
 							margin-right 0
 				.viewer-counter
@@ -637,9 +637,9 @@ body
 					justify-content right
 					align-items center
 					.viewer-icon
-						width 22px
-						height 22px
-						margin-right 10px
+						width 28px
+						height 28px
+						margin-right 8px
 					.viewer-count-value
 						color white
 						font-size 16px
@@ -704,8 +704,8 @@ body
 			&:hover
 				background #16252d
 			.button-icon
-				width 20px
-				height 20px
+				width 24px
+				height 24px
 				position absolute 
 				top 50%
 				left 50%
@@ -748,7 +748,7 @@ body
 					width 40px
 					margin-right 12px
 				.user-name
-					color #00A4FF
+					color #026FFF
 					font-size 17px
 					letter-spacing .5px
 					font-weight 700
@@ -759,7 +759,7 @@ body
 			left 50%
 			transform translateX(-50%)
 			bottom 0
-			background #00A4FF
+			background #026FFF
 	.chats-scroll-container
 		width 100%
 		height calc(100% - 280px)
@@ -772,10 +772,10 @@ body
 		position relative
 		.chat
 			color #d3d7e0
-			font-size 14px
+			font-size 15px
 			font-weight 400
 			word-wrap break-word;
-			letter-spacing .5px
+			letter-spacing .3px
 			margin-top 20px
 			line-height 170%
 			padding 0 3px
@@ -784,7 +784,7 @@ body
 				text-align center
 			&.cooldown
 				color grey
-				font-size 14px
+				font-size 15px
 				font-weight 400
 				text-align center
 			.chat-tag
@@ -798,18 +798,19 @@ body
 				margin-right 5px
 			.chat-sender
 				color #FFFFFF
-				font-size 14px
+				font-size 15px
 				font-weight 700
 				margin-right 5px
 				letter-spacing .5px
 			.chat-emoji
 				position relative
+				margin 0 2px
 				.chat-emoji-img
-					width 30px
-					height 30px
-					margin-bottom -10px
+					width 28px
+					height 28px
+					margin-bottom -9px
 			a
-				color #00A4FF
+				color #026FFF
 				text-decoration none
 				&:hover
 					text-decoration underline !important
@@ -843,7 +844,8 @@ body
 		position relative
 		.emoji-menu
 			background #1b2129
-			width 100%
+			width 370px
+			right 0
 			position absolute
 			bottom calc(100% + 15px)
 			border-radius 5px
@@ -881,7 +883,7 @@ body
 				.emojis-container
 					margin 15px auto
 					display flex
-					justify-content center
+					justify-content left
 					align-items center
 					flex-flow row wrap
 					width 290px
@@ -902,7 +904,7 @@ body
 						&:hover
 							background #252d38
 						&:nth-child(5n)
-							margin-right 0 !important
+							margin-right 0
 						.icon
 							width 35px
 							height 35px
@@ -917,14 +919,13 @@ body
 			top 0
 			left 0
 			z-index 20
-			background rgba(37, 39, 49, .9)
-			box-shadow inset 0 0 30px 0 #13151b
+			background rgba(28,31,39, .9)
+			backdrop-filter: blur(2px);
+			box-shadow inset 0 0 30px 0 #2a2e3c
 			border-radius 5px
 			display none
-			&.muted-container h1
-				color #f00
 			h1
-				color rgba(255, 255, 255, .8)
+				color #ff3434
 				font-weight 800
 				text-transform uppercase
 				font-size 18px
@@ -942,7 +943,7 @@ body
 			position relative
 			transition border-color .3s
 			&.focus
-				border-color #00A4FF
+				border-color #026FFF
 			#chat-input
 				width calc(100% - 64px)
 				height calc(100% - 16px)
@@ -978,15 +979,15 @@ body
 				background transparent
 				transition background .3s
 				&:hover
-					background #183c4e
+					background #026fff26
 				&.active
-					background #1a4d69
+					background #026fff40
 				&.emojis-menu-button .button-icon
-					width 23px
-					height 23px
+					width 30px
+					height 30px
 				&.send-chat-button .button-icon
-					width 20px
-					height 20px
+					width 26px
+					height 26px
 					left calc(50% + 2px)
 				.button-icon
 					position absolute 
@@ -1121,6 +1122,8 @@ body
 				font-size 11px !important
 
 @media only screen and (max-width: 600px)
+
+	#report-error-modal,
 	#poll-modal
 		width 100% !important
 		height 100% !important
@@ -1130,6 +1133,29 @@ body
 		transition opacity .3s, visibility .3s !important
 		&.active
 			top 0 !important
+	#report-error-modal
+		.error-type-option
+			width fit-content
+		.modal-top
+			height 130px !important
+			justify-content center !important
+			flex-flow column-reverse nowrap !important
+			text-align center !important
+			.close-modal-button
+				margin-bottom 15px !important
+		.modal-flex-container
+			flex-flow column nowrap
+		.error-type-container
+			margin-right 0 !important
+		.error-description-input
+			width 100% !important
+			height 200px !important
+		.submit-error-report-button
+			margin 30px 0 0 !important
+		.scroll-container
+			height calc(100% - 130px) !important
+
+	#poll-modal
 		.title
 			font-size 14px !important
 		.close-poll-modal
@@ -1150,3 +1176,13 @@ body
 			margin-right 0 !important
 			&:last-child
 				margin-bottom 0
+	#chat-container
+		.emoji-menu
+			width 100% !important
+			.emojis-container
+				width calc(100% - 30px) !important
+				justify-content center !important
+				.emoji-button:nth-child(5n)
+					margin-right 5px !important
+				.emoji-button
+					margin 0 5px 10px !important

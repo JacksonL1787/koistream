@@ -72,9 +72,10 @@ app.use(function(req, res, next) {
 
 // error handler
 app.use(function(err, req, res, next) {
+  console.log(err.status)
   // render the error page
   res.status(err.status || 500);
-  res.redirect('/');
+  res.send('error');
 });
 
 const port = 3000

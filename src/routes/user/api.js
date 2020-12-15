@@ -23,7 +23,7 @@ const getUserChatSettings = require("../../db/users/getUserChatSettings")
 const setUserChatSettings = require("../../db/users/setUserChatSettings")
 const getActivePoll = require("../../db/polls/getActivePoll")
 const submitPollAnswer = require("../../db/polls/submitPollAnswer")
-
+const getStreamStatus = require("../../db/streams/getStreamStatus")
 
 
 const AWS = require("aws-sdk");
@@ -107,6 +107,11 @@ router.get("/chats", authCheck, async (req, res, next) => {
 router.get("/getChatStatus", authCheck, async (req, res, next) => {
     let settings = await getChatSettings()
     res.send(req.user.muted ? "muted" : settings.status)
+})
+
+router.get("/getStreamStatus", authCheck, async (req, res, next) => {
+    let status = await getStreamStatus()
+    res.send({active: status})
 })
 
 router.get("/getSlate", authCheck, async (req, res, next) => {
