@@ -29,6 +29,30 @@ const setStreamInfo = () => {
 	})
 }
 
+$(".start-poll").click(() => {
+	$.post({
+		url: "/admin/api/startPoll",
+		data: {templateId: $(".poll-template-id-input").val()},
+		success: () => {
+			$(".poll-template-id-input").val("");
+		}
+	})
+})
+
+$(".end-poll").click(() => {
+	$.post({
+		url: "/admin/api/endPoll",
+		success: (data) => {
+			console.log(data)
+			let string = ""
+            data.forEach((dp) => {
+                string += `${dp.value} - ${dp.voteCount} <br><br>`
+            })
+            $(".poll-results").html(string)
+		}
+	})
+})
+
 $(".update-stream-information-button").click(() => {
 	$.post({
         url: "/admin/api/updateStreamInfo",
