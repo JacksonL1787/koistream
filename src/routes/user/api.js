@@ -76,31 +76,30 @@ router.post('/sendMessage', [
     const chatTag = req.user.chatTag ? await getUserChatTag(req.user.chatTag) : false
     const nameColor = await getUserNameColor(req.user.nameColor)
 
-    io.in('admin').emit("newChatAdmin", {
-        message: chatData.messageFiltered.replace(/&/g, "&amp;"),
-        unfilteredMessage: chatData.message.replace(/&/g, "&amp;"),
-        userName: _.startCase(req.user.firstName + " " + req.user.lastName),
-        chatId: chatData.chatId,
-        muted: req.user.muted,
-        tagName: chatTag.name,
-        tagColor : chatTag.color,
-        nameColor: nameColor
-    })
-    io.emit("newChat", {
+    let chatEmit = {
         message: chatData.messageFiltered.replace(/&/g, "&amp;"),
         userName: _.startCase(req.user.firstName + " " + req.user.lastName),
         chatId: chatData.chatId,
         tagName: chatTag.name,
         tagColor : chatTag.color,
         nameColor: nameColor
+    }
+
+    io.in('admin').emit("newChatForAdmin", {
+        ...chatEmit, 
+        "muted": req.user.muted, 
+        "moderator": true, 
+        "unfilteredMessage": chatData.message.replace(/&/g, "&amp;"), 
+        "googleId": req.user.googleId
     })
+    io.emit("newChat", chatEmit)
     res.sendStatus(200)
 })
 
 router.get("/chats", authCheck, async (req, res, next) => {
     const chatSettings = await getChatSettings()
     if(!chatSettings.active) return res.json([])
-    const chats = await getChats(false)
+    const chats = await getChats(req.user.auth)
     res.json(chats)
 })
 

@@ -131,9 +131,9 @@ body
 				position absolute
 				left 0
 				background linear-gradient(90deg, transparent, #00C8F3 25%, #00C8F3 75%, transparent)
-				animation preloader  1.5s infinite linear
+				animation loading-bar  1.5s infinite linear
 
-@keyframes preloader
+@keyframes loading-bar
 	0%
 		left -100%
 	100%
@@ -364,6 +364,7 @@ body
 					.tag
 						font-size 12px
 						padding 1px 5px
+						width fit-content
 						border 1px solid transparent
 						border-radius .3em
 						text-transform uppercase
@@ -673,6 +674,42 @@ body
 	position fixed 
 	top 0
 	right 0
+	&.moderation-mode
+		.all-chats-container
+			width 100%
+			.chat
+				padding 15px 10px 15px 18px
+				margin-top 0
+				background rgba(255,255,255,0.02)
+				&:nth-child(odd)
+					background rgba(255,255,255,0.04)
+				&.muted
+					.muted-icon
+						opacity 1 !important
+						visibility visible !important
+				.moderation-controls-flex-wrap
+					display flex
+					align-items center
+					justify-content space-between
+					margin 0 0 10px
+					width 100%
+					.muted-icon
+						width 24px
+						height 24px
+						opacity 0
+						visibility hidden
+					.moderation-action-buttons-container
+						display flex
+						justify-content flex-end
+						align-items center
+					.moderation-action-button
+						padding 4px 10px
+						font-size 14px
+						margin 0 5px 0 0
+						background #30333c
+						border-radius 2px
+						&:hover
+							background #4a4d56 !important
 	&.show-more-controls
 		.chat-header-container 
 			height 140px
@@ -702,7 +739,7 @@ body
 			background transparent
 			transition background .3s
 			&:hover
-				background #16252d
+				background rgba(2,111,255,.09)
 			.button-icon
 				width 24px
 				height 24px
@@ -779,9 +816,6 @@ body
 			margin-top 20px
 			line-height 170%
 			padding 0 3px
-			&.muted
-				color red
-				text-align center
 			&.cooldown
 				color grey
 				font-size 15px
@@ -795,12 +829,16 @@ body
 				text-transform uppercase
 				font-weight 800
 				letter-spacing .5px
-				margin-right 5px
+				margin-right 4px
+			.flagged
+				padding 0 4px
+				background #d80000
+				color #fff
+				font-weight 500
 			.chat-sender
 				color #FFFFFF
 				font-size 15px
 				font-weight 700
-				margin-right 5px
 				letter-spacing .5px
 			.chat-emoji
 				position relative

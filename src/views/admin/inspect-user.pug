@@ -1,0 +1,23 @@
+html
+	head
+		title=name
+		meta(name="viewport" content="width=device-width, initial-scale=1")
+		link(rel="stylesheet" href="/css/admin/main.css")
+		link(rel="stylesheet" href="/css/admin/inspect-user.css")
+		link(rel='apple-touch-icon' sizes='180x180' href='/img/favicons/apple-touch-icon.png')
+		link(rel='icon' type='image/png' sizes='32x32' href='/img/favicons/favicon-32x32.png')
+		link(rel='icon' type='image/png' sizes='16x16' href='/img/favicons/favicon-16x16.png')
+		link(rel='manifest' href='/img/favicons/site.webmanifest')
+
+		script(src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.4.1/jquery.min.js")
+		script(src="https://cdnjs.cloudflare.com/ajax/libs/lodash.js/4.17.15/lodash.min.js")
+		script(src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.24.0/moment.js")
+		script(src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/2.2.0/socket.io.js")
+	body
+
+		.header
+			img.back-button(src="/img/back-icon-white.svg")
+			h1.name=name
+		.main-content
+
+		script(src="/js/admin/inspect-user.js")

@@ -42,12 +42,12 @@ const setChatStatus = () => {
 	if(!window.streamActive) return;
 	$.get({
 		url: "/user/api/getChatStatus",
-		success: (data) => {
+		success: (state) => {
 			$(".chat-state-container").hide()
-			$("#chat-input").blur().val("")
+			$("#chat-input").text("").blur()
 			$("#chat-container .chat-input-container .emoji-menu").removeClass("active")
 			$("#chat-container .chat-input-controls .emojis-menu-button.chat-input-button").removeClass("active")
-			switch (data.state) {
+			switch (state) {
 				case "disabled":
 					$(".chat-state-container.disabled-container").show()
 					break;
@@ -85,7 +85,7 @@ const streamOffline = () => {
 	$('#stream-slate').show()
 	$(".chat-state-container").hide()
 	$(".chat-state-container.disabled-container").show()
-	$("#chat-input").blur().val("")
+	$("#chat-input").blur().text("")
 	$("#chat-container .chat-input-container .emoji-menu").removeClass("active")
 	$("#chat-container .chat-input-controls .emojis-menu-button.chat-input-button").removeClass("active")
 }
@@ -165,6 +165,17 @@ const endPoll = () => {
 
 const appendChat = (data) => {
 	let message = $('<textarea/>').html(data.message).text();
+	if(data.moderator) {
+		let tempMessage = $('<textarea/>').html(data.unfilteredMessage).text()
+		tempMessage = tempMessage.split(" ")
+		message = message.split(" ")
+		tempMessage.forEach((w, i) => {
+			if(w != message[i]) {
+				tempMessage[i] = `<b class="flagged">${w}</b>`
+			}
+		})
+		message = tempMessage.join(" ")
+	}
 	message = `<span class="chat-text">${message}</span>`
 	window.emojis.forEach((e) => {
 	    let re  = new RegExp(`:${e.tag}:`,"gmi")
@@ -172,7 +183,18 @@ const appendChat = (data) => {
 	})
 	message = message.replace(/\<span class="chat-text"\>\<\/span\>/gmi, "")
 	$("#chat-container .all-chats-container").append(`
-		<div class="chat" id="${data.chatId}">
+		<div class="chat${data.muted ? " muted" : ""}" id="${data.chatId}">
+			${data.moderator ? `
+				<div class="moderation-controls-flex-wrap">
+					<img class="muted-icon" src="/img/muted-icon-red.svg">
+					<div class="moderation-action-buttons-container">
+						<button class="moderation-action-button blue-round-text-button-style delete-chat-button">Delete</button>
+						<button class="moderation-action-button blue-round-text-button-style mute-control-button" data-user="${data.googleId}">${data.muted ? "Unmute" : "Mute"}</button>
+						<button class="moderation-action-button blue-round-text-button-style manage-user-button" data-user="${data.googleId}">Manage User</button>
+					</div>
+				</div>
+			` : ""}
+			
 			${data.tagName ? `<span class="chat-tag" style="color: ${data.tagColor}; background: ${data.tagColor}26; border-color: ${data.tagColor}; box-shadow: 0 0 3px 0 ${data.tagColor};">${data.tagName}</span>` : ""}
 			<span class="chat-sender" style="color: ${data.nameColor}">${data.userName}:</span>
 			${message}
@@ -456,16 +478,33 @@ $(document).on("click", ".choose-chat-tag-container .chat-tag-option", function(
 	$(this).addClass("selected")
 })
 
-$(document).on("click", ".all-chats-container .chat", function() {
+$(document).on("click", ".all-chats-container .chat .delete-chat-button", function() {
 	if(window.auth != 3) return;
 	const data = {
-		chatId: $(this).attr("id")
+		chatId: $(this).parents(".chat").attr("id")
 	}
 	if(data.chatId === "undefined") return;
 	$.post({
 		url: "/admin/api/deleteChat",
 		data
 	})
+})
+
+$(document).on("click", ".all-chats-container .chat .mute-control-button", function() {
+	if(window.auth != 3) return;
+	const data = {
+		user: $(this).attr("data-user")
+	}
+	if(!data.user) return;
+	$.post({
+		url: "/admin/api/muteUser",
+		data
+	})
+})
+
+$(document).on("click", ".all-chats-container .chat .manage-user-button", function() {
+	if(window.auth != 3) return;
+	window.open(`/admin/inspect/user/${$(this).attr("data-user")}`, "_blank")
 })
 
 $(document).on("click", "#report-error-modal .error-type-option", function() {
@@ -533,8 +572,14 @@ $(document).ready(() => {
 	openPoll()
 	setStreamStatus()
 	setInterval(setViewerCount, 15000)
+	if(window.auth === 3) {
+		socket.on("newChatForAdmin", appendChat)
+		$("#chat-container").addClass("moderation-mode")
+	} else {
+		socket.on("newChat", appendChat)
+	}
 	$("#chat-container .user-picture").attr("src", window.profilePicture)
-	$(".stream-video-container").append('<video class="video-js" id="koistream-video" controls="controls" preload="auto" width="1920" height="1080" poster="/img/video-poster.png" autoplay><source class="vidSrc" src="https://dviuhv1vhftjw.cloudfront.net/out/v1/ffab5e1f68414aaba7309406dacfa7df/stream.m3u8" type="application/x-mpegURL"/></video>')
+	$(".stream-video-container").append('<video class="video-js" id="koistream-video" controls="controls" preload="auto" width="1920" height="1080" poster="/img/koistream-videojs-bg.png" autoplay><source class="vidSrc" src="https://dviuhv1vhftjw.cloudfront.net/out/v1/ffab5e1f68414aaba7309406dacfa7df/stream.m3u8" type="application/x-mpegURL"/></video>')
 	setTimeout(function() {
 		videojs.options.hls.overrideNative = true;
 		// Player instance options
@@ -586,12 +631,21 @@ $(document).ready(() => {
 })
 
 
-
-socket.on("newChat", appendChat)
 socket.on("deleteChat", deleteChat)
 socket.on("startPoll", startPoll)
 socket.on("endPoll", endPoll)
+socket.on("userMuted", (data) => {
+	const chats = $(`#chat-container .all-chats-container .chat .mute-control-button[data-user="${data.user}"]`).parents(".chat")
+	if(data.muted) {
+		chats.addClass("muted")
+		chats.find(".mute-control-button").text("Unmute")
+	} else {
+		chats.removeClass("muted")
+		chats.find(".mute-control-button").text("Mute")
+	}
+})
 socket.on('slateChange', setSlate)
 socket.on('setStreamStatus', setStreamStatus)
 socket.on('updateStreamInfo', setStreamInfo)
 socket.on('reloadStreamSource', reloadStreamSource)
+socket.on("updateChatStatus", setChatStatus)

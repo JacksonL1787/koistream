@@ -2,9 +2,10 @@ const { reader } = require("../pool")
 const tables = require("../tables")
 
 
-module.exports = async (isAdmin) => {
+module.exports = async (auth) => {
     try {
-
+        let isAdmin = auth === 3
+        console.log(isAdmin)
         let activeStream = await reader.select("id").from(tables.streams).where("active",true)
         if(!activeStream[0]) return [];
         let activeStreamId = activeStream[0].id
@@ -21,7 +22,7 @@ module.exports = async (isAdmin) => {
         ]
 
         if(isAdmin) {
-            query = [...query, `${tables.users}.muted`, `${tables.liveChats}.message as unfilteredMessage`]
+            query = [...query, `${tables.users}.googleId`, `${tables.users}.muted`, `${tables.liveChats}.message as unfilteredMessage`]
 
         }
 
@@ -32,7 +33,13 @@ module.exports = async (isAdmin) => {
 			.fullOuterJoin(tables.chatTags, `${tables.chatTags}.id`, '=', `${tables.userChatTags}.chatTagId`)
 			.fullOuterJoin(tables.nameColors, `${tables.nameColors}.id`, '=', `${tables.users}.nameColor`)
 			.where(`${tables.liveChats}.deleted`, false)
-			.andWhere(`${tables.liveChats}.streamId`, activeStreamId)
+            .andWhere(`${tables.liveChats}.streamId`, activeStreamId)
+        if(isAdmin) {
+            chats = chats.map(x => {
+                return {...x, "moderator": true}
+            })
+            console.log(chats)
+        }
         return chats;
     } catch(e) {
         throw new Error(e)

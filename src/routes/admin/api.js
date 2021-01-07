@@ -16,6 +16,7 @@ const getStream = require('../../db/streams/getStream')
 const startPoll = require("../../db/polls/startPoll")
 const deleteChat = require("../../db/liveChats/deleteChat")
 const setSlate = require("../../db/streamSettings/setSlate")
+const getUsers = require("../../db/users/getUsers")
 
 
 const adminAuth = (req,res,next) => {
@@ -38,6 +39,12 @@ router.post("/updateSlate", adminAuth, async (req, res, next) => {
     io.emit("slateChange")
     if(req.body.type === "off") io.emit("reloadStreamSource");
     res.sendStatus(200)
+})
+
+router.post("/searchUsers", adminAuth, async (req, res, next) => {
+    const users = await getUsers(req.body)
+    if(users === "prompt search") return res.json("prompt search")
+    res.json(users)
 })
 
 router.post("/updateStreamInfo", adminAuth, async (req, res, next) => {
@@ -73,11 +80,20 @@ router.post('/reloadStreamSource', adminAuth, async (req,res,next) => {
     res.sendStatus(200)
 })
 
+router.post('/muteUser', adminAuth, async (req,res,next) => {
+    if(!req.body.user) return res.sendStatus(500)
+    console.log(req.body)
+    const muted = await muteUser(req.body.user);
+    if(!muted.success) return res.sendStatus(500);
+    const io = req.app.get("socketio")
+    // notification(io, `{${req.user.googleId}} deleted a chat`)
+    socketTo(io, req.body.user, "updateChatStatus", {})
+    io.in('admin').emit("userMuted", {user: req.body.user, muted: muted.status})
+    res.sendStatus(200)
+})
+
 router.post('/deleteChat', adminAuth, async (req,res,next) => {
-    if(!req.body.chatId) {
-        res.sendStatus(500)
-        return;
-    }
+    if(!req.body.chatId) return res.sendStatus(500)
     const io = req.app.get("socketio")
     notification(io, `{${req.user.googleId}} deleted a chat`)
     await deleteChat(req.body.chatId)

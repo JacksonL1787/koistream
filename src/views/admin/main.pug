@@ -26,19 +26,13 @@ html
 						img.logo(src="/img/logo.png")
 						h1.title KoiStream
 					.nav-links-container
-						a.nav-link.active
+						a#stream-nav-link.nav-link(href="/admin/stream")
 							img.icon(src="/img/stream-icon-white.svg")
 							p.value Stream
-						a.nav-link
-							img.icon(src="/img/chat-bubble-icon-white.svg")
-							p.value Chat
-						a.nav-link
-							img.icon(src="/img/report-icon-white.svg")
-							p.value Reports
-						a.nav-link
-							img.icon(src="/img/folder-icon-white.svg")
-							p.value Templates
-						a.nav-link
+						a#templates-nav-link.nav-link(href="/admin/interactions")
+							img.icon(src="/img/cursor-icon-white.svg")
+							p.value Interactions
+						a#users-nav-link.nav-link(href="/admin/users")
 							img.icon(src="/img/users-icon-white.svg")
 							p.value Users
 				
@@ -53,6 +47,16 @@ html
 						script(src="https://cdnjs.cloudflare.com/ajax/libs/videojs-contrib-hls/5.15.0/videojs-contrib-hls.min.js")
 						script(src="/videojs/videojs-contrib-quality-levels/dist/videojs-contrib-quality-levels.min.js")
 						script(src="/videojs/videojs-hls-quality-selector/dist/videojs-hls-quality-selector.min.js")
+					when 'Interactions'
+						link(rel='stylesheet', href="/css/admin/interactions.css")
+						include interactions
+					when 'Users'
+						link(rel='stylesheet', href="/css/admin/users.css")
+						include users
 case page
 	when 'Stream'
 		script(src="/js/admin/stream.js")
+	when 'Users'
+		script(src="/js/admin/users.js")
+	when 'Interactions'
+		script(src="/js/admin/interactions.js")

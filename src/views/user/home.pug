@@ -10,6 +10,9 @@ html
 		link(rel='manifest' href='/img/favicons/site.webmanifest')
 		link(href="https://unpkg.com/video.js@7/dist/video-js.min.css" rel="stylesheet")
 	body
+		.bg
+			.overlay
+			video.splash-video(autoplay muted loop src="/videos/koistream-promo.mp4")
 		.left-container
 			.main-content
 				.nav
@@ -23,11 +26,11 @@ html
 						else
 							a.see-stream-btn(href="/stream") Go To Stream
 						a.contact-btn(href="mailto:koistream@dtechhs.org") Contact Us
-		.right-container
-			if user
-				p.user-name Welcome, #{name}!
-			.overlay
-			img.splash-image(src="/img/home-splash.jpg")
+		
+		if user
+			p.user-name Welcome, #{name}!
+			
+			//img(src="/img/home-splash.jpg")
 script(src="https://cdnjs.cloudflare.com/ajax/libs/video.js/7.8.0/video.min.js")
 script(src="https://cdnjs.cloudflare.com/ajax/libs/videojs-contrib-hls/5.15.0/videojs-contrib-hls.min.js")
 script(src="/videojs/videojs-contrib-quality-levels/dist/videojs-contrib-quality-levels.min.js")

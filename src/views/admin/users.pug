@@ -1,0 +1,69 @@
+.widget-container#search-users-widget
+	h2.widget-title Find a User
+	.search-controls-container
+		.search-input-container
+			.icon-container
+				img.icon(src="/img/search-icon-white.svg")
+			input#user-search-input(placeholder="Enter a name or email")
+		.action-buttons-container
+			.dropdown-menu(style="opacity: 0; visibility: hidden")
+				.top-triangle
+				#settings-menu-container.dropdown-menu-content-container
+					button.manage-chat-tags-button.settings-action-button Chat Tags
+					button.manage-name-colors-button.settings-action-button Name Colors
+					button.manage-admin-accounts.settings-action-button Admin Accounts
+				#filters-menu-container.dropdown-menu-content-container
+					.filter-button(data-filter="muted")
+						.checkmark-box
+							img.icon(src="/img/checkmark-icon-white.svg")
+						p.value Muted
+					.filter-button(data-filter="banned")
+						.checkmark-box
+							img.icon(src="/img/checkmark-icon-white.svg")
+						p.value Banned
+					.filter-button(data-filter="onlydtech")
+						.checkmark-box
+							img.icon(src="/img/checkmark-icon-white.svg")
+						p.value ONLY @dtechhs.org
+					.filter-button(data-filter="notdtech")
+						.checkmark-box
+							img.icon(src="/img/checkmark-icon-white.svg")
+						p.value NOT @dtechhs.org
+					
+			.icon-button(data-menu="filters-menu" data-right="50")
+				img(src="/img/filter-icon-white.svg")
+				.dot
+					p.value 1
+			.icon-button(data-menu="settings-menu" data-right="0")
+				img(src="/img/settings-icon-white.svg")
+.widget-container#users-table-widget
+	.prompt-search-container.users-widget-inner-container.active
+		img(src="/img/search-illustration.svg")
+		p Search for users by name or email
+	.loading-container.users-widget-inner-container
+		p Loading Users
+		.loading-bar
+			.inside-loader
+	.no-results-container.users-widget-inner-container
+		p No users found
+	.users-table-container.users-widget-inner-container
+		.table-head
+			.table-head-item#first-name-table-head-item
+				.inner-head-item-content
+					p First Name
+					img.sort-arrow.active.a-to-z(src="/img/up-arrow-icon-blue.svg" data-value="firstName" style="display:none;")
+			.table-head-item#last-name-table-head-item
+				.inner-head-item-content
+					p Last Name
+					img.sort-arrow(src="/img/up-arrow-icon-blue.svg" data-value="lastName")
+			.table-head-item#email-table-head-item
+				.inner-head-item-content
+					p Email
+					img.sort-arrow(src="/img/up-arrow-icon-blue.svg" data-value="email")
+		.table-rows
+		.page-selector
+			.previous-page-button.page-control-button
+				img.icon(src="/img/short-left-arrow-icon-white.svg")
+			p.val 1-10 of 100 Users
+			.next-page-button.page-control-button.active
+				img.icon(src="/img/short-left-arrow-icon-white.svg")

@@ -44,7 +44,7 @@ $(".end-poll").click(() => {
 		url: "/admin/api/endPoll",
 		success: (data) => {
 			console.log(data)
-			let string = ""
+			let string = "";
             data.forEach((dp) => {
                 string += `${dp.value} - ${dp.voteCount} <br><br>`
             })
@@ -75,7 +75,7 @@ $(".slate-control-button").click(() => {
 
 
 $(document).ready(() => {
-    $(".video-preview-container .ratio-container").append('<video class="video-js" id="stream-video" controls="controls" preload="auto" width="1920" height="1080" poster="/img/video-poster.png" autoplay><source class="vidSrc" src="https://dviuhv1vhftjw.cloudfront.net/out/v1/ffab5e1f68414aaba7309406dacfa7df/stream.m3u8" type="application/x-mpegURL"/></video>')
+    $(".video-preview-container .ratio-container").append('<video class="video-js" id="stream-video" controls="controls" preload="auto" width="1920" height="1080" poster="/img/koistream-videojs-bg.png" autoplay><source class="vidSrc" src="https://dviuhv1vhftjw.cloudfront.net/out/v1/ffab5e1f68414aaba7309406dacfa7df/stream.m3u8" type="application/x-mpegURL"/></video>')
 	setSlateControl()
 	setStreamInfo()
 	setTimeout(function() {

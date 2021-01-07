@@ -1,0 +1,331 @@
+.widget-flex-container
+	display flex
+	justify-content left
+	width 100%
+
+.widget-container
+	width 100%
+	margin-bottom 15px !important
+	
+#search-users-widget
+	.search-controls-container
+		display flex
+		align-items center
+		width 100%
+		.search-input-container
+			width 100%
+			height fit-content
+			position relative
+			.icon-container
+				position absolute
+				left 1px
+				top 1px
+				background #14161d
+				height calc(100% - 2px)
+				width 40px
+				border-right 1px solid #20232f
+				border-top-left-radius 5px
+				border-bottom-left-radius 5px
+				.icon
+					position absolute
+					top 50%
+					opacity 0.4
+					left 50%
+					transform translate(-50%, -50%)
+					width 24px
+					height 24px
+			#user-search-input
+				outline none
+				width 100%
+				overflow-y auto
+				overflow-x hidden
+				background #111217
+				border 1px solid #20232f
+				color #fff
+				font-weight 500
+				font-size 16px
+				letter-spacing .5px
+				border-radius 5px
+				padding 10px 10px 10px 50px
+				transition border-color .3s
+				&:focus
+					border-color #026FFF
+		.icon-button[data-menu="filters-menu"]
+			.dot
+				background #0e6be6
+				width 18px
+				height 18px
+				border-radius 8px
+				position absolute
+				top -2px
+				right -2px
+				opacity 0
+				transform scale(0.5)
+				transition transform .3s, opacity .3s
+				&.active
+					opacity 1
+					transform scale(1)
+				.value
+					color #fff
+					font-size 14px
+					font-weight 600
+					position absolute
+					top 50%
+					left 50%
+					transform translate(-50%, -50%)
+			img
+				width 30px
+				height 30px
+		.icon-button[data-menu="settings-menu"] img
+			width 26px
+			height 26px
+		.action-buttons-container
+			display flex
+			align-items center
+			position relative
+			.icon-button
+				margin-left 10px
+				cursor pointer
+				width 40px
+				height 40px
+				position relative
+				&:hover img
+					opacity 1
+				&.active img
+					opacity 1
+				img
+					position absolute
+					opacity 0.6
+					top 50%
+					left 50%
+					transform translate(-50%, -50%)
+					transition opacity .3s
+			.dropdown-menu
+				width 200px
+				height 160px
+				right 0
+				bottom -170px
+				box-shadow 0 3px 12px 0 rgba(0,0,0,0.2)
+				position absolute
+				background #23252f
+				z-index 20
+				border-radius 2px
+				.top-triangle
+					position: absolute;
+					right: 9px;
+					top: -20px;
+					clip-path: polygon(50% 50%, 0% 100%, 100% 100%);
+					width: 20px;
+					height: 20px;
+					background #23252f
+				.dropdown-menu-content-container
+					padding 5px 0
+					position absolute
+					opacity 0
+					visibility hidden
+					top 0
+					left 0
+					transition visibility .3s, opacity .3s
+					&.active
+						opacity 1
+						visibility visible
+				#settings-menu-container
+					width 200px
+					.settings-action-button
+						width 200px
+						padding 15px 0 15px 10px
+						text-align left
+						color #bbc5d8
+						font-size 15px
+						outline none
+						background transparent
+						border none
+						cursor pointer
+						font-weight 600
+						letter-spacing .5px
+						transition background .3s, color .3s
+						&:hover
+							background #026fff
+							color #fff
+				#filters-menu-container
+					width 250px
+					.filter-button
+						width 240px
+						display flex
+						align-items center
+						padding 10px 0 10px 10px
+						cursor pointer
+						transition background .3s
+						&:hover
+							background rgba(255,255,255,0.03)
+							.checkmark-box
+								box-shadow inset 0 0 0 2px #fff
+							p
+								color #fff
+						&.active
+							.checkmark-box
+								box-shadow inset 0 0 0 11px #026fff
+								img
+									opacity 1
+							p
+								color #fff
+						.checkmark-box
+							width 22px
+							height 22px
+							border-radius 5px
+							box-shadow inset 0 0 0 2px #bbc5d8
+							position relative
+							margin-right 10px
+							transition box-shadow .3s								
+							img
+								position absolute
+								opacity 0
+								top 50%
+								left 50%
+								transform translate(-50%, -50%)
+								width 15px
+								height 15px
+								transition opacity .3s
+						p
+							color #bbc5d8
+							font-size 16px
+							letter-spacing .5px
+							font-weight 600
+							transition color .3s
+#users-table-widget
+	.users-widget-inner-container
+		display none
+		&.active
+			display block
+	.loading-container,
+	.prompt-search-container,
+	.no-results-container
+		margin 100px auto 0
+		p
+			color white
+			font-weight 600
+			font-size 20px 
+			text-align center
+	.prompt-search-container		
+		width fit-content
+		img
+			width 400px
+			margin-bottom 20px
+	.loading-container
+		display none
+		p
+			font-size 18px
+			margin-bottom 10px
+	.users-table-container
+		width 100%
+		height fit-content
+		display none
+		.table-head
+			width 100%
+			height 55px
+			display flex
+			align-items center
+			.table-head-item
+				width 200px
+				.inner-head-item-content
+					width fit-content
+					display flex
+					align-items center
+					cursor pointer
+					&:hover
+						p
+							color #fff
+					p
+						color #acb8ca
+						text-transform uppercase
+						letter-spacing .5px
+						font-size 14px
+						font-weight 600
+						transition color .3s
+					.sort-arrow
+						width 20px
+						height 20px
+						margin-left 8px
+						margin-bottom 2px
+						transition transform .3s
+						&.a-to-z
+							transform rotate(0)
+						&.z-to-a
+							transform rotate(180deg)
+			#first-name-table-head-item
+				margin-left 15px
+			#email-table-head-item
+				width 300px
+		.table-row
+			background #14161d
+			border-radius 5px
+			padding 15px
+			margin-bottom 5px
+			width calc(100% - 30px)
+			display flex
+			justify-content space-between
+			align-items center
+			cursor pointer
+			transition background .3s
+			&.hidden-row
+				opacity 0
+				visibility hidden
+			&:hover
+				background #1d2029
+				.go-to-button
+					transform translateX(0) rotate(180deg)
+					opacity 1
+			.user-info-flex-wrap
+				display flex
+				align-items center
+				p
+					color #fff
+					font-size 16px
+					letter-spacing .5px
+					width 200px
+				.email
+					width 300px
+					color #a7a7a7
+			.go-to-button
+				width 26px
+				height 26px
+				transform translateX(-15px) rotate(180deg)
+				opacity 0
+				transition transform .3s, opacity .3s
+		.page-selector
+			display flex
+			justify-content center
+			width 100%
+			align-items center
+			margin 20px 0
+			.val
+				width 225px
+				text-align center
+				color #fff
+				font-size 16px
+				letter-spacing .5px
+			.page-control-button
+				width 35px
+				height 35px
+				border-radius 35px
+				cursor not-allowed
+				position relative
+				transition background .3s
+				&.active
+					cursor pointer
+					&:hover
+						background rgba(255,255,255,0.08)
+					.icon
+						opacity 1
+				.icon
+					position absolute
+					top 50%
+					left 50%
+					transform translate(-50%, -50%)
+					width 25px
+					height 25px
+					opacity .5
+			.next-page-button
+				.icon
+					left calc(50% + 1px)
+					transform translate(-50%, -50%) rotate(180deg)
