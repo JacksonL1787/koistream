@@ -6,7 +6,6 @@ module.exports = {
     errors: "errors",
     errorTypes: "errorTypes",
     liveChats: "liveChats",
-    streams: "streams",
     chatSettings: "chatSettings",
     slate: "slate",
     socketConnections: "socketConnections",
@@ -23,6 +22,7 @@ module.exports = {
     userChatTags: "userChatTags",
     streamSettings: "streamSettings",
     polls: "polls",
-    pollTemplateOptions: "pollTemplateOptions"
+    pollTemplateOptions: "pollTemplateOptions",
+    streamActivity: "streamActivity"
 }
   

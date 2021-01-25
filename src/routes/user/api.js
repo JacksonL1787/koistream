@@ -15,7 +15,7 @@ const getEmojis = require('../../db/emojis/getEmojis')
 const getChats = require('../../db/liveChats/getChats')
 const getSlate = require('../../db/streamSettings/getSlate')
 const getStreamInfo = require("../../db/streamSettings/getStreamInfo")
-const getViewerCount = require("../../db/streams/getViewerCount")
+const getViewerCount = require("../../db/socketConnections/getViewerCount")
 const createError = require("../../db/errors/createError")
 const getUserChatTag = require("../../db/users/getUserChatTag")
 const getUserNameColor = require("../../db/users/getUserNameColor")
@@ -23,7 +23,7 @@ const getUserChatSettings = require("../../db/users/getUserChatSettings")
 const setUserChatSettings = require("../../db/users/setUserChatSettings")
 const getActivePoll = require("../../db/polls/getActivePoll")
 const submitPollAnswer = require("../../db/polls/submitPollAnswer")
-const getStreamStatus = require("../../db/streams/getStreamStatus")
+const getStreamStatus = require("../../db/streamSettings/getStreamStatus")
 
 
 const AWS = require("aws-sdk");
@@ -105,8 +105,8 @@ router.get("/chats", authCheck, async (req, res, next) => {
 
 router.get("/getChatStatus", authCheck, async (req, res, next) => {
     let settings = await getChatSettings()
-    res.send(req.user.muted ? "muted" : settings.status)
-})
+    res.send(req.user.muted ? "muted" : settings.active ? "enabled" : "disabled")
+}) 
 
 router.get("/getStreamStatus", authCheck, async (req, res, next) => {
     let status = await getStreamStatus()

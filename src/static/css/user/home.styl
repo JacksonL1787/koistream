@@ -5,8 +5,8 @@ html
 
 .user-name
     position absolute
-    top 20px
-    right 20px
+    top 40px
+    right 50px
     color white
     font-size 17px
     letter-spacing .5px
@@ -31,7 +31,7 @@ html
         z-index 2
     .splash-video
         min-width 100%
-        min-height 100%
+        min-height 102%
         width auto
         height auto
         position absolute
@@ -80,16 +80,33 @@ html
                     font-size 18px
                     letter-spacing .5px
                     display block
-                    padding 12px 25px
                     font-weight 600
                     border-radius 5px
                     transition background .3s
+                .login-btn
+                    padding 12px 25px 12px 15px
+                    .icon
+                        width 26px
+                        height 26px
+                        margin-right 14px
+                .see-stream-btn
+                    padding 12px 25px 12px 12px
+                    .icon
+                        width 30px
+                        margin-right 8px
+                        height 30px
                 .login-btn,
                 .see-stream-btn
                     margin-right 20px
                     background #026FFF
+                    display flex
+                    align-items center
                     &:hover
                         background #0054c3
+                .see-stream-btn ~ .contact-btn
+                    padding 15px 25px 9px
+                .login-btn ~ .contact-btn
+                    padding 13px 25px 11px 
                 .contact-btn
                     background #2c3142
                     &:hover
@@ -141,4 +158,3 @@ html
                 margin-top 25px !important
                 a
                     font-size 15px !important
-                    padding 10px 15px !important

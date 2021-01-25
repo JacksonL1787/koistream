@@ -14,12 +14,10 @@ html
 		script(src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/2.2.0/socket.io.js")
 		script(src="/js/admin/main.js")
 	body
-		#modal-active-overlay
 		.notification
 			.icon
 			p.message
 		#nav
-			
 			.nav-scroll-container
 				.nav-content-container
 					.header-container
@@ -27,17 +25,24 @@ html
 						h1.title KoiStream
 					.nav-links-container
 						a#stream-nav-link.nav-link(href="/admin/stream")
-							img.icon(src="/img/stream-icon-white.svg")
-							p.value Stream
+							img.icon(src="/img/controls-icon-white.svg")
+							p.value Stream Controls
 						a#templates-nav-link.nav-link(href="/admin/interactions")
 							img.icon(src="/img/cursor-icon-white.svg")
 							p.value Interactions
 						a#users-nav-link.nav-link(href="/admin/users")
 							img.icon(src="/img/users-icon-white.svg")
 							p.value Users
-				
+				.nav-bottom-container
+					a.icon-link-button(href="/auth/logout")
+						img.icon(src="/img/logout-icon-white.svg")
+					a.icon-link-button(href="/stream")
+						img.icon(src="/img/stream-icon-white.svg")
+
+
 		#page-container
 			#page-content
+				#modal-active-overlay
 				case page
 					when 'Stream'
 						link(href="https://unpkg.com/video.js@7/dist/video-js.min.css" rel="stylesheet")
@@ -51,12 +56,14 @@ html
 						link(rel='stylesheet', href="/css/admin/interactions.css")
 						include interactions
 					when 'Users'
+						link(rel="stylesheet", href="https://cdn.jsdelivr.net/npm/@simonwep/pickr/dist/themes/classic.min.css")
 						link(rel='stylesheet', href="/css/admin/users.css")
 						include users
 case page
 	when 'Stream'
 		script(src="/js/admin/stream.js")
 	when 'Users'
+		script(src="https://cdn.jsdelivr.net/npm/@simonwep/pickr/dist/pickr.min.js")
 		script(src="/js/admin/users.js")
 	when 'Interactions'
 		script(src="/js/admin/interactions.js")

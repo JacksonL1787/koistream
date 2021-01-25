@@ -1,3 +1,275 @@
+/*
+
+	MODAL STYLES
+
+*/
+
+#modal-active-overlay
+	position fixed
+	z-index 100
+	background #04080ae3
+	opacity 0
+	visibility hidden
+	top 0
+	left 0
+	width 100%
+	height 100%
+	transition opacity .3s, visibility .3s
+	&.active
+		opacity 1
+		visibility visible 
+
+.blue-round-text-button-style
+	color #fff
+	font-size 15px
+	letter-spacing .5px
+	font-weight 600
+	padding 10px 30px
+	border-radius 5px
+	background #026FFF
+	border none
+	outline none
+	cursor pointer
+	transition background .3s
+	&:hover
+		background #0054c3 !important
+
+.modal-container
+	opacity 0
+	z-index 101
+	visibility hidden
+	width 95%
+	position fixed
+	top calc(50% + 30px)
+	left 50%
+	border-radius 8px
+	overflow-y auto
+	max-height 90vh
+	transform translate(-50%, -50%)
+	background #191a21
+	transition opacity .3s, visibility .3s, top .3s
+	&.active
+		opacity 1
+		visibility visible
+		top 50%
+	.modal-top
+		display flex
+		width calc(100% - 40px)
+		height 80px
+		align-items center
+		justify-content flex-end
+		margin 0 auto
+		.modal-top-action-button-styles
+			cursor pointer
+			width 45px
+			height 45px
+			border-radius 45px
+			position relative
+			background rgba(255,255,255,0.08)
+			transition background .3s
+			&:hover
+				background rgba(255,255,255,0.15)
+				.icon
+					opacity 1
+			.icon
+				width 18px
+				height 18px
+				position absolute
+				opacity .7
+				transition opacity .3s
+				top 50%
+				left 50%
+				transform translate(-50%, -50%)
+	.modal-content
+		padding 0 0 30px
+		width calc(100% - 40px)
+		margin 0 auto
+
+
+#manage-chat-tags-modal,
+#manage-admin-accounts-modal
+	.modal-top
+		justify-content space-between
+		.modal-title
+			color #fff
+			font-size 30px
+			font-weight 700
+			letter-spacing .5px
+
+#manage-chat-tags-modal
+	max-width 600px
+	.modal-content
+		padding 0 0 15px
+		.create-chat-tag-button
+			width 100%
+		.chat-tag-container
+			width 100%
+			border-bottom 1px solid #1e2029
+			padding-bottom 15px
+			margin-top 15px
+			display flex
+			align-items center
+			justify-content space-between
+			&:first-of-type
+				margin-top 20px !important
+			&:last-child
+				border-bottom none !important
+				padding-bottom none !important
+			.chat-tag
+				font-size 11px
+				padding 1px 5px
+				border 1px solid transparent
+				border-radius .3em
+				text-transform uppercase
+				font-weight 800
+				letter-spacing .5px
+				margin-right 8px
+			.actions-container
+				display flex
+				align-items center
+				justify-content right
+				.action-button
+					width 25px
+					height 25px
+					cursor pointer
+					fill #33394a
+					transition fill .3s
+				.edit-chat-tag-button
+					margin-right 10px
+					&:hover
+						fill #026FFF
+				.delete-chat-tag-button
+					width 28px
+					height 28px
+					&:hover
+						fill #ff3838
+
+#manage-admin-accounts-modal
+	max-width 900px
+
+#add-chat-tag-modal,
+#confirm-delete-chat-tag-modal
+	max-width 700px
+	.modal-top
+		justify-content space-between
+		.previous-modal-button
+			border-radius 8px
+			height 42px
+			width 42px
+			.icon
+				width 26px
+				height 26px
+	.modal-title
+		color #fff
+		font-size 30px
+		font-weight 700
+		letter-spacing .5px
+
+#confirm-delete-chat-tag-modal
+	.confirm-message
+		font-size 17px
+		letter-spacing .5px
+		color #d3d7e0
+		margin-top 10px
+		b
+			text-decoration underline
+	.confirm-delete-button
+		background #ff3838
+		margin-top 20px
+		&:hover
+			background #f00 !important
+
+#add-chat-tag-modal
+	.input-container,
+	.color-picker-container
+		.label
+			color #d3d7e0
+			font-size 15px
+			letter-spacing .5px
+			margin-bottom 4px
+			margin-left 2px
+	.input-container
+		margin-top 30px
+		.chat-tag-name
+			outline none
+			width 100%
+			overflow-y auto
+			overflow-x hidden
+			background #1f2029
+			border 1px solid #33394a
+			color #fff
+			font-weight 500
+			font-size 15px
+			letter-spacing .5px
+			border-radius 5px
+			padding 8px
+			transition border-color .3s
+			&:focus
+				border-color #026FFF
+	.color-picker-container
+		margin-top 30px
+		.pcr-button
+			display none !important
+		.pcr-app
+			width: calc(100% - 1.6em)
+			border-radius 5px !important
+			padding 25px 0.8em 15px !important
+			background #23242d
+			box-shadow none
+			position relative
+			z-index: unset !important
+			transition unset !important
+			.pcr-interaction
+				input.pcr-result
+					background #1F2029
+					border 1px solid #33394a
+					color #fff
+					&:focus
+						box-shadow none !important
+						border-color #026FFF
+	.flex-submit-container
+		display flex
+		align-items flex-end
+		justify-content space-between
+		width 100%
+		margin-top 30px
+		.preview-container
+			.label
+				color #d3d7e0
+				font-size 15px
+				letter-spacing .5px
+				margin-left 2px
+				margin-bottom 4px
+			.preview-content
+				background #14161D
+				border-radius 5px
+				padding 10px
+				display flex
+				align-items center
+				border 1px solid #1F2029
+				.chat-tag
+					font-size 11px
+					padding 1px 5px
+					border 1px solid transparent
+					border-radius .3em
+					text-transform uppercase
+					font-weight 800
+					letter-spacing .5px
+					margin-right 8px
+				.chat-sender
+					color #FFFFFF
+					font-size 15px
+					font-weight 700
+					letter-spacing .5px
+					margin-top 1px
+		.submit-button
+			margin-bottom 1px
+/*
+
+	MAIN STYLES
+
+*/
+
 .widget-flex-container
 	display flex
 	justify-content left

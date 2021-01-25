@@ -1,55 +1,81 @@
 .widget-flex-container
-    .widget-column-container
-        .widget-container#stream-preview-widget
-            h2.widget-title Preview
-            .video-preview-container
-                .ratio-container
-                    img.video-ratio-controller(src="/img/video-aspect-ratio.png")
-        .widget-container#stream-information-widget
-            h2.widget-title Stream Information
-            .stream-information-form-container
-                .input-container
-                    p.label Title
-                    input.stream-title-input
-                .input-container
-                    p.label Description
-                    textarea.stream-description-input(data-gramm_editor="false")
-                button.update-stream-information-button.blue-round-text-button-style Update
-
-    .widget-column-container
-        .widget-container#stream-controls-widget
-            h2.widget-title Stream Controls
-            .stream-controls-container
-                .big-button-container.stream-control-button
-                    p.value Stream Offline
-                .big-button-container.slate-control-button
-                    p.value
-
-        .widget-container#quick-actions-widget
-            h2.widget-title Quick Actions
-            .quick-actions-container
-                .action-button#reload-stream-source-button
-                    img.icon(src="/img/action-button-reload-source-icon.svg")
-                    .button-details
-                        p.value Refresh Stream Source
-                        p.description Update Viewer's Stream
-                .action-button
-                    img.icon(src="/img/action-button-poll-icon.svg")
-                    .button-details
-                        p.value Manage Polls
-                        p.description Start and Stop Polls
-                .action-button
-                    img.icon(src="/img/action-button-viewers-icon.svg")
-                    .button-details
-                        p.value See Viewers
-                        p.description Who is Watching the Stream
-                .action-button
-                    img.icon(src="/img/action-button-notification-icon.svg")
-                    .button-details
-                        p.value Make Announcement
-                        p.description Notify Viewers
-                .action-button
-                    img.icon(src="/img/action-button-controls-icon.svg")
-                    .button-details
-                        p.value Chat Settings
-                        p.description Control the Chat
+	.widget-container#stream-widget
+		h2.widget-title Stream
+		.video-preview-container
+			.ratio-container
+				img.video-ratio-controller(src="/img/video-aspect-ratio.png")
+		.stream-information-form-container
+			.input-container
+				p.label Title
+				input.stream-title-input
+			.input-container
+				p.label Description
+				textarea.stream-description-input(data-gramm_editor="false")
+			button.update-stream-information-button.blue-round-text-button-style Update
+	.widget-column-container
+		.widget-flex-container
+			.widget-container#stream-controls-widget
+				h2.widget-title Controls
+				.controls-container
+					.control.switch-control#stream-switch-control(data-post-url="/admin/api/updateStreamStatus")
+						p.value Stream
+						.switch-wrap
+							p.status OFF
+							.switch
+								.dot
+					.control.switch-control#slate-switch-control(data-post-url="/admin/api/updateSlateStatus")
+						p.value Slate
+						.switch-wrap
+							p.status OFF
+							.switch
+								.dot
+					.divider
+					.control.switch-control#chat-switch-control(data-post-url="/admin/api/updateChatStatus")
+						p.value Live Chat
+						.switch-wrap
+							p.status OFF
+							.switch
+								.dot
+					.control.switch-control#slow-mode-switch-control(data-post-url="/admin/api/updateChatCooldown")
+						p.value Slow Mode
+						.switch-wrap
+							p.status OFF
+							.switch
+								.dot
+					.control.button-control
+						.button-container#clear-chats-button
+							svg.icon(clip-rule='evenodd' fill-rule='evenodd' height='512' stroke-linejoin='round' stroke-miterlimit='2' viewbox='0 0 24 24' width='512' xmlns='http://www.w3.org/2000/svg' xmlns:svg='http://www.w3.org/2000/svg')
+								path(d='m12 2c-5.519 0-10 4.481-10 10s4.481 10 10 10 10-4.481 10-10-4.481-10-10-10zm6.319 5.095-11.224 11.224c1.356 1.053 3.058 1.681 4.905 1.681 4.415 0 8-3.585 8-8 0-1.847-.628-3.549-1.681-4.905zm-1.414-1.414c-1.356-1.053-3.058-1.681-4.905-1.681-4.415 0-8 3.585-8 8 0 1.847.628 3.549 1.681 4.905z')
+							p.value Clear All Chats
+			.widget-container#stream-activity-widget
+				h2.widget-title Recent Activity
+				.activity-container
+					p.stream-offline-message Stream is Offline
+					.activity-content
+		.widget-container#data-widget
+			h2.widget-title Data
+			.data-container#viewer-data-container
+				.data-content
+					.info-container
+						.icon-container
+							img.icon(src="/img/viewer-icon-blue.svg")
+						p.data-value <b class="dynamic-viewer-count-data"></b> Viewers
+					.action-container
+						.show-all-viewers-button
+							p.value See All Viewers
+							img.icon(src="/img/back-icon-blue.svg")
+			.data-container#chat-count-data-container
+				.data-content
+					.info-container
+						.icon-container
+							img.icon(src="/img/chat-bubble-icon-blue.svg")
+						p.data-value <b class="dynamic-chat-count-data"></b> Live chats
+					.action-container
+			.data-container#run-time-data-container
+				.data-content
+					.info-container
+						.icon-container
+							img.icon(src="/img/clock-icon-blue.svg")
+						p.data-value Stream has been active for <b class="dynamic-run-time-data">00:00:00:00</b>
+					.action-container
+			

@@ -1,12 +1,12 @@
+.widget-column-container
+	width 100%
+
 .widget-flex-container
 	display flex
 	width 100%
-	justify-content center
-
-.widget-column-container
-	margin-right 100px
-	&:last-child
-		margin-right 0
+	justify-content left
+	position relative
+	margin-bottom 20px
 
 .blue-round-text-button-style
 	color #fff
@@ -23,104 +23,23 @@
 	&:hover
 		background #0054c3 !important
 
-#quick-actions-widget
-	.quick-actions-container
-		width 350px
-		height fit-content
-		padding 20px 0
-		background #14161d
-		border-radius 5px
-		.action-button
-			width calc(100% - 60px)
-			margin 0 auto 20px
-			padding 10px 15px
-			border-radius 5px
-			display flex
-			align-items center
-			cursor pointer
-			justify-content left
-			transition background .3s
-			&:last-child
-				margin-bottom 0
-			&:hover
-				background #1b1e27
-			.icon
-				width 35px
-				height 35px
-				margin-right 20px
-			.button-details
-				.value
-					color #fff
-					font-size 16px
-					letter-spacing .5px
-					font-weight 700
-				.description
-					color #acb8ca
-					letter-spacing .5px
-					font-size 14px
-					margin-top -2px
-					font-weight 300
-
-#stream-information-widget
-	.stream-information-form-container
-		width 500px
-		height fit-content
-		padding 20px 0
-		background #14161d
-		border-radius 5px
-		.input-container
-			width calc(100% - 60px)
-			margin 0 auto
-			margin-bottom 25px
-			position relative
-			.label
-				color #acb8ca
-				font-size 15px
-				font-weight 500
-				letter-spacing .5px
-				margin-bottom 5px
-			textarea
-				resize none
-				height 150px
-			input,
-			textarea
-				outline none
-				width 100%
-				overflow-y auto
-				overflow-x hidden
-				background #111217
-				border 1px solid #20232f
-				color #fff
-				font-weight 500
-				font-size 15px
-				letter-spacing .5px
-				border-radius 5px
-				padding 8px
-				transition border-color .3s
-				&:focus
-					border-color #026FFF
-		.update-stream-information-button
-			margin 0 auto 10px
-			display block
-
-#stream-preview-widget
+#stream-widget
+	margin-right 20px
+	width 450px
+	min-width 450px
 	.video-preview-container
-		width 500px
+		width 100%
 		height fit-content
-		padding 30px 0
-		background #14161d
-		border-radius 5px
 		position relative
 		overflow hidden
 		.ratio-container
 			width fit-content
 			position relative
 			overflow hidden
-			margin-left 30px
 			.video-ratio-controller
-				width calc(100% - 30px)
+				width 100%
 			#stream-video
-				width calc(100% - 30px)
+				width 100%
 				height 100%
 				position absolute
 				top 0
@@ -161,38 +80,279 @@
 			text-align center
 			margin 20px 0 5px
 			font-size 15px
+	.stream-information-form-container
+		width 100%
+		height fit-content
+		padding 20px 0
+		background #14161d
+		border-radius 5px
+		border-top-right-radius 0
+		border-top-left-radius 0
+		.input-container
+			width calc(100% - 30px)
+			margin 0 auto
+			margin-bottom 25px
+			position relative
+			.label
+				color #acb8ca
+				font-size 15px
+				font-weight 500
+				letter-spacing .5px
+				margin-bottom 5px
+			textarea
+				resize none
+				height 150px
+			input,
+			textarea
+				outline none
+				width 100%
+				overflow-y auto
+				overflow-x hidden
+				background #111217
+				border 1px solid #1a1c25
+				color #fff
+				font-weight 500
+				font-size 15px
+				letter-spacing .5px
+				border-radius 5px
+				padding 8px
+				transition border-color .3s
+				&:focus
+					border-color #026FFF
+		.update-stream-information-button
+			margin 0 auto 10px
+			display block
+
+#stream-activity-widget
+	width 100%
+	max-height 100%
+	.activity-container
+		width 100%
+		height 354px
+		background #14161d
+		border-radius 5px
+		overflow-y auto
+		position relative
+		.stream-offline-message
+			position absolute
+			top calc(50% - 10px)
+			left 50%
+			transform translate(-50%, -50%)
+			display none
+			color #acb8ca
+			letter-spacing .5px
+			font-size 17px
+			&.active
+				display block
+		.activity-content
+			padding 25px 0
+			width calc(100% - 30px)
+			margin 0 auto
+			.divider
+				width 45px
+				height 30px
+				margin 10px 0
+				position relative
+				&:last-child
+					display none
+				.line
+					background #232733
+					width 2px
+					height 100%
+					border-radius 10000px
+					left 50%
+					transform translateX(-50%)
+					position absolute
+			.activity-log
+				display flex
+				align-items center
+				width 100%
+				.profile-picture
+					margin-right 15px
+					width 45px
+					height 45px
+					border-radius 45px
+				.info-container
+					width 100%
+					a,
+					p
+						letter-spacing .5px
+						margin 0
+					.user-name
+						color #026fff
+						font-size 16px
+						font-weight 800
+						text-decoration none
+						cursor pointer
+						&:hover
+							text-decoration underline
+					.message
+						color #fff
+						font-size 14px
+						font-weight 400
+				.timestamp
+					color #788496
+					font-size 13px
+					font-weight 600
+					min-width fit-content
+
+#data-widget
+	width 100%
+	.data-container
+		width 100%
+		padding 15px 0
+		background #14161d
+		border-radius 5px
+		margin-bottom 15px
+		&:last-child
+			margin-bottom 0
+		.data-content
+			width calc(100% - 30px)
+			margin 0 auto
+			display flex
+			justify-content space-between
+			align-items center
+			.info-container
+				display flex
+				align-items center
+				.icon-container
+					background rgba(2,111,255,0.12)
+					width 50px
+					height 50px
+					border-radius 5px
+					position relative
+					margin-right 15px
+					.icon
+						width 30px
+						height 30px
+						position absolute
+						top 50%
+						left 50%
+						transform translate(-50%, -50%)
+				.data-value
+					color #acb8ca
+					font-size 16px
+					font-weight 500
+					letter-spacing .5px
+					b
+						color #fff
+			.action-container
+				.show-all-viewers-button
+					display flex
+					align-items center
+					cursor pointer
+					&:hover
+						.value
+							margin-right 11px
+						.icon
+							margin-right -3px
+					.value
+						color #026fff
+						font-weight 600
+						letter-spacing .5px
+						margin-right 8px
+						transition margin-right .3s
+					.icon
+						width 24px
+						height 24px
+						transform rotate(180deg)
+						transition margin-right .3s
 
 #stream-controls-widget
-	.stream-controls-container
-		width 350px
+	margin-right 20px
+	.controls-container
+		width 300px
 		height fit-content
+		padding 25px 0
+		background #14161d
 		border-radius 5px
-		display flex
-		align-items center
-		flex-flow row wrap
-		.big-button-container
-			background #3c3e46
-			width 160px
-			height 100px
-			border-radius 5px
-			cursor pointer
-			margin-right 30px
-			transition background .3s
+		.divider
+			background #1a1c25
+			width 100%
+			height 1px
+			margin 25px auto
+		.control
+			width calc(100% - 30px)
+			margin 0 auto
 			position relative
-			&:hover
-				background #5a5c67
-			&.active
-				background #026fff
-			&:nth-child(2n)
-				margin-right 0
-			.value
-				position absolute
-				top 50%
-				left 50%
-				transform translate(-50%, -50%)
-				text-align center
-				color #fff
-				text-transform uppercase
-				font-weight 300
-				font-size 16px
-				letter-spacing 1px
+			&:last-child
+				margin-bottom 0
+			&#chat-switch-control,
+			&#slow-mode-switch-control,
+			&#stream-switch-control
+				margin-bottom 15px
+			&.button-control
+				.button-container
+					width calc(100% - 20px)
+					display flex
+					align-items center
+					padding 8px 10px
+					border-radius 10000px
+					cursor pointer
+					border 1px solid #026fff33
+					background #026fff14
+					transition background .3s
+					&:hover
+						background #026fff2b
+					.icon
+						width 22px
+						height 22px
+						fill #026fff
+						margin-right 10px
+						transition fill .3s
+					.value
+						color #026fff
+						font-size 15px
+						letter-spacing .5px
+						font-weight 700
+						transition color .3s
+			&.switch-control
+				display flex
+				align-items center
+				justify-content space-between
+				.value
+					color #fff
+					font-size 16px
+					letter-spacing .5px
+					font-weight 500
+				.switch-wrap
+					display flex
+					border 1px solid #20232f
+					border-radius 10000px
+					padding 8px 15px
+					justify-content center
+					align-items center
+					cursor pointer
+					transition background .3s
+					&:hover
+						background #20232f
+					&.active
+						.status
+							color #fff
+						.switch
+							background #026FFF
+							.dot
+								left calc(100% - 4px - 18px)
+					.status
+						width 45px
+						color #788496
+						font-size 14px
+						letter-spacing .5px
+						text-transform uppercase
+					.switch
+						background #3e444e
+						width 42px
+						height 24px
+						border-radius 100000px
+						position relative
+						transition background .3s
+						.dot
+							background #fff
+							width 18px
+							height 18px
+							border-radius 10000px
+							position absolute
+							top 50%
+							transform translateY(-50%)
+							left 4px
+							transition left .3s

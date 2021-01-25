@@ -108,7 +108,7 @@ html
 						img.logo(src="/img/logo.png")
 					.header-title-container
 						h2.page-title Live
-						h1.stream-title KoiStream - Holiday Special
+						h1.stream-title
 				.main-content-container
 					.stream-video-container
 						img.video-aspect-ratio(src="/img/video-aspect-ratio.png")
@@ -117,7 +117,13 @@ html
 						.info-flex-container
 							.info-nav
 								button.info-nav-item.episode-description-nav-item.active Episode Description
-								//button.info-nav-item.about-us-nav-item About Us
+								if auth==3
+									a.info-nav-item.admin-dashboard-nav-item(href="/admin/stream") 
+										p.value Admin Dashboard
+										svg.icon(clip-rule='evenodd' fill-rule='evenodd' height='512' stroke-linejoin='round' stroke-miterlimit='2' viewbox='0 0 24 24' width='512' xmlns='http://www.w3.org/2000/svg' xmlns:svg='http://www.w3.org/2000/svg')
+											path(d='m10 7h-5c-1.657 0-3 1.343-3 3v4c0 1.657 1.343 3 3 3h5c.552 0 1-.448 1-1s-.448-1-1-1c0 0-2.931 0-5 0-.552 0-1-.448-1-1 0-1.222 0-2.778 0-4 0-.552.448-1 1-1h5c.552 0 1-.448 1-1s-.448-1-1-1zm4 10h5c1.657 0 3-1.343 3-3 0-1.222 0-2.778 0-4 0-1.657-1.343-3-3-3-2.069 0-5 0-5 0-.552 0-1 .448-1 1s.448 1 1 1h5c.552 0 1 .448 1 1v4c0 .552-.448 1-1 1-2.069 0-5 0-5 0-.552 0-1 .448-1 1s.448 1 1 1zm1-6h-6c-.552 0-1 .448-1 1s.448 1 1 1h6c.552 0 1-.448 1-1s-.448-1-1-1z')
+
+										
 								//button.info-nav-item.previous-stream-nav-item Previous Streams
 							.viewer-counter
 								img.viewer-icon(src="/img/viewer-icon-blue.svg")
@@ -153,8 +159,8 @@ html
 			.chats-scroll-container
 				.all-chats-container
 					.chat.announcement(id="undefined")
-						span.chat-tag(style="color: #026FFF; background: #026FFF26; border-color: #026FFF; box-shadow: 0 0 3px 0 #026FFF;") BOT
-						span.chat-sender Team KoiStream:
+						span.chat-tag(style="color: #e056fd; background: #e056fd26; border-color: #e056fd; box-shadow: 0 0 3px 0 #e056fd;") Team
+						span.chat-sender KoiStream:
 						span.chat-text Welcome to KoiStream! If you have any questions or issues, feel free to email us at <a href="mailto:koistream@dtechhs.org">koistream@dtechhs.org</a>.
 			button.enable-autoscroll-button Enable Auto Scroll
 			.chat-input-container

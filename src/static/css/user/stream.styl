@@ -218,7 +218,7 @@ body
 					padding 0 15px
 					transition color .3s
 
-#modal-active-overlay
+#modal-active-overlay,
 #poll-modal-overlay
 	position fixed
 	z-index 100
@@ -243,7 +243,7 @@ body
 	top calc(50% + 30px)
 	left 50%
 	transform translate(-50%, -50%)
-	background #111217
+	background #191a21
 	transition opacity .3s, visibility .3s, top .3s
 	&.active
 		opacity 1
@@ -341,7 +341,7 @@ body
 				.chat-tag-option
 					width 100%
 					height 40px
-					background #17181f
+					background #242631
 					cursor pointer
 					position relative
 					margin-bottom 10px
@@ -452,7 +452,7 @@ body
 				height calc(100% - 37px)
 				overflow-y auto
 				overflow-x hidden
-				background #1b2129
+				background #1f2029
 				border 1px solid #33394a
 				color #d3d7e0
 				font-weight 500
@@ -633,6 +633,20 @@ body
 							color #026FFF
 						&:last-child
 							margin-right 0
+					.admin-dashboard-nav-item
+						display flex
+						align-items center
+						cursor pointer
+						&:hover
+							.icon
+								fill #ffffff
+						.value
+							margin-right 5px
+						.icon
+							width 28px
+							height 28px
+							fill #8a909e
+							transition fill .3s
 				.viewer-counter
 					display flex
 					justify-content right

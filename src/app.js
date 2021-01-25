@@ -46,13 +46,13 @@ app.use(express.static(path.join(__dirname, '..', 'libs')));
 app.use(expressip().getIpInfoMiddleware);
 
 let sessionMiddleware = session({
-  secret:"58585858585858",
-  key: "connect.sid",
-  resave: false,
-  saveUninitialized: false,
-  store: new pgSession({
-    conString : `pg://${process.env.DB_USER}:${process.env.DB_PASS}@${process.env.DB_HOST}/${process.env.DB_NAME}`
-  })
+	secret:"58585858585858",
+	key: "connect.sid",
+	resave: false,
+	saveUninitialized: false,
+	store: new pgSession({
+		conString : `pg://${process.env.DB_USER}:${process.env.DB_PASS}@${process.env.DB_HOST}/${process.env.DB_NAME}`
+	})
 })
 
 app.use(sessionMiddleware);
@@ -67,62 +67,62 @@ app.use('/admin/api', adminAPIRouter)
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {
-  next(createError(404));
+	next(createError(404));
 });
 
 // error handler
 app.use(function(err, req, res, next) {
-  console.log(err.status)
-  // render the error page
-  res.status(err.status || 500);
-  res.send('error');
+	console.log(err.status)
+	// render the error page
+	res.status(err.status || 500);
+	res.send('error');
 });
 
 const port = 3000
 const server = app.listen(port, () => 
-  console.log(logSymbols.success, 'KoiStream Web Server started on port '+ port + "!")
+	console.log(logSymbols.success, 'KoiStream Web Server started on port '+ port + "!")
 );
 
 const io = require('socket.io').listen(server);
 app.set('socketio', io)
 
 io.use(function(socket, next){
-  sessionMiddleware(socket.request, {}, next);
+	sessionMiddleware(socket.request, {}, next);
 })
 
 io.on('connection', async (socket) => {
-  if(socket.request.session.passport) {
-    if(socket.request.session.passport.user) {
-      const url = socket.request.headers.referer
-      const socketId = socket.id
-      const googleId = socket.request.session.passport.user;
-      await userConnect(googleId, url, socketId)
-      const auth = await getUserAuth(googleId)
-      if(auth === 3) {
-        socket.join("admin")
-      }
-    }
-  }
-  
-  
-  socket.on("disconnect", async () => {
-    if(socket.request.session.passport) {
-      if(socket.request.session.passport.user) {
-        const url = socket.request.headers.referer
-        const socketId = socket.id
-        const googleId = socket.request.session.passport.user;
-        await userDisconnect(googleId, socketId)
-      }
-    }
-  })
+	if(socket.request.session.passport) {
+		if(socket.request.session.passport.user) {
+			const url = socket.request.headers.referer
+			const socketId = socket.id
+			const googleId = socket.request.session.passport.user;
+			await userConnect(googleId, url, socketId)
+			const auth = await getUserAuth(googleId)
+			if(auth === 3) {
+				socket.join("admin")
+			}
+		}
+	}
+	
+	
+	socket.on("disconnect", async () => {
+		if(socket.request.session.passport) {
+			if(socket.request.session.passport.user) {
+				const url = socket.request.headers.referer
+				const socketId = socket.id
+				const googleId = socket.request.session.passport.user;
+				await userDisconnect(googleId, socketId)
+			}
+		}
+	})
 })
 
 AWS.config.getCredentials(function(err) {
-  if (err) console.log(err.stack);
-  else {
-      console.log("Access key:", AWS.config.credentials.accessKeyId);
-      console.log("Region: ", AWS.config.region);
-  }
+	if (err) console.log(err.stack);
+	else {
+			console.log("Access key:", AWS.config.credentials.accessKeyId);
+			console.log("Region: ", AWS.config.region);
+	}
 });
 
 module.exports = app;

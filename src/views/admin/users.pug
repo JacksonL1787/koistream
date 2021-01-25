@@ -1,3 +1,51 @@
+#manage-chat-tags-modal.modal-container
+	.modal-top
+		h1.modal-title Manage Chat Tags
+		.close-modal-button.modal-top-action-button-styles
+			img.icon(src="/img/close-icon-white.svg")
+	.modal-content
+		button.create-chat-tag-button.blue-round-text-button-style Create New Chat Tag
+
+#confirm-delete-chat-tag-modal.modal-container
+	.modal-top
+		.previous-modal-button.modal-top-action-button-styles
+			img.icon(src="/img/back-icon-white.svg")
+		.close-modal-button.modal-top-action-button-styles
+			img.icon(src="/img/close-icon-white.svg")
+	.modal-content
+		h1.modal-title Delete Chat Tag
+		p.confirm-message Are you sure that you want to delete the <b class="chat-tag-name">Moderator</b> chat tag? This action is irreversible.
+		button.blue-round-text-button-style.confirm-delete-button Delete
+
+#add-chat-tag-modal.modal-container
+	.modal-top
+		.previous-modal-button.modal-top-action-button-styles
+			img.icon(src="/img/back-icon-white.svg")
+		.close-modal-button.modal-top-action-button-styles
+			img.icon(src="/img/close-icon-white.svg")
+	.modal-content
+		h1.modal-title Create Chat Tag
+		.input-container
+			p.label Tag Name
+			input.chat-tag-name(placeholder="Enter a tag name")
+		.color-picker-container
+			p.label Tag Color
+			.chat-tag-color-picker
+		.flex-submit-container
+			.preview-container
+				p.label Preview
+				.preview-content
+					span.chat-tag Example
+					span.chat-sender User
+			button.submit-button.blue-round-text-button-style(data-action="create") Create
+
+#manage-admin-accounts-modal.modal-container
+	.modal-top
+		h1.modal-title Manage Admins
+		.close-modal-button.modal-top-action-button-styles
+			img.icon(src="/img/close-icon-white.svg")
+	
+
 .widget-container#search-users-widget
 	h2.widget-title Find a User
 	.search-controls-container
@@ -10,8 +58,7 @@
 				.top-triangle
 				#settings-menu-container.dropdown-menu-content-container
 					button.manage-chat-tags-button.settings-action-button Chat Tags
-					button.manage-name-colors-button.settings-action-button Name Colors
-					button.manage-admin-accounts.settings-action-button Admin Accounts
+					//button.manage-admin-accounts-button.settings-action-button Manage Admins
 				#filters-menu-container.dropdown-menu-content-container
 					.filter-button(data-filter="muted")
 						.checkmark-box

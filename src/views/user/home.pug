@@ -22,15 +22,18 @@ html
 					p.subtitle Connecting our students, staff and families.
 					.action-button-container
 						if !user
-							a.login-btn(href="/auth/google") Login With Google
+							a.login-btn(href="/auth/google")
+								img.icon(src="/img/google-icon-white.svg") 
+								p Login With Google
 						else
-							a.see-stream-btn(href="/stream") Go To Stream
+							a.see-stream-btn(href="/stream")
+								img.icon(src="/img/stream-icon-white.svg") 
+								p Go To Stream
 						a.contact-btn(href="mailto:koistream@dtechhs.org") Contact Us
 		
 		if user
 			p.user-name Welcome, #{name}!
 			
-			//img(src="/img/home-splash.jpg")
 script(src="https://cdnjs.cloudflare.com/ajax/libs/video.js/7.8.0/video.min.js")
 script(src="https://cdnjs.cloudflare.com/ajax/libs/videojs-contrib-hls/5.15.0/videojs-contrib-hls.min.js")
 script(src="/videojs/videojs-contrib-quality-levels/dist/videojs-contrib-quality-levels.min.js")

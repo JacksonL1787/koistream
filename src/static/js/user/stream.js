@@ -59,6 +59,20 @@ const setChatStatus = () => {
 	})
 }
 
+const clearChats = (showMessage) => {
+	$(".chat:not(.announcement)").remove()
+	window.chats = []
+	if(!showMessage) return;
+	appendChat({
+		message: "All chats have been cleared by a moderator.",
+		userName: "KoiStream",
+		chatId: undefined,
+		tagName: "BOT",
+		tagColor : "#026FFF",
+		nameColor: "#026FFF"
+	})
+}
+
 const setStreamInfo = () => {
 	if(!window.streamActive) return;
 	$.get({
@@ -88,6 +102,7 @@ const streamOffline = () => {
 	$("#chat-input").blur().text("")
 	$("#chat-container .chat-input-container .emoji-menu").removeClass("active")
 	$("#chat-container .chat-input-controls .emojis-menu-button.chat-input-button").removeClass("active")
+	clearChats(false)
 }
 
 const setStreamStatus = () => {
@@ -554,7 +569,6 @@ $(document).on("click", ".emoji-menu .emoji-button", function() {
 
 $(document).on("click", function(e) {
 	let elem = $(e.target)
-	console.log(elem)
 	if(elem.hasClass("emoji-menu") || elem.parents().hasClass("emoji-menu") || !$(".emoji-menu").hasClass("active") || elem.hasClass("emojis-menu-button") || elem.parents().hasClass("emojis-menu-button")) return;
 	$(".emoji-menu").removeClass("active")
 	$(".emojis-menu-button").removeClass("active")
@@ -616,7 +630,6 @@ $(document).ready(() => {
 	
 		$.get("/user/api/chats", (chats) => {
 			window.chats = chats
-			
 		}),
 
 		$.get("/user/api/getUserChatSettings", (settings) => {
@@ -649,3 +662,6 @@ socket.on('setStreamStatus', setStreamStatus)
 socket.on('updateStreamInfo', setStreamInfo)
 socket.on('reloadStreamSource', reloadStreamSource)
 socket.on("updateChatStatus", setChatStatus)
+socket.on("clearChats", () => {
+	clearChats(window.streamActive ? true : false)
+})

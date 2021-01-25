@@ -11,7 +11,64 @@ let
 	searchingUsers = false,
 	searchUsersTimeout = setTimeout(() => {return;}),
 	numberofUserRows = 10,
-	currentPage = 0;
+	currentPage = 0,
+	modalCallback = () => {};
+
+const chatTagColorPicker = Pickr.create({
+	el: '.chat-tag-color-picker',
+	
+	showAlways: true,
+	inline: true,
+	default: "#FFFFFF",
+
+	components: {
+
+        // Main components
+		hue: true,
+		preview: false,
+
+        // Input / output Options
+        interaction: {
+            input: true
+        }
+    }
+})
+
+const setChatTagPreviewColor = (color) => {
+	$("#add-chat-tag-modal .preview-container .chat-tag")
+		.css("color", color)
+		.css("background", `${color}26`)
+		.css("border-color", color)
+		.css("box-shadow", `0 0 3px 0 ${color}`)
+}
+
+chatTagColorPicker.on('init', () => {
+	setChatTagPreviewColor("#FFFFFF")
+	chatTagColorPicker.hide()
+})
+
+const openModal = (elem) => {
+	if(!elem.hasClass("modal-container")) return;
+	elem.addClass("active");
+	$("body").addClass("inactive")
+	$("#modal-active-overlay").addClass("active")
+}
+
+const closeModal = () => {
+	$("#modal-active-overlay, .modal-container").removeClass("active")
+	$("body").removeClass("inactive")
+	setTimeout(modalCallback, 300)
+}
+
+const switchModal = (newModalElem) => {
+	let currModalCallback = modalCallback
+	$(".modal-container").removeClass("active")
+	
+	setTimeout(() => {
+		currModalCallback()
+		openModal(newModalElem)
+	}, 300)
+}
 
 const appendUsers = () => {
 	for(let i = 0; i < numberofUserRows; i++) {
@@ -164,6 +221,99 @@ const closeDropdownMenu = () => {
 	})
 }
 
+const appendChatTag = (data) => {
+	$("#manage-chat-tags-modal .modal-content").append(`
+
+		<div class="chat-tag-container" data-chat-tag-id="${data.id}" data-chat-tag-name="${data.tag_name}" data-chat-tag-color="${data.tag_color}">
+			<span class="chat-tag" style="color: ${data.tag_color}; background: ${data.tag_color}26; border-color: ${data.tag_color}; box-shadow: 0 0 3px 0 ${data.tag_color};">${data.tag_name}</span>
+			<div class="actions-container">
+				<svg class="action-button edit-chat-tag-button" height="512" viewbox="0 0 24 24" width="512" xmlns="http://www.w3.org/2000/svg">
+					<path d="m20.5444 3.4551a4.9733 4.9733 0 0 0 -7.0263 0l-1.8709 1.8709-8.4187 8.4191a.9975.9975 0 0 0 -.2827.5654l-.9358 6.5479a1 1 0 0 0 .99 1.1416.9818.9818 0 0 0 .1416-.01l6.5484-.9353a1.0028 1.0028 0 0 0 .5654-.2832l10.29-10.2891a4.9686 4.9686 0 0 0 0-7.0273zm-11.4677 15.667-4.898.6992.7-4.8975 7.4758-7.4764 4.1987 4.1984zm10.0533-10.0537-1.163 1.1634-4.1989-4.1986 1.164-1.1641a3.0407 3.0407 0 0 1 4.1983 0 2.97 2.97 0 0 1 0 4.1993z"></path>
+				</svg>
+				<svg class="action-button delete-chat-tag-button" clip-rule="evenodd" fill-rule="evenodd" height="512" stroke-linejoin="round" stroke-miterlimit="2" viewbox="0 0 24 24" width="512" xmlns="http://www.w3.org/2000/svg" xmlns:svg="http://www.w3.org/2000/svg">
+					<path d="m9 6v-2c0-.552.448-1 1-1h4c.552 0 1 .448 1 1v2h5c.552 0 1 .448 1 1s-.448 1-1 1h-1.074l-.929 12.077c-.04.521-.474.923-.997.923h-10c-.523 0-.957-.402-.997-.923l-.929-12.077h-1.074c-.552 0-1-.448-1-1s.448-1 1-1zm-1.92 2 .846 11h8.148l.846-11zm5.92-2v-1h-2v1z"></path>
+				</svg>
+			</div>
+		</div>
+
+	`)
+}
+
+const deleteListedChatTag  = (data) => {
+	let tagElem = $(`#manage-chat-tags-modal .modal-content .chat-tag-container[data-chat-tag-id="${data.id}"]`)
+	console.log(tagElem)
+	tagElem.remove()
+	if($("#add-chat-tag-modal").hasClass("active") && $("#add-chat-tag-modal .submit-button").attr("data-chat-tag-id") === "" + data.id) closeModal()
+}
+
+const editListedChatTag  = (data) => {
+	console.log(data)
+	if($("#add-chat-tag-modal").hasClass("active") && $("#add-chat-tag-modal .submit-button").attr("data-chat-tag-id") === "" + data.id) closeModal()
+	let tagElem = $(`#manage-chat-tags-modal .modal-content .chat-tag-container[data-chat-tag-id="${data.id}"]`)
+	tagElem.attr("data-chat-tag-name", data.tag_name).attr("data-chat-tag-color", data.tag_color)
+	tagElem.find(".chat-tag")
+		.css("color", data.tag_color)
+		.css("background", `${data.tag_color}26`)
+		.css("border-color", data.tag_color)
+		.css("box-shadow", `0 0 3px 0 ${data.tag_color}`)
+		.text(data.tag_name)
+}
+
+const getChatTags = () => {
+	$.get({
+		url: "/admin/api/getChatTags",
+		success: (tags) => {
+			tags.sort((a, b) => (a.id > b.id) ? 1 : -1)
+			tags.forEach(appendChatTag)
+		}
+	})
+}
+
+chatTagColorPicker.on('change', (color) => {
+	let c = color.toHEXA().toString()
+	setChatTagPreviewColor(c)
+})
+
+$("#add-chat-tag-modal .chat-tag-name").on("input", () => {
+	let val = $("#add-chat-tag-modal .chat-tag-name").val()
+	if(val.length > 20) return $("#add-chat-tag-modal .chat-tag-name").val(val.slice(0,20))
+	$("#add-chat-tag-modal .preview-container .chat-tag").text(val.trim().length > 0 ? val : "Example")
+})
+
+$("#confirm-delete-chat-tag-modal .confirm-delete-button").click(() => {
+	
+	const id = $("#confirm-delete-chat-tag-modal .confirm-delete-button").attr("data-chat-tag-id")
+	console.log(id)
+	$.post({
+		url: "/admin/api/deleteChatTag",
+		data: {id},
+		success: () => {
+			switchModal($("#manage-chat-tags-modal"))
+			modalCallback = () => {};
+		}
+	})
+})
+
+$("#add-chat-tag-modal .submit-button").click(() => {
+	const action = $("#add-chat-tag-modal .submit-button").attr("data-action")
+	let url = action === "create" ? "/admin/api/createChatTag" : "/admin/api/editChatTag"
+	let data = {
+		name: $("#add-chat-tag-modal .chat-tag-name").val(),
+		color: chatTagColorPicker._color.toHEXA().toString(),
+		id: action === "create" ? false : $("#add-chat-tag-modal .submit-button").attr("data-chat-tag-id")
+	}
+
+	$.post({
+		url,
+		data,
+		success: () => {
+			switchModal($("#manage-chat-tags-modal"))
+			modalCallback = () => {};
+		}
+	})
+
+})
+
 $("#filters-menu-container .filter-button").click(function() {
 	const filter = $(this).attr('data-filter')
 	$(this).toggleClass("active")
@@ -195,6 +345,68 @@ $("#filters-menu-container .filter-button").click(function() {
 $("#user-search-input").on("input", () => {
 	searchUsers()
 })
+
+$("#add-chat-tag-modal .previous-modal-button, #confirm-delete-chat-tag-modal .previous-modal-button").click(() => {
+	switchModal($("#manage-chat-tags-modal"))
+	modalCallback = () => {};
+})
+
+$("#manage-chat-tags-modal .create-chat-tag-button").click(() => {
+	switchModal($("#add-chat-tag-modal"))
+	chatTagColorPicker.show()
+	modalCallback = () => {
+		$("#add-chat-tag-modal .chat-tag-name").val("")
+		$("#add-chat-tag-modal .preview-container .chat-tag").text("Example")
+		chatTagColorPicker.setColor("#FFFFFF")
+		chatTagColorPicker.hide()
+	}
+})
+
+$(document).on("click", "#manage-chat-tags-modal .edit-chat-tag-button", function() {
+	switchModal($("#add-chat-tag-modal"))
+	const elem = $(this).parent().parent()
+	let id = elem.attr("data-chat-tag-id"),
+		name = elem.attr("data-chat-tag-name"),
+		color = elem.attr("data-chat-tag-color")
+	$("#add-chat-tag-modal .modal-title").text("Edit Chat Tag")
+	$("#add-chat-tag-modal .submit-button").attr("data-action", "update").text("Update").attr("data-chat-tag-id", id)
+	$("#add-chat-tag-modal .chat-tag-name").val(name)
+	$("#add-chat-tag-modal .chat-tag").text(name)
+	chatTagColorPicker.setColor(color)
+	chatTagColorPicker.show()
+	modalCallback = () => {
+		$("#add-chat-tag-modal .modal-title").text("Create Chat Tag")
+		$("#add-chat-tag-modal .submit-button").attr("data-action", "create").text("Create").removeAttr("data-chat-tag-id")
+		$("#add-chat-tag-modal .chat-tag-name").val("")
+		$("#add-chat-tag-modal .preview-container .chat-tag").text("Example")
+		chatTagColorPicker.setColor("#FFFFFF")
+		chatTagColorPicker.hide()
+	}
+})
+
+$(document).on("click", "#manage-chat-tags-modal .delete-chat-tag-button", function() {
+	switchModal($("#confirm-delete-chat-tag-modal"))
+	const elem = $(this).parent().parent()
+	let id = elem.attr("data-chat-tag-id"),
+		name = elem.attr("data-chat-tag-name"),
+		color = elem.attr("data-chat-tag-color")
+	$("#confirm-delete-chat-tag-modal .confirm-message b").text(name).css("color", color)
+	$("#confirm-delete-chat-tag-modal .confirm-delete-button").attr("data-chat-tag-id", id)
+	modalCallback = () => {}
+})
+
+$("#settings-menu-container .manage-chat-tags-button").click(() => {
+	openModal($("#manage-chat-tags-modal"))
+	modalCallback = () => {};
+})
+
+$("#settings-menu-container .manage-admin-accounts-button").click(() => {
+	openModal($("#manage-admin-accounts-modal"))
+	modalCallback = () => {};
+})
+
+$(".close-modal-button").click(closeModal)
+$("#modal-active-overlay").click(closeModal)
 
 $(".action-buttons-container .icon-button").click(function() {
 	if(dropdownAnimating) return;
@@ -234,4 +446,9 @@ $(".users-table-container .inner-head-item-content").click(function() {
 
 $(document).ready(() => {
 	$("#user-search-input").val("")
+	getChatTags()
 })
+
+socket.on("chatTagDeleted", deleteListedChatTag)
+socket.on("chatTagEdited", editListedChatTag)
+socket.on("chatTagCreated", appendChatTag)
