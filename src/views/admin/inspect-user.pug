@@ -15,9 +15,50 @@ html
 		script(src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/2.2.0/socket.io.js")
 	body
 
-		.header
-			img.back-button(src="/img/back-icon-white.svg")
-			h1.name=name
+		img.back-button(src="/img/back-icon-white.svg")
 		.main-content
+			.profile-info-widget
+				.account-type-banner.user
+					h2.value Admin
+				.basic-info-container.padding-container
+					img.user-profile-picture(src="https://lh3.googleusercontent.com/a-/AOh14GgBtVc2jCwxPWeWWRhPAmAULFxjjpDNX3Q2Fr2YEw")
+					h1.user-name Jackson Lawrence
+					p.user-email jlawrence1787@gmail.com
+				.divider
+				.date-information-container.padding-container
+					p.info-label Last Online
+					p.last-online-value.online Currently Online
+					p.info-label Date Created
+					p.date-created-value Monday, June 9 2014 9:32 PM
+				.chat-settings-container.padding-container
+					p.info-label Selected Chat Tag
+					p.chat-tag-value.none-selected None
+					p.info-label Selected Name Color
+					.name-color-value
+						.color-bubble
+						p Jackson Lawrence
+				.divider
+				.controls-container.padding-container
+					.control.switch-control#admin-account-switch-control(data-post-url="/admin/api/updateChatStatus")
+						.description-container
+							p.value Admin Account
+							p.desc Give user admin access
+						.switch-wrap
+							p.status NO
+							.switch
+								.dot
+					.control.switch-control#mute-user-switch-control(data-post-url="/admin/api/updateChatStatus")
+						.description-container
+							p.value Muted
+							p.desc Prevent user from chatting
+						.switch-wrap
+							p.status NO
+							.switch
+								.dot
+					.control.button-control
+						.description-container
+							p.value Delete Account
+							p.desc Permenantly remove all user data
+						button.delete-account-button Delete
 
 		script(src="/js/admin/inspect-user.js")

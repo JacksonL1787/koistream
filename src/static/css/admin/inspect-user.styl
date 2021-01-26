@@ -1,24 +1,191 @@
-.header
-    height 150px
-    width 100%
-    display flex
-    align-items center
-    .back-button
-        width 45px
-        height 45px
-        opacity 0.5
-        margin 8px 40px 0
-        cursor pointer
-        transition opacity .3s
-        &:hover
-            opacity 1
-    .name
-        color #fff
-        font-size 55px
-        letter-spacing .5px
+.back-button
+	width 45px
+	height 45px
+	opacity 0.5
+	left 25px
+	top 50px
+	cursor pointer
+	position absolute
+	transition opacity .3s
+	&:hover
+		opacity 1
 
 .main-content
-    width calc(100% - 250px)
-    background blue
-    margin 0 auto
-    height 800px
+	width calc(100% - 190px)
+	margin 0 auto
+	padding 50px 0
+	position relative
+	.profile-info-widget
+		background #14161d
+		width 450px
+		height fit-content
+		padding-bottom 30px
+		position relative
+		border-radius 5px
+		.padding-container
+			width calc(100% - 60px)
+			margin 0 auto
+		.info-label
+			color #788496
+			font-size 14px
+			letter-spacing .5px
+		.account-type-banner
+			width 100%
+			height 50px
+			position relative
+			border-top-right-radius 5px
+			border-top-left-radius 5px
+			background rgba(172,184,202, 0.1)
+			.value
+				color #acb8ca
+				text-transform uppercase
+				letter-spacing .5px
+				top 50%
+				left 50%
+				transform translate(-50%, -50%)
+				position absolute
+				font-weight 700
+				font-size 20px
+
+		.basic-info-container
+			margin-top 45px
+			text-align center
+			.user-profile-picture
+				width 150px
+				height 150px
+				border-radius 150px
+			.user-name
+				color #fff
+				font-size 30px
+				margin-top 15px
+				font-weight 600
+			.user-email
+				color #acb8ca
+				font-weight 500
+				font-size 16px
+		.divider
+			width calc(100% - 60px)
+			margin 30px auto
+			height 2px
+			border-radius 1000px
+			background #1c1f29
+		.date-information-container
+			margin-bottom 25px
+			.date-created-value,
+			.last-online-value
+				color #fff
+				font-size 16px
+				letter-spacing .5px
+			.last-online-value
+				margin-bottom 25px
+				&.online
+					color #02e89e
+					font-weight 700
+		.chat-settings-container
+			.chat-tag-value
+				font-size 13px
+				padding 3px 10px 2px
+				border 1px solid transparent
+				border-radius .3em
+				text-transform uppercase
+				font-weight 800
+				letter-spacing .5px
+				width fit-content
+				margin-bottom 25px
+				&.none-selected
+					color #fff
+					font-size 16px
+					text-transform none
+					font-weight 500
+					padding 0
+					border-radius 0
+					border none
+			.name-color-value
+				display flex
+				align-items center
+				margin-top 2px
+				.color-bubble
+					width 14px
+					height 14px
+					margin-right 10px
+					background #00D7FD
+					border 1px solid #fff
+				p
+					font-size 16px
+					letter-spacing .5px
+					color #00D7FD
+					font-weight 600
+		.controls-container
+			.control
+				display flex
+				align-items center
+				justify-content space-between
+				margin-bottom 30px
+				&:last-child
+					margin-bottom 0
+				.value
+					color #fff
+					font-size 16px
+					letter-spacing .5px
+					font-weight 600
+				.desc
+					color #acb8ca
+					margin-top -1px
+					font-size 14px
+					letter-spacing .5px
+				.delete-account-button
+					background rgba(245,37,37,.078)
+					color #f52525
+					border-radius 10000px
+					padding 8px 30px
+					font-size 15px
+					letter-spacing .5px
+					border 1px solid rgba(245,37,37,.2)
+					outline none
+					cursor pointer
+					font-weight 600
+					transition background .3s
+					&:hover
+						background rgba(245,37,37,.11)
+			.switch-control
+				.switch-wrap
+					display flex
+					border 1px solid #20232f
+					border-radius 10000px
+					padding 8px 15px
+					justify-content center
+					align-items center
+					cursor pointer
+					transition background .3s
+					&:hover
+						background #20232f
+					&.active
+						.status
+							color #fff
+						.switch
+							background #026FFF
+							.dot
+								left calc(100% - 4px - 18px)
+					.status
+						width 45px
+						color #788496
+						font-size 14px
+						letter-spacing .5px
+						text-transform uppercase
+					.switch
+						background #3e444e
+						width 42px
+						height 24px
+						border-radius 100000px
+						position relative
+						transition background .3s
+						.dot
+							background #fff
+							width 18px
+							height 18px
+							border-radius 10000px
+							position absolute
+							top 50%
+							transform translateY(-50%)
+							left 4px
+							transition left .3s

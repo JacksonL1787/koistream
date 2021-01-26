@@ -125,7 +125,8 @@ router.post("/clearChats", adminAuth, async (req, res, next) => {
 	addStreamActivity(
 		req.user.googleId,
 		"Cleared all the chats", 
-		io
+		io,
+		true
 	)
 	io.emit("clearChats")
 	res.sendStatus(200)
@@ -166,7 +167,6 @@ router.post("/endPoll", adminAuth, async (req, res, next) => {
 router.post('/reloadStreamSource', adminAuth, async (req,res,next) => {
 	const io = req.app.get("socketio")
 	io.emit("reloadStreamSource")
-	notification(io, `{${req.user.googleId}} reloaded the stream source for all clients`)
 	res.sendStatus(200)
 })
 

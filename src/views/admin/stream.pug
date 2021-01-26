@@ -29,6 +29,13 @@
 							p.status OFF
 							.switch
 								.dot
+					.control.button-control
+						.button-container#reload-source-button.normal-button
+							svg.icon(height='512' viewbox='0 0 24 24' width='512' xmlns='http://www.w3.org/2000/svg')
+								g#line
+									path(d='m18.15 15.335a7.0087 7.0087 0 1 1 -1.2666-8.335h-2.8834a1 1 0 0 0 0 2h5c.0141 0 .0258-.0074.04-.008l.0089-.0018a.9948.9948 0 0 0 .9511-.9902v-5a1 1 0 0 0 -2 0v2.3259a8.9835 8.9835 0 1 0 1.91 10.9592 1 1 0 0 0 -1.76-.9501z')
+
+							p.value Reload Stream Source
 					.divider
 					.control.switch-control#chat-switch-control(data-post-url="/admin/api/updateChatStatus")
 						p.value Live Chat
@@ -43,7 +50,7 @@
 							.switch
 								.dot
 					.control.button-control
-						.button-container#clear-chats-button
+						.button-container#clear-chats-button.danger-button
 							svg.icon(clip-rule='evenodd' fill-rule='evenodd' height='512' stroke-linejoin='round' stroke-miterlimit='2' viewbox='0 0 24 24' width='512' xmlns='http://www.w3.org/2000/svg' xmlns:svg='http://www.w3.org/2000/svg')
 								path(d='m12 2c-5.519 0-10 4.481-10 10s4.481 10 10 10 10-4.481 10-10-4.481-10-10-10zm6.319 5.095-11.224 11.224c1.356 1.053 3.058 1.681 4.905 1.681 4.415 0 8-3.585 8-8 0-1.847-.628-3.549-1.681-4.905zm-1.414-1.414c-1.356-1.053-3.058-1.681-4.905-1.681-4.415 0-8 3.585-8 8 0 1.847.628 3.549 1.681 4.905z')
 							p.value Clear All Chats

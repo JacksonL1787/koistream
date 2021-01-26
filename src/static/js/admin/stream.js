@@ -114,6 +114,12 @@ $("#clear-chats-button").click(() => {
 	})
 })
 
+$("#reload-source-button").click(() => {
+	$.post({
+		url: "/admin/api/reloadStreamSource"
+	})
+})
+
 $(".update-stream-information-button").click(() => {
 	$.post({
         url: "/admin/api/updateStreamInfo",

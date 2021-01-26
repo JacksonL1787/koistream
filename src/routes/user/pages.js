@@ -22,9 +22,4 @@ router.get('/stream', authCheck, (req, res, next) => {
   res.render('user/stream', { title: 'KoiStream', auth: req.user.auth, name: _.startCase(req.user.firstName + " " + req.user.lastName), profilePicture: req.user.googleProfilePicture});
 });
 
-router.get('/settings', authCheck, (req, res, next) => {
-  if(req.user.auth != 3) res.redirect("/")
-  res.render('user/settings', { title: 'Settings'});
-});
-
 module.exports = router;

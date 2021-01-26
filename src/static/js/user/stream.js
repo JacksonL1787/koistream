@@ -428,8 +428,8 @@ $("#chat-settings-modal .update-chat-settings-button").click(() => {
 				userName: "KoiStream",
 				chatId: undefined,
 				tagName: "Success",
-				tagColor : "#03fc0b",
-				nameColor: "#03fc0b"
+				tagColor : "#02e89e",
+				nameColor: "#02e89e"
 			})
 		},
 		error: () => {
@@ -463,8 +463,8 @@ $("#report-error-modal .submit-error-report-button").click(() => {
 				userName: "KoiStream",
 				chatId: undefined,
 				tagName: "Success",
-				tagColor : "#03fc0b",
-				nameColor: "#03fc0b"
+				tagColor : "#02e89e",
+				nameColor: "#02e89e"
 			})
 		},
 		error: () => {
@@ -543,8 +543,8 @@ $(document).on("click", "#poll-modal .options-container .option", function() {
 				userName: "KoiStream",
 				chatId: undefined,
 				tagName: "Success",
-				tagColor : "#03fc0b",
-				nameColor: "#03fc0b"
+				tagColor : "#02e89e",
+				nameColor: "#02e89e"
 			})
 		},
 		error: () => {

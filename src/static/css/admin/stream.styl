@@ -108,8 +108,8 @@
 				width 100%
 				overflow-y auto
 				overflow-x hidden
-				background #111217
-				border 1px solid #1a1c25
+				background #191a21
+				border 1px solid #2b303e
 				color #fff
 				font-weight 500
 				font-size 15px
@@ -128,7 +128,7 @@
 	max-height 100%
 	.activity-container
 		width 100%
-		height 354px
+		height 409px
 		background #14161d
 		border-radius 5px
 		overflow-y auto
@@ -150,7 +150,7 @@
 			margin 0 auto
 			.divider
 				width 45px
-				height 30px
+				height 15px
 				margin 10px 0
 				position relative
 				&:last-child
@@ -279,7 +279,8 @@
 				margin-bottom 0
 			&#chat-switch-control,
 			&#slow-mode-switch-control,
-			&#stream-switch-control
+			&#stream-switch-control,
+			&#slate-switch-control
 				margin-bottom 15px
 			&.button-control
 				.button-container
@@ -289,19 +290,32 @@
 					padding 8px 10px
 					border-radius 10000px
 					cursor pointer
-					border 1px solid #026fff33
-					background #026fff14
 					transition background .3s
-					&:hover
-						background #026fff2b
+					&.normal-button
+						border 1px solid #026fff33
+						background #026fff14
+						&:hover
+							background #026fff1c
+						.icon
+							fill #026fff
+						.value
+							color #026fff
+
+					&.danger-button
+						border 1px solid #f5252533
+						background #f5252514
+						&:hover
+							background #f525251c
+						.icon
+							fill #f52525
+						.value
+							color #f52525
 					.icon
 						width 22px
 						height 22px
-						fill #026fff
 						margin-right 10px
 						transition fill .3s
 					.value
-						color #026fff
 						font-size 15px
 						letter-spacing .5px
 						font-weight 700
