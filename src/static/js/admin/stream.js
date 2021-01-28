@@ -134,7 +134,7 @@ const streamActive = () => {
 const streamInactive = () => {
 	closeModal()
 	clearInterval(timerInterval)
-	$(".data-container .data-value").html(`Stream Inactive`)
+	$(".data-container .data-value").html(`Stream Offline`)
 	$("#stream-activity-widget .stream-offline-message").addClass("active")
 	$("#stream-activity-widget .activity-content").empty()
 	$("#viewer-data-container .show-all-viewers-button").hide()

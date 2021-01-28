@@ -2,7 +2,7 @@ let
 	loadedUsers = [],
 	filters = {
 		muted: false, 
-		banned: false, 
+		admin: false, 
 		notdtech: false,
 		onlydtech: false
 	},
@@ -66,7 +66,7 @@ const appendUsers = () => {
 			break;
 		}
 		$(".users-widget-inner-container.users-table-container .table-rows").append(`
-			<a class="table-row" href="/admin/inspect/user/${u.googleId}" data-user="${u.googleId}">
+			<a class="table-row" target="_blank" href="/admin/inspect/user/${u.googleId}" data-user="${u.googleId}">
 				<div class="user-info-flex-wrap">
 					<p class="first-name">${_.startCase(u.firstName)}</p>
 					<p class="last-name">${_.startCase(u.lastName)}</p>

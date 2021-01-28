@@ -21,7 +21,7 @@ const loadUserCard = () => {
 			} else {
 				$(".profile-info-widget .last-online-value").removeClass("online")
 			}
-			$(".profile-info-widget .last-online-value").text(user.online ? "Currently Online" : moment(new Date(user.lastOnline)).format("LLLL"))
+			$(".profile-info-widget .last-online-value").text(user.online ? "Currently Online" : (user.lastOnline === null ? "Unkown" : moment(new Date(user.lastOnline)).format("LLLL")))
 			$(".profile-info-widget .date-created-value").text(moment(new Date(user.dateCreated)).format("LLLL"))
 			if(user.tagName) {
 				$(".profile-info-widget .chat-tag-value")
