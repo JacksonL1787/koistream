@@ -28,6 +28,9 @@ const getStreamStartTime = require("../../db/streamSettings/getStreamStartTime")
 const addStreamActivity = require("../../db/streamActivity/add")
 const getStreamActivity = require("../../db/streamActivity/get")
 const clearStreamActivity = require("../../db/streamActivity/clear")
+const getUserDetails = require("../../db/users/getUserDetails")
+const setUserAuth = require("../../db/users/setUserAuth")
+const getViewers = require("../../db/socketConnections/getViewers")
 
 
 const adminAuth = (req,res,next) => {
@@ -52,6 +55,7 @@ router.get("/getStreamControls", adminAuth, async (req, res, next) => {
 	data.slate = data.slate.slate
 	res.json(data)
 })
+
 
 router.post("/updateSlateStatus", adminAuth, async (req, res, next) => {
 	const io = req.app.get("socketio")
@@ -175,6 +179,11 @@ router.get('/getStreamActivity', adminAuth, async (req,res,next) => {
 	res.json(activity)
 })
 
+router.get('/getViewers', adminAuth, async (req,res,next) => {
+	let viewers = await getViewers()
+	res.json(viewers)
+})
+
 router.get('/chatCount', adminAuth, async (req,res,next) => {
 	let count = await chatCount()
 	res.json(count)
@@ -183,6 +192,12 @@ router.get('/chatCount', adminAuth, async (req,res,next) => {
 router.get('/streamStartTime', adminAuth, async (req,res,next) => {
 	let time = await getStreamStartTime()
 	res.json(time)
+})
+
+router.get('/userDetails/:googleId', adminAuth, async (req,res,next) => {
+	let user = await getUserDetails(req.params.googleId)
+	if(!user) return res.sendStatus(500)
+	res.json(user)
 })
 
 router.get('/getChatTags', adminAuth, async (req,res,next) => {
@@ -213,9 +228,17 @@ router.post('/deleteChatTag', adminAuth, async (req,res,next) => {
 	res.sendStatus(200)
 })
 
+router.post('/setUserAuth', adminAuth, async (req,res,next) => {
+	if(!req.body.user) return res.sendStatus(500)
+	const auth = await setUserAuth(req.body.user, req.body.admin);
+	if(!auth) return res.sendStatus(500);
+	const io = req.app.get("socketio")
+	socketTo(io, req.body.user, "updateChatStatus", {})
+	res.sendStatus(200)
+})
+
 router.post('/muteUser', adminAuth, async (req,res,next) => {
 	if(!req.body.user) return res.sendStatus(500)
-	console.log(req.body)
 	const muted = await muteUser(req.body.user);
 	if(!muted.success) return res.sendStatus(500);
 	const io = req.app.get("socketio")

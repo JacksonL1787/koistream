@@ -11,8 +11,7 @@ let
 	searchingUsers = false,
 	searchUsersTimeout = setTimeout(() => {return;}),
 	numberofUserRows = 10,
-	currentPage = 0,
-	modalCallback = () => {};
+	currentPage = 0
 
 const chatTagColorPicker = Pickr.create({
 	el: '.chat-tag-color-picker',
@@ -47,28 +46,7 @@ chatTagColorPicker.on('init', () => {
 	chatTagColorPicker.hide()
 })
 
-const openModal = (elem) => {
-	if(!elem.hasClass("modal-container")) return;
-	elem.addClass("active");
-	$("body").addClass("inactive")
-	$("#modal-active-overlay").addClass("active")
-}
 
-const closeModal = () => {
-	$("#modal-active-overlay, .modal-container").removeClass("active")
-	$("body").removeClass("inactive")
-	setTimeout(modalCallback, 300)
-}
-
-const switchModal = (newModalElem) => {
-	let currModalCallback = modalCallback
-	$(".modal-container").removeClass("active")
-	
-	setTimeout(() => {
-		currModalCallback()
-		openModal(newModalElem)
-	}, 300)
-}
 
 const appendUsers = () => {
 	for(let i = 0; i < numberofUserRows; i++) {
@@ -404,9 +382,6 @@ $("#settings-menu-container .manage-admin-accounts-button").click(() => {
 	openModal($("#manage-admin-accounts-modal"))
 	modalCallback = () => {};
 })
-
-$(".close-modal-button").click(closeModal)
-$("#modal-active-overlay").click(closeModal)
 
 $(".action-buttons-container .icon-button").click(function() {
 	if(dropdownAnimating) return;

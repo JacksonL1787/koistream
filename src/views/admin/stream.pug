@@ -1,3 +1,20 @@
+#viewers-modal.modal-container
+	.modal-top
+		h1.modal-title Viewers
+		.close-modal-button.modal-top-action-button-styles
+			img.icon(src="/img/close-icon-white.svg")
+	.modal-content
+		.top-flex-wrap
+			.search-input-container
+				.icon-container
+					img.icon(src="/img/search-icon-white.svg")
+				input#viewer-search-input(placeholder="Search by name or email")
+			.refresh-button
+				img.icon(src="/img/refresh-icon-white.svg")
+		p.no-results No Results
+		p.no-viewers No Viewers
+		.viewers-container
+
 .widget-flex-container
 	.widget-container#stream-widget
 		h2.widget-title Stream
@@ -66,7 +83,7 @@
 					.info-container
 						.icon-container
 							img.icon(src="/img/viewer-icon-blue.svg")
-						p.data-value <b class="dynamic-viewer-count-data"></b> Viewers
+						p.data-value
 					.action-container
 						.show-all-viewers-button
 							p.value See All Viewers
@@ -76,13 +93,13 @@
 					.info-container
 						.icon-container
 							img.icon(src="/img/chat-bubble-icon-blue.svg")
-						p.data-value <b class="dynamic-chat-count-data"></b> Live chats
+						p.data-value 
 					.action-container
 			.data-container#run-time-data-container
 				.data-content
 					.info-container
 						.icon-container
 							img.icon(src="/img/clock-icon-blue.svg")
-						p.data-value Stream has been active for <b class="dynamic-run-time-data">00:00:00:00</b>
+						p.data-value 
 					.action-container
 			

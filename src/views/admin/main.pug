@@ -12,7 +12,6 @@ html
 		script(src="https://cdnjs.cloudflare.com/ajax/libs/lodash.js/4.17.15/lodash.min.js")
 		script(src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.24.0/moment.js")
 		script(src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/2.2.0/socket.io.js")
-		script(src="/js/admin/main.js")
 	body
 		.notification
 			.icon
@@ -59,6 +58,8 @@ html
 						link(rel="stylesheet", href="https://cdn.jsdelivr.net/npm/@simonwep/pickr/dist/themes/classic.min.css")
 						link(rel='stylesheet', href="/css/admin/users.css")
 						include users
+
+script(src="/js/admin/main.js")
 case page
 	when 'Stream'
 		script(src="/js/admin/stream.js")

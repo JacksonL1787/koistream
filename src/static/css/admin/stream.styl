@@ -1,3 +1,128 @@
+
+
+#viewers-modal
+	max-width 650px
+	.modal-top
+		justify-content space-between
+		.modal-title
+			color #fff
+			font-size 30px
+			font-weight 700
+			letter-spacing .5px
+	.modal-content
+		.top-flex-wrap
+			display flex
+			justify-content left
+			align-items center
+			.refresh-button
+				width 42px
+				height 42px
+				min-width 42px
+				min-height 42px
+				background #026FFF
+				margin-left 10px
+				cursor pointer
+				position relative
+				border-radius 5px
+				transition background .3s
+				&:hover
+					background #0054c3
+				&.rotate
+					.icon
+						animation rotateRefreshIcon .3s linear
+				.icon
+					width 24px
+					height 24px
+					position absolute
+					top 50%
+					left 50%
+					transform translate(-50%, -50%)
+			.search-input-container
+				width 100%
+				height fit-content
+				position relative
+				.icon-container
+					position absolute
+					left 1px
+					top 1px
+					background #21242f
+					height calc(100% - 2px)
+					width 40px
+					border-right 1px solid #2b303e
+					border-top-left-radius 5px
+					border-bottom-left-radius 5px
+					.icon
+						position absolute
+						top 50%
+						opacity 0.4
+						left 50%
+						transform translate(-50%, -50%)
+						width 24px
+						height 24px
+				#viewer-search-input
+					outline none
+					width 100%
+					overflow-y auto
+					overflow-x hidden
+					background #1c1e27
+					border 1px solid #2b303e
+					color #fff
+					font-weight 500
+					font-size 16px
+					letter-spacing .5px
+					border-radius 5px
+					padding 10px 10px 10px 50px
+					transition border-color .3s
+					&:focus
+						border-color #026FFF
+		.no-results,
+		.no-viewers
+			color #acb8ca
+			font-size 16px
+			margin-top 60px
+			text-align center
+			letter-spacing .5px
+			display none
+			&.active
+				display block
+		.viewers-container
+			width 100%
+			position relative
+			margin-top 30px
+			.viewer
+				display none
+				align-items center
+				justify-content space-between
+				padding 15px 10px
+				border-bottom 1px solid #373d4e
+				transition background .3s
+				&.active
+					display flex
+				&.no-bottom-border
+					border-bottom none !important
+				&:hover
+					background #1d1f27
+					.go-to-icon
+						opacity 1
+				&:last-of-type
+					border-bottom none !important
+				.user-name
+					color #fff
+					letter-spacing .5px
+					font-weight 600
+				.user-email
+					color #acb8ca
+					font-weight 500
+					letter-spacing .5px
+				.go-to-icon
+					width 26px
+					height 26px
+					transform rotate(180deg)
+					opacity 0
+					transition opacity .3s
+
+
+
 .widget-column-container
 	width 100%
 
@@ -370,3 +495,10 @@
 							transform translateY(-50%)
 							left 4px
 							transition left .3s
+
+
+@keyframes rotateRefreshIcon
+	0%
+		transform translate(-50%, -50%) rotate(0deg)
+	100%
+		transform translate(-50%, -50%) rotate(360deg)
