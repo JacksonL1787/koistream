@@ -28,7 +28,7 @@
     "gulp-cached": "^1.1.1",
     "gulp-using": "^0.1.1",
     "http-errors": "~1.6.3",
-    "knex": "^0.21.1",
+    "knex": "^2.4.0",
     "lodash": "^4.17.15",
     "log-symbols": "^4.0.0",
     "lokijs": "^1.5.8",
